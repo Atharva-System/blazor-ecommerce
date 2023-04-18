@@ -7,19 +7,19 @@ namespace BlazorEcommerce.Server.Controllers
     public class ProductController : ControllerBase
     {
         private readonly ILogger<ProductController> _logger;
-        private readonly DataContext _dataContext;
+        private readonly IProductService _productService;
 
-        public ProductController(ILogger<ProductController> logger, DataContext dataContext)
+        public ProductController(ILogger<ProductController> logger, IProductService productService)
         {
             _logger = logger;
-            _dataContext = dataContext;
+            _productService = productService;
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Product>>> GetProduct()
+        public async Task<ActionResult<ServiceResponse<List<Product>>>> GetProduct()
         {
-            var products = await _dataContext.Products.ToListAsync();
-            return Ok(products);
+            var results = await _productService.GetProductsAsync();
+            return Ok(results);
         }
     }
 }
