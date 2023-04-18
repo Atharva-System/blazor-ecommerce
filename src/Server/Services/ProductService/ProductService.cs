@@ -50,7 +50,62 @@
                                 .Include(x => x.Variants)
                                 .ToListAsync()
             };
-            return response;    
+            return response;
+        }
+
+        public async Task<ServiceResponse<List<Product>>> SearchProductsAsync(string searchText)
+        {
+            var response = new ServiceResponse<List<Product>>()
+            {
+                Data = await FindProductBySearchText(searchText)
+            };
+
+            return response;
+        }
+
+        private Task<List<Product>> FindProductBySearchText(string searchText)
+        {
+            return _dataContext.Products
+                                       .Where(t => t.Title.ToLower().Contains(searchText.ToLower())
+                                           ||
+                                           t.Description.ToLower().Contains(searchText.ToLower()))
+                                       .Include(x => x.Variants)
+                                       .ToListAsync();
+        }
+
+        public async Task<ServiceResponse<List<string>>> GetProductSearchSuggestionsAsync(string suggestionText)
+        {
+            var products = await FindProductBySearchText(suggestionText);
+
+            List<string> result = new List<string>();
+
+            foreach (var product in products)
+            {
+                if (product.Title.Contains(suggestionText, StringComparison.OrdinalIgnoreCase))
+                {
+                    result.Add(product.Title);
+                }
+
+                if (product.Description != null)
+                {
+                    var punctuations = product.Description.Where(char.IsPunctuation)
+                        .Distinct().ToArray();
+
+                    var words = product.Description.Split().Select(s => s.Trim(punctuations));
+
+                    foreach (var word in words)
+                    {
+                        if (word.Contains(suggestionText, StringComparison.OrdinalIgnoreCase)
+                            && !result.Contains(word))
+                        {
+                            result.Add(word);
+                        }
+                    }
+                }
+            }
+
+            return new ServiceResponse<List<string>> { Data = result };
+
         }
     }
 }
