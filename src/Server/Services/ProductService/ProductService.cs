@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-namespace BlazorEcommerce.Server.Services.ProductService
+﻿namespace BlazorEcommerce.Server.Services.ProductService
 {
     public class ProductService : IProductService
     {
@@ -16,6 +14,24 @@ namespace BlazorEcommerce.Server.Services.ProductService
             {
                 Data = await _dataContext.Products.ToListAsync()
             };
+
+            return response;
+        }
+
+        public async Task<ServiceResponse<Product>> GetProductAsync(int productId)
+        {
+            var response = new ServiceResponse<Product>();
+            var product = await _dataContext.Products.FindAsync(productId);
+
+            if (product == null)
+            {
+                response.Success = false;
+                response.Message = "Sorry, but this product does not exists.";
+            }
+            else
+            {
+                response.Data = product;
+            }
 
             return response;
         }
