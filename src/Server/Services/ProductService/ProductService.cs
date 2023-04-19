@@ -1,4 +1,6 @@
-﻿namespace BlazorEcommerce.Server.Services.ProductService
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace BlazorEcommerce.Server.Services.ProductService
 {
     public class ProductService : IProductService
     {
@@ -53,17 +55,32 @@
             return response;
         }
 
-        public async Task<ServiceResponse<List<Product>>> SearchProductsAsync(string searchText)
+        public async Task<ServiceResponse<ProductSearchResult>> SearchProductsAsync(string searchText, int page)
         {
-            var response = new ServiceResponse<List<Product>>()
+            var pageResults = 2f;
+            var pageCount = Math.Ceiling((await FindProductsBySearchText(searchText)).Count / pageResults);
+            var products = await _dataContext.Products
+                                .Where(p => p.Title.ToLower().Contains(searchText.ToLower()) ||
+                                    p.Description.ToLower().Contains(searchText.ToLower()))
+                                .Include(p => p.Variants)
+                                .Skip((page - 1) * (int)pageResults)
+                                .Take((int)pageResults)
+                                .ToListAsync();
+
+            var response = new ServiceResponse<ProductSearchResult>
             {
-                Data = await FindProductBySearchText(searchText)
+                Data = new ProductSearchResult
+                {
+                    Products = products,
+                    CurrentPage = page,
+                    Pages = (int)pageCount
+                }
             };
 
             return response;
         }
 
-        private Task<List<Product>> FindProductBySearchText(string searchText)
+        private Task<List<Product>> FindProductsBySearchText(string searchText)
         {
             return _dataContext.Products
                                        .Where(t => t.Title.ToLower().Contains(searchText.ToLower())
@@ -75,7 +92,7 @@
 
         public async Task<ServiceResponse<List<string>>> GetProductSearchSuggestionsAsync(string suggestionText)
         {
-            var products = await FindProductBySearchText(suggestionText);
+            var products = await FindProductsBySearchText(suggestionText);
 
             List<string> result = new List<string>();
 
