@@ -1,7 +1,13 @@
-﻿<Router AppAssembly="@typeof(App).Assembly">
+﻿<CascadingAuthenticationState>
+<Router AppAssembly="@typeof(App).Assembly">
     <Found Context="routeData">
-        <RouteView RouteData="@routeData" DefaultLayout="@typeof(ShopLayout)" />
-        <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+            <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(ShopLayout)">
+                <NotAuthorized>
+                    <h3>Whoops! You're not allowed to see this page.</h3>
+                    <h5>Please <a href="login">login</a> or <a href="register">register</a> for a new account.</h5>
+                </NotAuthorized>
+            </AuthorizeRouteView>
+            <FocusOnNavigate RouteData="@routeData" Selector="h1" />
     </Found>
     <NotFound>
         <PageTitle>Not found</PageTitle>
@@ -10,3 +16,4 @@
         </LayoutView>
     </NotFound>
 </Router>
+</CascadingAuthenticationState>
