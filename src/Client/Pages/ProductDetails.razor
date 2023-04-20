@@ -10,7 +10,18 @@ else
 {
     <div class="media">
         <div class="media-img-wrapper mr-2">
-            <img class="media-img" src="@product.ImageUrl" alt="@product.Title" />
+            @if (!string.IsNullOrEmpty(product.ImageUrl))
+            {
+                <img class="media-img" src="@product.ImageUrl" alt="@product.Title" />
+            }
+            else
+            {
+                <MudCarousel Class="mud-width-full" ItemsSource="@product.Images" Style="height: 200px;">
+                    <ItemTemplate>
+                        <MudImage Src="@context.Data"></MudImage>>
+                    </ItemTemplate>
+                </MudCarousel>
+            }
         </div>
         <div class="media-body">
             <h2 class="mb-0">@product.Title</h2>
@@ -21,12 +32,11 @@ else
                     <select class="form-select" @bind="currentTypeId">
                         @foreach (var variant in product.Variants)
                         {
-                            <option value="@variant.ProductTypeId">@variant.ProductType.Name </option>
+                            <option value="@variant.ProductTypeId">@variant.ProductType.Name</option>
                         }
                     </select>
                 </div>
             }
-
             @if (GetSelectedVariant() != null)
             {
                 @if (GetSelectedVariant().OriginalPrice > GetSelectedVariant().Price)
@@ -38,12 +48,13 @@ else
                 <h4 class="price">
                     $@GetSelectedVariant().Price
                 </h4>
-                <button class="btn btn-primary" @onclick="AddToCart">
-                    <i class="oi oi-cart">&nbsp;&nbsp;&nbsp; Add To Cart</i>
-                </button>
             }
+            <button class="btn btn-primary" @onclick="AddToCart">
+                <i class="oi oi-cart"></i>&nbsp;&nbsp;&nbsp;Add to Cart
+            </button>
         </div>
     </div>
+
 }
 
 @code {
@@ -56,6 +67,8 @@ else
 
     protected override async Task OnParametersSetAsync()
     {
+        message = "Loading product...";
+
         var result = await ProductService.GetProduct(Id);
         if (!result.Success)
         {
@@ -64,7 +77,7 @@ else
         else
         {
             product = result.Data;
-            if (product != null && product.Variants.Count > 0)
+            if (product.Variants.Count > 0)
             {
                 currentTypeId = product.Variants[0].ProductTypeId;
             }
@@ -74,7 +87,6 @@ else
     private ProductVariant GetSelectedVariant()
     {
         var variant = product.Variants.FirstOrDefault(v => v.ProductTypeId == currentTypeId);
-
         return variant;
     }
 
