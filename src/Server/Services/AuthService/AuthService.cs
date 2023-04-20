@@ -105,7 +105,8 @@ namespace BlazorEcommerce.Server.Services.AuthService
 			{
 				new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
 				new Claim(ClaimTypes.Name, user.Email),
-			};
+                new Claim(ClaimTypes.Role, user.Role),
+            };
 
 			var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8
 				.GetBytes(_configuration.GetSection("AppSettings:Token").Value));
