@@ -26,8 +26,8 @@ else
                     <span>@product.ProductType</span><br />
                     <input type="number" value="@product.Quantity"
                    @onchange="@((ChangeEventArgs e) => UpdateQuantity(e, product))"
-                   class="form-control input-quantity"
-                   min="1" />
+                           class="form-control input-quantity"
+                           min="1" />
                     <button class="btn-delete" @onclick="@(() =>
                         RemoveProductFromCart(product.ProductId, product.ProductTypeId))">
                         Delete
@@ -40,13 +40,13 @@ else
             Total (@cartProducts.Count): $@cartProducts.Sum(product => @product.Price * product.Quantity)
         </div>
     </div>
-    @*@if (isAuthenticated)
+    @if (isAuthenticated)
     {
         <div>
             <h5>Delivery Address</h5>
             <AddressForm />
         </div>
-    }*@
+    }
     <button @onclick="PlaceOrder" class="btn alert-success float-end mt-1">Checkout</button>
 }
 
