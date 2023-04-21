@@ -9,13 +9,13 @@ namespace BlazorEcommerce.Server.Services.PaymentService
         private readonly IAuthService _authService;
         private readonly IOrderService _orderService;
 
-        const string secret = "whsec_cq1WH9CX9U1zxU9EpbBVvWOhfb6e5ysR";
+        const string secret = "whsec_97ffacb1f4861c5c1d3b471259cea7c26ba8aaa6b103df80ccd9671e5794ce36";
 
         public PaymentService(ICartService cartService,
             IAuthService authService,
             IOrderService orderService)
         {
-            StripeConfiguration.ApiKey = "sk_test_51HnFFuJWja1dketA1LY3VQds3XWpByD5GE8laKrxyNldWKnXXdktvITJiG3PYNDMwpSkrAv33d7JjvHDEUGPPo2E00vkDMlVIb";
+            StripeConfiguration.ApiKey = "sk_test_51KeFeXSJN18oZA5qDkeNlClNnS5A8xklAv5cvMUJHDRTZTQegBEO36BSpzpBp7gEHGgDUZKNlzmEvHDnhL1CmiRs00bfrcT737";
 
             _cartService = cartService;
             _authService = authService;
@@ -55,8 +55,8 @@ namespace BlazorEcommerce.Server.Services.PaymentService
                 },
                 LineItems = lineItems,
                 Mode = "payment",
-                SuccessUrl = "https://localhost:7226/order-success",
-                CancelUrl = "https://localhost:7226/cart"
+                SuccessUrl = "https://localhost:7018/order-success",
+                CancelUrl = "https://localhost:7018/cart"
             };
 
             var service = new SessionService();

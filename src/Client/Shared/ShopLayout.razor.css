@@ -23,7 +23,7 @@ main {
 
     .top-row ::deep a, .top-row ::deep .btn-link {
         white-space: nowrap;
-        margin-left: 2.5rem;
+        margin-left: 0.5rem;
         text-decoration: none;
     }
 

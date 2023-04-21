@@ -1,6 +1,4 @@
-﻿using BlazorEcommerce.Shared;
-using Blazored.LocalStorage;
-using Microsoft.AspNetCore.Components.Authorization;
+﻿using Blazored.LocalStorage;
 
 namespace BlazorEcommerce.Client.Services.CartService
 {
