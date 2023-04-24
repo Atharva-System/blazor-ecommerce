@@ -3,11 +3,31 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33530.505
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorEcommerce.Server", "src\Server\BlazorEcommerce.Server.csproj", "{7613CA03-4D97-4B25-B3BB-F4BC69CE55B0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorEcommerce.Server", "src\WebUI\Server\BlazorEcommerce.Server.csproj", "{7613CA03-4D97-4B25-B3BB-F4BC69CE55B0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorEcommerce.Client", "src\Client\BlazorEcommerce.Client.csproj", "{E07DB666-A548-4F24-8982-AD3162B837A6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorEcommerce.Client", "src\WebUI\Client\BlazorEcommerce.Client.csproj", "{E07DB666-A548-4F24-8982-AD3162B837A6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorEcommerce.Shared", "src\Shared\BlazorEcommerce.Shared.csproj", "{D7D7C6D1-466B-4399-8C23-0613492A1B95}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorEcommerce.Shared", "src\WebUI\Shared\BlazorEcommerce.Shared.csproj", "{D7D7C6D1-466B-4399-8C23-0613492A1B95}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5199EEC8-F63C-4F04-BA06-0B1158165446}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{D4E07CBF-B53C-4F29-8ED2-C3FB69E0F8BA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebUI", "WebUI", "{48D9226E-A589-40CB-9635-0E06B6B80F74}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorEcommerce.Application", "src\BlazorEcommerce.Application\BlazorEcommerce.Application.csproj", "{435F943B-F6A4-4C57-8D9A-E63E6189417C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorEcommerce.Domain", "src\BlazorEcommerce.Domain\BlazorEcommerce.Domain.csproj", "{E52FFE75-245E-47F1-9194-1992D22719A7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorEcommerce.Infrastructure", "src\BlazorEcommerce.Infrastructure\BlazorEcommerce.Infrastructure.csproj", "{5727B27D-F385-452C-8DC5-E4B5D161B96E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildingBlocks", "BuildingBlocks", "{D2224195-BEF3-48E1-9436-0A957E4F6704}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{16A32988-A7AB-41F3-AB30-A9A7D62AE52D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorEcommerce.Domain.UnitTests", "tests\BlazorEcommerce.Domain.UnitTests\BlazorEcommerce.Domain.UnitTests.csproj", "{FB8CA09A-2425-475B-9DE2-A25B14D3A1AF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorEcommerce.Application.UnitTests", "tests\BlazorEcommerce.Application.UnitTests\BlazorEcommerce.Application.UnitTests.csproj", "{621A5FB3-2E68-4022-B101-3382A2136FE2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,9 +47,41 @@ Global
 		{D7D7C6D1-466B-4399-8C23-0613492A1B95}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D7D7C6D1-466B-4399-8C23-0613492A1B95}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D7D7C6D1-466B-4399-8C23-0613492A1B95}.Release|Any CPU.Build.0 = Release|Any CPU
+		{435F943B-F6A4-4C57-8D9A-E63E6189417C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{435F943B-F6A4-4C57-8D9A-E63E6189417C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{435F943B-F6A4-4C57-8D9A-E63E6189417C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{435F943B-F6A4-4C57-8D9A-E63E6189417C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E52FFE75-245E-47F1-9194-1992D22719A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E52FFE75-245E-47F1-9194-1992D22719A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E52FFE75-245E-47F1-9194-1992D22719A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E52FFE75-245E-47F1-9194-1992D22719A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5727B27D-F385-452C-8DC5-E4B5D161B96E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5727B27D-F385-452C-8DC5-E4B5D161B96E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5727B27D-F385-452C-8DC5-E4B5D161B96E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5727B27D-F385-452C-8DC5-E4B5D161B96E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB8CA09A-2425-475B-9DE2-A25B14D3A1AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB8CA09A-2425-475B-9DE2-A25B14D3A1AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB8CA09A-2425-475B-9DE2-A25B14D3A1AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB8CA09A-2425-475B-9DE2-A25B14D3A1AF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{621A5FB3-2E68-4022-B101-3382A2136FE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{621A5FB3-2E68-4022-B101-3382A2136FE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{621A5FB3-2E68-4022-B101-3382A2136FE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{621A5FB3-2E68-4022-B101-3382A2136FE2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{7613CA03-4D97-4B25-B3BB-F4BC69CE55B0} = {48D9226E-A589-40CB-9635-0E06B6B80F74}
+		{E07DB666-A548-4F24-8982-AD3162B837A6} = {48D9226E-A589-40CB-9635-0E06B6B80F74}
+		{D7D7C6D1-466B-4399-8C23-0613492A1B95} = {48D9226E-A589-40CB-9635-0E06B6B80F74}
+		{48D9226E-A589-40CB-9635-0E06B6B80F74} = {D4E07CBF-B53C-4F29-8ED2-C3FB69E0F8BA}
+		{435F943B-F6A4-4C57-8D9A-E63E6189417C} = {D2224195-BEF3-48E1-9436-0A957E4F6704}
+		{E52FFE75-245E-47F1-9194-1992D22719A7} = {D2224195-BEF3-48E1-9436-0A957E4F6704}
+		{5727B27D-F385-452C-8DC5-E4B5D161B96E} = {D2224195-BEF3-48E1-9436-0A957E4F6704}
+		{D2224195-BEF3-48E1-9436-0A957E4F6704} = {D4E07CBF-B53C-4F29-8ED2-C3FB69E0F8BA}
+		{FB8CA09A-2425-475B-9DE2-A25B14D3A1AF} = {16A32988-A7AB-41F3-AB30-A9A7D62AE52D}
+		{621A5FB3-2E68-4022-B101-3382A2136FE2} = {16A32988-A7AB-41F3-AB30-A9A7D62AE52D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {22ED2667-CAA9-44A7-8FE7-7EDB41DE010F}

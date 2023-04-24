@@ -10,6 +10,7 @@ global using BlazorEcommerce.Server.Services.ProductTypeService;
 global using BlazorEcommerce.Shared;
 global using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -23,6 +24,22 @@ builder.Services.AddDbContext<DataContext>(options =>
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
+
+//builder.Services.AddOpenApiDocument(configure =>
+//{
+//    configure.Title = "CleanArchitecture API";
+//    //configure.AddSecurity("JWT", Enumerable.Empty<string>(),
+//    //    new OpenApiSecurityScheme
+//    //    {
+//    //        Type = OpenApiSecuritySchemeType.ApiKey,
+//    //        Name = "Authorization",
+//    //        In = OpenApiSecurityApiKeyLocation.Header,
+//    //        Description = "Type into the textbox: Bearer {your JWT token}."
+//    //    });
+
+//    //configure.OperationProcessors.Add(
+//    //    new AspNetCoreOperationSecurityScopeProcessor("JWT"));
+//});
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -52,8 +69,6 @@ builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
 
-app.UseSwaggerUI();
-
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -66,11 +81,17 @@ else
     app.UseHsts();
 }
 
-app.UseSwagger();
 app.UseHttpsRedirection();
 
 app.UseBlazorFrameworkFiles();
 app.UseStaticFiles();
+
+app.UseSwaggerUI();
+//app.UseOpenApi();
+//app.UseSwaggerUi3(configure =>
+//{
+//    configure.DocumentPath = "/api/v1/openapi.json";
+//});
 
 app.UseRouting();
 
