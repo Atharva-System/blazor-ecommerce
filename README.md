@@ -53,9 +53,9 @@ Blazor Server and Blazor WebAssembly are two different models of Blazor developm
 
 Blazor WebAssembly is a relatively new framework, and there are many other open-source frameworks available for building web applications. Here's how Blazor WebAssembly compares to some of the most popular frameworks:
 
- -- **Angular:** Angular is a popular front-end framework that uses TypeScript and is maintained by Google. While Angular is a powerful framework, it has a steeper learning curve than Blazor WebAssembly and requires more boilerplate code.
- -- **React:** React is a popular front-end library that uses JavaScript and is maintained by Facebook. React is fast and lightweight, but it can be difficult to learn for developers who are new to JavaScript or functional programming.
- -- **Vue.js:** Vue.js is a popular front-end framework that uses JavaScript and is designed to be easy to learn and use. Vue.js is fast and lightweight, but it has a smaller community than Angular and React.
+ - **Angular:** Angular is a popular front-end framework that uses TypeScript and is maintained by Google. While Angular is a powerful framework, it has a steeper learning curve than Blazor WebAssembly and requires more boilerplate code.
+ - **React:** React is a popular front-end library that uses JavaScript and is maintained by Facebook. React is fast and lightweight, but it can be difficult to learn for developers who are new to JavaScript or functional programming.
+ - **Vue.js:** Vue.js is a popular front-end framework that uses JavaScript and is designed to be easy to learn and use. Vue.js is fast and lightweight, but it has a smaller community than Angular and React.
 
 Overall, Blazor WebAssembly is a good choice for developers who are already familiar with .NET and want to build fast, responsive, and maintainable web applications using C#.
 
