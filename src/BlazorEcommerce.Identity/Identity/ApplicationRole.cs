@@ -1,7 +1,7 @@
 ﻿using BlazorEcommerce.Shared.Authorization;
 using Microsoft.AspNetCore.Identity;
 
-namespace BlazorEcommerce.Infrastructure.Identity;
+namespace BlazorEcommerce.Identity;
 
 public class ApplicationRole : IdentityRole
 {

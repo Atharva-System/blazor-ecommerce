@@ -1,12 +1,12 @@
 ﻿using Ardalis.GuardClauses;
-using BlazorEcommerce.Application.Common.Services.Identity;
+using BlazorEcommerce.Application.Common.Contracts.Identity;
 using BlazorEcommerce.Shared.AccessControl;
 using BlazorEcommerce.Shared.Authorization;
 using BlazorEcommerce.Shared.Common;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace BlazorEcommerce.Infrastructure.Identity;
+namespace BlazorEcommerce.Identity.Service;
 
 public class IdentityService : IIdentityService
 {

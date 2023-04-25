@@ -1,12 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 
-namespace BlazorEcommerce.Infrastructure.Data;
+namespace BlazorEcommerce.Identity.Data;
 
-// Based on https://github.com/dotnet/aspnetcore/blob/main/src/Identity/ApiAuthorization.IdentityServer/src/Data/ApiAuthorizationDbContext.cs
-// Customised to add TRole.
 public class ApiAuthorizationDbContext<TUser, TRole> : IdentityDbContext<TUser, TRole, string> where TUser : IdentityUser where TRole : IdentityRole
 {
     /// <summary>

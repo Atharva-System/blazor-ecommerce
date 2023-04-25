@@ -1,7 +1,7 @@
 ﻿using BlazorEcommerce.Shared.AccessControl;
 using BlazorEcommerce.Shared.Authorization;
 
-namespace BlazorEcommerce.Application.Common.Services.Identity;
+namespace BlazorEcommerce.Application.Common.Contracts.Identity;
 
 public interface IIdentityService
 {

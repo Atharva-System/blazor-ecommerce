@@ -1,6 +1,5 @@
-﻿using BlazorEcommerce.Application.Common.Services.Identity;
+﻿using BlazorEcommerce.Application.Common.Contracts.Identity;
 using MediatR.Pipeline;
-using Microsoft.Extensions.Logging;
 
 namespace BlazorEcommerce.Application.Common.Behaviours;
 
