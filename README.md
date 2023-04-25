@@ -65,29 +65,31 @@ Clean architecture is a software design pattern that separates the code into dif
 
 Here is a diagram that shows how you can fit Clean architecture with Blazor WebAssembly:
 
-+-----------------+
-|     Clients     |
-+-----------------+
-         |
-         v
-+-----------------+
-|    Presenters   |
-+-----------------+
-         |
-         v
-+-----------------+
-|   Application   |
-+-----------------+
-         |
-         v
-+-----------------+
-|    Domain       |
-+-----------------+
-         |
-         v
-+-----------------+
-|   Infrastructure|
-+-----------------+
+
+                                    +-----------------+
+                                    |     Clients     |
+                                    +-----------------+
+                                             |
+                                             v
+                                    +-----------------+
+                                    |    Presenters   |
+                                    +-----------------+
+                                             |
+                                             v
+                                    +-----------------+
+                                    |   Application   |
+                                    +-----------------+
+                                             |
+                                             v
+                                    +-----------------+
+                                    |    Domain       |
+                                    +-----------------+
+                                             |
+                                             v
+                                    +-----------------+
+                                    |   Infrastructure|
+                                    +-----------------+
+
 
  - **Clients:** The client layer contains the Blazor WebAssembly app and handles the user interface and user interactions.
  
@@ -105,34 +107,34 @@ Here is a diagram that shows how you can fit Clean architecture with Blazor WebA
 
 The following diagram shows the high-level data flow of the app:
 
-           +---------------------+     +---------------------+
-           |                     |     |                     |
-           |  Client Web Browser |     |  Server Application  |
-           |                     |     |                     |
-           +----------+----------+     +----------+----------+
-                      |                            |
-                      |        HTTP Requests        |
-                      |---------------------------->|
-                      |                            |
-                      |         REST APIs           |
-                      |---------------------------->|
-                      |                            |
-                      |        HTTP Responses       |
-                      |<----------------------------|
-                      |                            |
-                      |      HTML/JS/CSS files      |
-                      |<----------------------------|
-                      |                            |
-                      |    Blazor WebAssembly       |
-                      |        Application          |
-                      |                            |
-                      +----------+----------+      |
-                                 |                 |
-                                 |  Web API        |
-                                 |-----------------+
-                                 |                 |
-                                 |    Database     |
-                                 |<----------------+
+                   +---------------------+     +---------------------+
+                   |                     |     |                     |
+                   |  Client Web Browser |     |  Server Application  |
+                   |                     |     |                     |
+                   +----------+----------+     +----------+----------+
+                              |                            |
+                              |        HTTP Requests        |
+                              |---------------------------->|
+                              |                            |
+                              |         REST APIs           |
+                              |---------------------------->|
+                              |                            |
+                              |        HTTP Responses       |
+                              |<----------------------------|
+                              |                            |
+                              |      HTML/JS/CSS files      |
+                              |<----------------------------|
+                              |                            |
+                              |    Blazor WebAssembly       |
+                              |        Application          |
+                              |                            |
+                              +----------+----------+      |
+                                         |                 |
+                                         |  Web API        |
+                                         |-----------------+
+                                         |                 |
+                                         |    Database     |
+                                         |<----------------+
 
 In this diagram, the client-side code is running in the user's web browser and is written in C# using the Blazor WebAssembly framework. The server-side code is written in C# using .NET Core and provides RESTful APIs for the client-side code to consume.
 
@@ -144,38 +146,38 @@ Overall, this data flow diagram shows how the client-side and server-side compon
 
 ### Data Flow Diagram with Clean Architecture
 
-             +---------------------+
-             |    Presentation     |
-             |       Layer         |
-             +----------+----------+
-                        |
-                        | UI Components
-                        |
-                        |
-             +----------+----------+
-             |   Application      |
-             |       Layer         |
-             +----------+----------+
-                        |
-                        | Use Cases
-                        |
-                        |
-             +----------+----------+
-             |      Domain         |
-             |       Layer         |
-             +----------+----------+
-                        |
-                        | Entities, Value Objects, Business Rules
-                        |
-                        |
-             +----------+----------+
-             |   Infrastructure    |
-             |       Layer         |
-             +----------+----------+
-                        |
-                        | Database, External APIs, Logging
-                        |
-                        |
+                     +---------------------+
+                     |    Presentation     |
+                     |       Layer         |
+                     +----------+----------+
+                                |
+                                | UI Components
+                                |
+                                |
+                     +----------+----------+
+                     |   Application      |
+                     |       Layer         |
+                     +----------+----------+
+                                |
+                                | Use Cases
+                                |
+                                |
+                     +----------+----------+
+                     |      Domain         |
+                     |       Layer         |
+                     +----------+----------+
+                                |
+                                | Entities, Value Objects, Business Rules
+                                |
+                                |
+                     +----------+----------+
+                     |   Infrastructure    |
+                     |       Layer         |
+                     +----------+----------+
+                                |
+                                | Database, External APIs, Logging
+                                |
+                                |
 
 In this diagram, the Presentation Layer is responsible for handling user interactions and rendering the UI components using Blazor WebAssembly. It depends on the Application Layer to execute the use cases and retrieve data from the Domain Layer.
 
@@ -196,9 +198,9 @@ Here are the List the main features and functionalities of this project, ,
     3. Product detail pages with images and Add to Cart
     4. Shopping cart with ability to add, update, and remove items
     5. Checkout process with order summary and payment options
-    Admin dashboard with CRUD functionality for products, categories, and orders
-    Integration with Stripe for secure payment processing
-    Responsive design for optimal user experience on all devices
+    6. Admin dashboard with CRUD functionality for products, categories, and orders
+    7. Integration with Stripe for secure payment processing
+    8. Responsive design for optimal user experience on all devices
 
 Make sure to highlight the features that make your project unique or stand out from similar projects.
 
@@ -249,28 +251,35 @@ When choosing a hosting option, consider factors such as scalability, reliabilit
 When deploying a Blazor WebAssembly app to a static hosting environment such as GitHub Pages or Azure Static Web Apps, you need to configure the app to use the correct API URL for the server-side component. Here's how you can set up the API URL for a Blazor WebAssembly app with static deployment:
 
  1. Define the API URL in the appsettings.json file of your server-side project. For example, you could add the following line to appsettings.json:
-    {
-        "ApiBaseUrl": "https://myapi.com"
-    }
+        
+        {
+            "ApiBaseUrl": "https://myapi.com"
+        }
+
  2. In the client-side Blazor WebAssembly project, create a new file named appsettings.json in the wwwroot folder. This file should contain the same API URL that you defined in the server-side appsettings.json file:
-    {
-      "ApiBaseUrl": "https://myapi.com"
-    }
+        
+        {
+          "ApiBaseUrl": "https://myapi.com"
+        }
+
  3. In your client-side Blazor WebAssembly app, configure the HttpClient to use the API URL from appsettings.json. You can do this by registering a named HttpClient in the ConfigureServices method of your Startup.cs file:
-    public void ConfigureServices(IServiceCollection services)
-    {
-        // Register named HttpClient with the API URL from appsettings.json
-        services.AddHttpClient("MyApi", client => {
-            client.BaseAddress = new Uri(Configuration["ApiBaseUrl"]);
-        });
-    }
+        
+        public void ConfigureServices(IServiceCollection services)
+        {
+            // Register named HttpClient with the API URL from appsettings.json
+            services.AddHttpClient("MyApi", client => {
+                client.BaseAddress = new Uri(Configuration["ApiBaseUrl"]);
+            });
+        }
+
  4. In your client-side Blazor WebAssembly app, use the named HttpClient to make API requests. You can do this by injecting the named HttpClient into your components or services:
-    @inject HttpClient MyApiHttpClient
+        
+        @inject HttpClient MyApiHttpClient
 
-    ...
+        ...
 
-    // Use the named HttpClient to make API requests
-    var response = await MyApiHttpClient.GetAsync("/api/products");
+        // Use the named HttpClient to make API requests
+        var response = await MyApiHttpClient.GetAsync("/api/products");
 
 By following these steps, you can set up the API URL for your Blazor WebAssembly app with static deployment.
 
@@ -281,4 +290,4 @@ Provide guidelines on how to contribute to your project, including code standard
 
 ## License
 
-This project is licensed under the MIT License.
+This project is licensed under the [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/Atharva-System/blazor-ecommerce/blob/main/LICENSE).
