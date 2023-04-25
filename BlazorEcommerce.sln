@@ -15,19 +15,23 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{D4E07CBF-B53
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebUI", "WebUI", "{48D9226E-A589-40CB-9635-0E06B6B80F74}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorEcommerce.Application", "src\BlazorEcommerce.Application\BlazorEcommerce.Application.csproj", "{435F943B-F6A4-4C57-8D9A-E63E6189417C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorEcommerce.Application", "src\BlazorEcommerce.Application\BlazorEcommerce.Application.csproj", "{435F943B-F6A4-4C57-8D9A-E63E6189417C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorEcommerce.Domain", "src\BlazorEcommerce.Domain\BlazorEcommerce.Domain.csproj", "{E52FFE75-245E-47F1-9194-1992D22719A7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorEcommerce.Domain", "src\BlazorEcommerce.Domain\BlazorEcommerce.Domain.csproj", "{E52FFE75-245E-47F1-9194-1992D22719A7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorEcommerce.Infrastructure", "src\BlazorEcommerce.Infrastructure\BlazorEcommerce.Infrastructure.csproj", "{5727B27D-F385-452C-8DC5-E4B5D161B96E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorEcommerce.Infrastructure", "src\BlazorEcommerce.Infrastructure\BlazorEcommerce.Infrastructure.csproj", "{5727B27D-F385-452C-8DC5-E4B5D161B96E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildingBlocks", "BuildingBlocks", "{D2224195-BEF3-48E1-9436-0A957E4F6704}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{16A32988-A7AB-41F3-AB30-A9A7D62AE52D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorEcommerce.Domain.UnitTests", "tests\BlazorEcommerce.Domain.UnitTests\BlazorEcommerce.Domain.UnitTests.csproj", "{FB8CA09A-2425-475B-9DE2-A25B14D3A1AF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorEcommerce.Domain.UnitTests", "tests\BlazorEcommerce.Domain.UnitTests\BlazorEcommerce.Domain.UnitTests.csproj", "{FB8CA09A-2425-475B-9DE2-A25B14D3A1AF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorEcommerce.Application.UnitTests", "tests\BlazorEcommerce.Application.UnitTests\BlazorEcommerce.Application.UnitTests.csproj", "{621A5FB3-2E68-4022-B101-3382A2136FE2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorEcommerce.Application.UnitTests", "tests\BlazorEcommerce.Application.UnitTests\BlazorEcommerce.Application.UnitTests.csproj", "{621A5FB3-2E68-4022-B101-3382A2136FE2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{F9D53262-286E-4F2A-8824-2B1180804216}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{96018055-6BFE-4484-B542-ADEE678FF108}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -82,6 +86,8 @@ Global
 		{D2224195-BEF3-48E1-9436-0A957E4F6704} = {D4E07CBF-B53C-4F29-8ED2-C3FB69E0F8BA}
 		{FB8CA09A-2425-475B-9DE2-A25B14D3A1AF} = {16A32988-A7AB-41F3-AB30-A9A7D62AE52D}
 		{621A5FB3-2E68-4022-B101-3382A2136FE2} = {16A32988-A7AB-41F3-AB30-A9A7D62AE52D}
+		{F9D53262-286E-4F2A-8824-2B1180804216} = {D4E07CBF-B53C-4F29-8ED2-C3FB69E0F8BA}
+		{96018055-6BFE-4484-B542-ADEE678FF108} = {D4E07CBF-B53C-4F29-8ED2-C3FB69E0F8BA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {22ED2667-CAA9-44A7-8FE7-7EDB41DE010F}
