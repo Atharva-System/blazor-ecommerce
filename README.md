@@ -219,6 +219,8 @@ To get started with the app, follow these steps:
 
 ## Deployment
 
+[![.NET](https://github.com/Atharva-System/blazor-ecommerce/actions/workflows/dotnet.yml/badge.svg)](https://github.com/Atharva-System/blazor-ecommerce/actions/workflows/dotnet.yml)
+
 Blazor WebAssembly applications can be easily deployed as a static website, making it easy to host on popular static website hosting platforms such as GitHub Pages or Azure Static Web Apps. This approach eliminates the need for a server to host the application, reducing the hosting cost.
 
 ### Easy Deployment on GitHub Pages or Azure Static Web Apps
