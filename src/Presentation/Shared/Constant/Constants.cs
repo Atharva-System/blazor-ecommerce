@@ -38,6 +38,7 @@ namespace BlazorEcommerce.Shared.Constant
         public static string ResetPasswordCodeInvalid => "Your Reset Password Code is invalid";
         public static string EmailSuccessfullyChangedConfirmYourEmail => "Email Successfully Changed.Please confirm your email";
         public static string TokenNotExpired => "Current token is not expired yet.";
+        public static string PasswordChangedSuccess => "Password has been changed.";
         public static string IsRequired => "{0} is required";
         public static string AlreadyExists => "{0} already exist";
         public static string MaxCharLimit => "{0} is exceeding the limit of {1} characters.";

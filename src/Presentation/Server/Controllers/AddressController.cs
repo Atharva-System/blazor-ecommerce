@@ -1,28 +1,33 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BlazorEcommerce.Application.Features.Address.Command.AddAddress;
+using BlazorEcommerce.Application.Features.Address.Query.GetAddress;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
 
-namespace BlazorEcommerce.Server.Controllers
+namespace BlazorEcommerce.Server.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class AddressController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class AddressController : ControllerBase
+    private readonly IMediator _mediator;
+
+    public AddressController(IMediator mediator)
     {
-        private readonly IAddressService _addressService;
+        _mediator = mediator;
+    }
 
-        public AddressController(IAddressService addressService)
-        {
-            _addressService = addressService;
-        }
+    [HttpGet]
+    public async Task<ActionResult<IResponse>> GetAddress()
+    {
+        var response = await _mediator.Send(new GetAddressQueryRequest());
+        return Ok(response);
+    }
 
-        [HttpGet]
-        public async Task<ActionResult<ServiceResponse<Address>>> GetAddress()
-        {
-            return await _addressService.GetAddress();
-        }
-
-        [HttpPost]
-        public async Task<ActionResult<ServiceResponse<Address>>> AddOrUpdateAddress(Address address)
-        {
-            return await _addressService.AddOrUpdateAddress(address);
-        }
+    [HttpPost]
+    public async Task<ActionResult<IResponse>> AddOrUpdateAddress(AddressDto address)
+    {
+        var response = await _mediator.Send(new AddOrUpdateCommandRequest(address));
+        return Ok(response);
     }
 }
+

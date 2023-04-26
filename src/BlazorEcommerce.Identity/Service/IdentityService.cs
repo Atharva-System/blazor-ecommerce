@@ -4,6 +4,9 @@ using BlazorEcommerce.Shared;
 using BlazorEcommerce.Shared.AccessControl;
 using BlazorEcommerce.Shared.Authorization;
 using BlazorEcommerce.Shared.Common;
+using BlazorEcommerce.Shared.Constant;
+using BlazorEcommerce.Shared.Response.Abstract;
+using BlazorEcommerce.Shared.Response.Concrete;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Text;
@@ -176,7 +179,7 @@ public class IdentityService : IIdentityService
         await _roleManager.DeleteAsync(role);
     }
 
-    public async Task<ServiceResponse<bool>> ChangePassword(string userId, string currentPassword, string newPassword)
+    public async Task<IResponse> ChangePassword(string userId, string currentPassword, string newPassword)
     {
         var user = await _userManager.FindByIdAsync(userId);
 
@@ -186,17 +189,17 @@ public class IdentityService : IIdentityService
 
         if (result.Succeeded)
         {
-            return new ServiceResponse<bool> { Success = true };
+            return new DataResponse<bool>(true, HttpStatusCodes.Accepted,Messages.PasswordChangedSuccess);
         }
         else
         {
-            StringBuilder str = new StringBuilder();
+            List<string> str = new List<string>();
             foreach (var err in result.Errors)
             {
-                str.AppendFormat("•{0}\n", err.Description);
+                str.Add(err.Description);
             }
 
-            return new ServiceResponse<bool> { Success = false, Message = str.ToString() };
+            return new ErrorResponse(HttpStatusCodes.BadRequest, str);
 
         }
     }

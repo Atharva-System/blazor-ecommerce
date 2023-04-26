@@ -1,4 +1,4 @@
-﻿using BlazorEcommerce.Server.Services.AuthService;
+﻿using BlazorEcommerce.Application.Contracts.Identity;
 
 namespace BlazorEcommerce.Server.Services.OrderService
 {
@@ -6,11 +6,11 @@ namespace BlazorEcommerce.Server.Services.OrderService
     {
         private readonly DataContext _context;
         private readonly ICartService _cartService;
-        private readonly IAuthService _authService;
+        private readonly ICurrentUser _authService;
 
         public OrderService(DataContext context,
             ICartService cartService,
-            IAuthService authService)
+            ICurrentUser authService)
         {
             _context = context;
             _cartService = cartService;
@@ -25,7 +25,7 @@ namespace BlazorEcommerce.Server.Services.OrderService
                 .ThenInclude(oi => oi.Product)
                 .Include(o => o.OrderItems)
                 .ThenInclude(oi => oi.ProductType)
-                .Where(o => o.UserId == _authService.GetUserId() && o.Id == orderId)
+                .Where(o => o.UserId == Convert.ToInt32(_authService.UserId) && o.Id == orderId)
                 .OrderByDescending(o => o.OrderDate)
                 .FirstOrDefaultAsync();
 
@@ -65,7 +65,7 @@ namespace BlazorEcommerce.Server.Services.OrderService
             var orders = await _context.Orders
                 .Include(o => o.OrderItems)
                 .ThenInclude(oi => oi.Product)
-                .Where(o => o.UserId == _authService.GetUserId())
+                .Where(o => o.UserId == Convert.ToInt32(_authService.UserId))
                 .OrderByDescending(o => o.OrderDate)
                 .ToListAsync();
 

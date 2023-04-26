@@ -1,6 +1,6 @@
 ﻿namespace BlazorEcommerce.Shared
 {
-    public class Address
+    public class AddressDto
     {
         public int Id { get; set; }
         public string UserId { get; set; }

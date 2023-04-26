@@ -1,6 +1,9 @@
 ﻿using BlazorEcommerce.Application.Contracts.Identity;
 using BlazorEcommerce.Application.Model;
 using BlazorEcommerce.Shared;
+using BlazorEcommerce.Shared.Constant;
+using BlazorEcommerce.Shared.Response.Abstract;
+using BlazorEcommerce.Shared.Response.Concrete;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -25,38 +28,33 @@ namespace BlazorEcommerce.Identity.Service
             _signInManager = signInManager;
         }
 
-        public async Task<ServiceResponse<string>> Login(UserLogin request)
+        public async Task<IResponse> Login(UserLogin request)
         {
-            var response = new ServiceResponse<string>();
-
             var user = await _userManager.FindByEmailAsync(request.Email);
 
             if (user == null)
             {
-                response.Success = false;
-                response.Message = $"User with {request.Email} not found.";
-                //throw new NotFoundException($"User with {request.Email} not found.", request.Email);
+                return new ErrorResponse(HttpStatusCodes.NotFound, $"User with {request.Email} not found.");
             }
 
             var result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
 
             if (result.Succeeded == false)
             {
-                response.Success = false;
-                response.Message = "Wrong password.";
+                return new ErrorResponse(HttpStatusCodes.NotFound, Messages.UserNameOrPasswordIsIncorrect);
             }
             else
             {
                 JwtSecurityToken jwtSecurityToken = await GenerateToken(user);
 
-                response.Data = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
-            }
+               string jwtToken = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
 
-            return response;
+                return new DataResponse<string>(jwtToken,HttpStatusCodes.Accepted);
+            }
         }
 
 
-        public async Task<ServiceResponse<string>> Register(UserRegister request)
+        public async Task<IResponse> Register(UserRegister request)
         {
             var user = new ApplicationUser
             {
@@ -72,18 +70,17 @@ namespace BlazorEcommerce.Identity.Service
             if (result.Succeeded)
             {
                 await _userManager.AddToRoleAsync(user, "User");
-                return new ServiceResponse<string> { Data = user.Id };
+                return new DataResponse<string>(user.Id, HttpStatusCodes.Accepted, Messages.RegisteredSuccesfully);
             }
             else
             {
-                StringBuilder str = new StringBuilder();
+                List<string> str = new List<string>();
                 foreach (var err in result.Errors)
                 {
-                    str.AppendFormat("•{0}\n", err.Description);
+                    str.Add(err.Description);
                 }
 
-                return new ServiceResponse<string> { Data = "", Success = false, Message = str.ToString() };
-
+                return new ErrorResponse(HttpStatusCodes.BadRequest, str);
             }
         }
 

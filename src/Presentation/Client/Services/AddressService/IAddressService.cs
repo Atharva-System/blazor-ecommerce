@@ -1,8 +1,10 @@
-﻿namespace BlazorEcommerce.Client.Services.AddressService
+﻿using BlazorEcommerce.Shared.Response.Abstract;
+
+namespace BlazorEcommerce.Client.Services.AddressService
 {
     public interface IAddressService
     {
-        Task<Address> GetAddress();
-        Task<Address> AddOrUpdateAddress(Address address);
+        Task<AddressDto> GetAddress();
+        Task<AddressDto> AddOrUpdateAddress(AddressDto address);
     }
 }

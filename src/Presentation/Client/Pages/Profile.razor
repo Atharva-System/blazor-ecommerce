@@ -35,6 +35,15 @@
     private async Task ChangePassword()
     {
         var result = await AuthService.ChangePassword(request);
-        message = result.Message;
+        if (result.Success)
+        {
+            var resultCast = (DataResponse<string>)result;
+            message = resultCast.Message;
+        }
+        else
+        {
+            var resultCast = (ErrorResponse)result;
+            message = resultCast.Errors.FirstOrDefault();
+        }
     }
 }

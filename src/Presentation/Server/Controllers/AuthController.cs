@@ -1,11 +1,12 @@
 ﻿using BlazorEcommerce.Application.Contracts.Identity;
+using BlazorEcommerce.Shared.Response.Abstract;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
 namespace BlazorEcommerce.Server.Controllers
 {
-	[Route("api/[controller]")]
+    [Route("api/[controller]")]
 	[ApiController]
 	public class AuthController : ControllerBase
 	{
@@ -19,7 +20,7 @@ namespace BlazorEcommerce.Server.Controllers
 		}
 
 		[HttpPost("register")]
-		public async Task<ActionResult<ServiceResponse<int>>> Register(UserRegister request)
+		public async Task<ActionResult<IResponse>> Register(UserRegister request)
 		{
 			var response = await _authService.Register(request);
 
@@ -32,7 +33,7 @@ namespace BlazorEcommerce.Server.Controllers
 		}
 
 		[HttpPost("login")]
-		public async Task<ActionResult<ServiceResponse<string>>> Login(UserLogin request)
+		public async Task<ActionResult<IResponse>> Login(UserLogin request)
 		{
 			var response = await _authService.Login(request);
 			if (!response.Success)
@@ -44,7 +45,7 @@ namespace BlazorEcommerce.Server.Controllers
 		}
 
 		[HttpPost("change-password"), Authorize]
-		public async Task<ActionResult<ServiceResponse<bool>>> ChangePassword([FromBody] string currentPasswordPassword, [FromBody] string newPassword)
+		public async Task<ActionResult<IResponse>> ChangePassword([FromBody] string currentPasswordPassword, [FromBody] string newPassword)
 		{
 			var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 			var response = await _identityService.ChangePassword(userId, currentPasswordPassword, newPassword);

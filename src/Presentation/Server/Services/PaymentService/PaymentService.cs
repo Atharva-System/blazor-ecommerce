@@ -1,19 +1,19 @@
-﻿using Stripe.Checkout;
+﻿using BlazorEcommerce.Application.Contracts.Identity;
 using Stripe;
-using BlazorEcommerce.Server.Services.AuthService;
+using Stripe.Checkout;
 
 namespace BlazorEcommerce.Server.Services.PaymentService
 {
     public class PaymentService : IPaymentService
     {
         private readonly ICartService _cartService;
-        private readonly IAuthService _authService;
+        private readonly ICurrentUser _authService;
         private readonly IOrderService _orderService;
 
         const string secret = "whsec_97ffacb1f4861c5c1d3b471259cea7c26ba8aaa6b103df80ccd9671e5794ce36";
 
         public PaymentService(ICartService cartService,
-            IAuthService authService,
+            ICurrentUser authService,
             IOrderService orderService)
         {
             StripeConfiguration.ApiKey = "sk_test_51KeFeXSJN18oZA5qDkeNlClNnS5A8xklAv5cvMUJHDRTZTQegBEO36BSpzpBp7gEHGgDUZKNlzmEvHDnhL1CmiRs00bfrcT737";
@@ -44,7 +44,7 @@ namespace BlazorEcommerce.Server.Services.PaymentService
 
             var options = new SessionCreateOptions
             {
-                CustomerEmail = _authService.GetUserEmail(),
+                CustomerEmail = _authService.UserEmail,
                 ShippingAddressCollection =
                     new SessionShippingAddressCollectionOptions
                     {
@@ -79,8 +79,8 @@ namespace BlazorEcommerce.Server.Services.PaymentService
                 if (stripeEvent.Type == Events.CheckoutSessionCompleted)
                 {
                     var session = stripeEvent.Data.Object as Session;
-                    var user = await _authService.GetUserByEmail(session.CustomerEmail);
-                    await _orderService.PlaceOrder(user.Id);
+                    //var user = await _authService.GetUserByEmail(session.CustomerEmail);
+                    //await _orderService.PlaceOrder(user.Id);
                 }
 
                 return new ServiceResponse<bool> { Data = true };

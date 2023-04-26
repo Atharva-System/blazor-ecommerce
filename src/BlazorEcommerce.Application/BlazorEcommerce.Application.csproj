@@ -21,7 +21,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\Address\" />
     <Folder Include="Features\Cart\" />
     <Folder Include="Features\ProductType\" />
     <Folder Include="Features\Product\" />

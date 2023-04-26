@@ -10,6 +10,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorEcommerce.Shared", "src\Presentation\Shared\BlazorEcommerce.Shared.csproj", "{D7D7C6D1-466B-4399-8C23-0613492A1B95}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5199EEC8-F63C-4F04-BA06-0B1158165446}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{D4E07CBF-B53C-4F29-8ED2-C3FB69E0F8BA}"
 EndProject
@@ -31,9 +34,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{F9D53262-2
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{96018055-6BFE-4484-B542-ADEE678FF108}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorEcommerce.Identity", "src\BlazorEcommerce.Identity\BlazorEcommerce.Identity.csproj", "{6570637C-DD4E-4FC5-A11F-322E0BB89955}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorEcommerce.Identity", "src\BlazorEcommerce.Identity\BlazorEcommerce.Identity.csproj", "{6570637C-DD4E-4FC5-A11F-322E0BB89955}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorEcommerce.Persistence", "src\BlazorEcommerce.Persistence\BlazorEcommerce.Persistence.csproj", "{0CB94D8E-F24D-49AB-AE12-D8BB27841CC1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorEcommerce.Persistence", "src\BlazorEcommerce.Persistence\BlazorEcommerce.Persistence.csproj", "{0CB94D8E-F24D-49AB-AE12-D8BB27841CC1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

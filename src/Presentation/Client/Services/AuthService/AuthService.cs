@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components.Authorization;
+﻿using BlazorEcommerce.Shared.Response.Abstract;
+using Microsoft.AspNetCore.Components.Authorization;
 
 namespace BlazorEcommerce.Client.Services.AuthService
 {
@@ -6,17 +7,17 @@ namespace BlazorEcommerce.Client.Services.AuthService
     {
         private readonly HttpClient _http;
         private readonly AuthenticationStateProvider _authStateProvider;
-
+        private const string AuthBaseURL = "api/auth/";
         public AuthService(HttpClient http, AuthenticationStateProvider authStateProvider)
         {
             _http = http;
             _authStateProvider = authStateProvider;
         }
 
-        public async Task<ServiceResponse<bool>> ChangePassword(UserChangePassword request)
+        public async Task<IResponse> ChangePassword(UserChangePassword request)
         {
-            var result = await _http.PostAsJsonAsync("api/auth/change-password", request.Password);
-            return await result.Content.ReadFromJsonAsync<ServiceResponse<bool>>();
+            var result = await _http.PostAsJsonAsync($"{AuthBaseURL}change-password", request.Password);
+            return await result.Content.ReadFromJsonAsync<IResponse>();
         }
 
         public async Task<bool> IsUserAuthenticated()
@@ -24,16 +25,16 @@ namespace BlazorEcommerce.Client.Services.AuthService
             return (await _authStateProvider.GetAuthenticationStateAsync()).User.Identity.IsAuthenticated;
         }
 
-        public async Task<ServiceResponse<string>> Login(UserLogin request)
+        public async Task<IResponse> Login(UserLogin request)
         {
-            var result = await _http.PostAsJsonAsync("api/auth/login", request);
-            return await result.Content.ReadFromJsonAsync<ServiceResponse<string>>();
+            var result = await _http.PostAsJsonAsync($"{AuthBaseURL}login", request);
+            return await result.Content.ReadFromJsonAsync<IResponse>();
         }
 
-        public async Task<ServiceResponse<int>> Register(UserRegister request)
+        public async Task<IResponse> Register(UserRegister request)
         {
-            var result = await _http.PostAsJsonAsync("api/auth/register", request);
-            return await result.Content.ReadFromJsonAsync<ServiceResponse<int>>();
+            var result = await _http.PostAsJsonAsync($"{AuthBaseURL}register", request);
+            return await result.Content.ReadFromJsonAsync<IResponse>();
         }
     }
 }

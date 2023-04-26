@@ -30,5 +30,5 @@ public interface IIdentityService
 
     Task DeleteRoleAsync(string roleId);
 
-    Task<ServiceResponse<bool>> ChangePassword(string userId, string currentPassword, string newPassword);
+    Task<IResponse> ChangePassword(string userId, string currentPassword, string newPassword);
 }
