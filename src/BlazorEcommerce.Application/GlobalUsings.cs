@@ -9,3 +9,6 @@ global using BlazorEcommerce.Application.Repositories.Commands;
 global using BlazorEcommerce.Application.Repositories.Queries;
 global using BlazorEcommerce.Application.UnitOfWork;
 global using AutoMapper;
+global using BlazorEcommerce.Shared.Response.Concrete;
+global using BlazorEcommerce.Shared.Response.Abstract;
+global using BlazorEcommerce.Shared.Constant;

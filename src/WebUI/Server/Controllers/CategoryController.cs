@@ -3,6 +3,7 @@ using BlazorEcommerce.Application.Features.Category.Commands.DeleteCategory;
 using BlazorEcommerce.Application.Features.Category.Commands.UpdateCategory;
 using BlazorEcommerce.Application.Features.Category.Query.GetCategories;
 using BlazorEcommerce.Shared.Category;
+using BlazorEcommerce.Shared.Response.Concrete;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -21,31 +22,29 @@ namespace BlazorEcommerce.Server.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<ServiceResponse<List<CategoryDto>>>> GetCategories()
+        public async Task<ActionResult<DataResponse<List<CategoryDto>>>> GetCategories()
         {
             var response = await _mediator.Send(new GetAllCategoryQueryRequest());
             return Ok(response);
         }
 
         [HttpGet("admin"), Authorize(Roles = "Admin")]
-        public async Task<ActionResult<ServiceResponse<List<CategoryDto>>>> GetAdminCategories()
+        public async Task<ActionResult<DataResponse<List<CategoryDto>>>> GetAdminCategories()
         {
             var response = await _mediator.Send(new GetAllCategoryQueryRequest(true));
             return Ok(response);
         }
 
         [HttpDelete("admin/{id}"), Authorize(Roles = "Admin")]
-        public async Task<ActionResult<ServiceResponse<List<CategoryDto>>>> DeleteCategory(int id)
+        public async Task<ActionResult<DataResponse<List<CategoryDto>>>> DeleteCategory(int id)
         {
             var result = await _mediator.Send(new DeleteCategoryCommandRequest(id));
 
             if (!result.Success)
             {
-                return new ServiceResponse<List<CategoryDto>>
-                {
-                    Success = false,
-                    Message = result.Message
-                };
+                var responseCast = (ErrorResponse)result;
+
+                return new DataResponse<List<CategoryDto>> (new List<CategoryDto>(), responseCast.StatusCode, responseCast.Errors.FirstOrDefault());
             }
 
             var response = await _mediator.Send(new GetAllCategoryQueryRequest(true));
@@ -53,7 +52,7 @@ namespace BlazorEcommerce.Server.Controllers
         }
 
         [HttpPost("admin"), Authorize(Roles = "Admin")]
-        public async Task<ActionResult<ServiceResponse<List<CategoryDto>>>> AddCategory(CategoryDto category)
+        public async Task<ActionResult<DataResponse<List<CategoryDto>>>> AddCategory(CategoryDto category)
         {
             await _mediator.Send(new AddCategoryCommandRequest(category));
 
@@ -62,17 +61,15 @@ namespace BlazorEcommerce.Server.Controllers
         }
 
         [HttpPut("admin"), Authorize(Roles = "Admin")]
-        public async Task<ActionResult<ServiceResponse<List<CategoryDto>>>> UpdateCategory(CategoryDto category)
+        public async Task<ActionResult<DataResponse<List<CategoryDto>>>> UpdateCategory(CategoryDto category)
         {
             var result = await _mediator.Send(new UpdateCategoryCommandRequest(category));
 
             if (!result.Success)
             {
-                return new ServiceResponse<List<CategoryDto>>
-                {
-                    Success = false,
-                    Message = result.Message
-                };
+                var responseCast = (ErrorResponse)result;
+
+                return new DataResponse<List<CategoryDto>>(new List<CategoryDto>(), responseCast.StatusCode, responseCast.Errors.FirstOrDefault());
             }
 
             var response = await _mediator.Send(new GetAllCategoryQueryRequest(true));

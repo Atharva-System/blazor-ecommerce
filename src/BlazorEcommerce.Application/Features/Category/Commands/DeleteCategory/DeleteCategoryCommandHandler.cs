@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Http;
 
 namespace BlazorEcommerce.Application.Features.Category.Commands.DeleteCategory;
 
-public record DeleteCategoryCommandRequest(int id) : IRequest<ServiceResponse<bool>>;
+public record DeleteCategoryCommandRequest(int id) : IRequest<IResponse>;
 
-public class DeleteCategoryCommandHandler : IRequestHandler<DeleteCategoryCommandRequest, ServiceResponse<bool>>
+public class DeleteCategoryCommandHandler : IRequestHandler<DeleteCategoryCommandRequest, IResponse>
 {
     private readonly ICommandUnitOfWork<int> _command;
     private readonly IQueryUnitOfWork _query;
@@ -16,18 +16,18 @@ public class DeleteCategoryCommandHandler : IRequestHandler<DeleteCategoryComman
         _query = query;
     }
 
-    public async Task<ServiceResponse<bool>> Handle(DeleteCategoryCommandRequest request, CancellationToken cancellationToken)
+    public async Task<IResponse> Handle(DeleteCategoryCommandRequest request, CancellationToken cancellationToken)
     {
         var category = await _query.CategoryQuery.GetByIdAsync(cat => cat.Id == request.id);
         if (category == null)
         {
-            return new ServiceResponse<bool>() { Success = false, Message = "Category is not found!", StatusCode = StatusCodes.Status404NotFound };
+            return new ErrorResponse(HttpStatusCodes.NotFound,String.Format(Messages.NotFound, "Category"));
         }
 
         category.IsDeleted = true;
         _command.CategoryCommand.Update(category);
         await _command.SaveAsync();
 
-        return new ServiceResponse<bool>() { Success = true, StatusCode = StatusCodes.Status200OK };
+        return new SuccessResponse();
     }
 }
