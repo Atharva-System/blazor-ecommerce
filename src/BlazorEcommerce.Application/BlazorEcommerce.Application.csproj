@@ -17,7 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BlazorEcommerce.Domain\BlazorEcommerce.Domain.csproj" />
-    <ProjectReference Include="..\WebUI\Shared\BlazorEcommerce.Shared.csproj" />
+    <ProjectReference Include="..\Presentation\Shared\BlazorEcommerce.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>

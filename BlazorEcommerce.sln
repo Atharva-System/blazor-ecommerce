@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33530.505
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorEcommerce.Server", "src\WebUI\Server\BlazorEcommerce.Server.csproj", "{7613CA03-4D97-4B25-B3BB-F4BC69CE55B0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorEcommerce.Server", "src\Presentation\Server\BlazorEcommerce.Server.csproj", "{7613CA03-4D97-4B25-B3BB-F4BC69CE55B0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorEcommerce.Client", "src\WebUI\Client\BlazorEcommerce.Client.csproj", "{E07DB666-A548-4F24-8982-AD3162B837A6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorEcommerce.Client", "src\Presentation\Client\BlazorEcommerce.Client.csproj", "{E07DB666-A548-4F24-8982-AD3162B837A6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorEcommerce.Shared", "src\WebUI\Shared\BlazorEcommerce.Shared.csproj", "{D7D7C6D1-466B-4399-8C23-0613492A1B95}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorEcommerce.Shared", "src\Presentation\Shared\BlazorEcommerce.Shared.csproj", "{D7D7C6D1-466B-4399-8C23-0613492A1B95}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5199EEC8-F63C-4F04-BA06-0B1158165446}"
 EndProject

@@ -1,6 +1,5 @@
 ﻿using BlazorEcommerce.Application.UnitOfWork;
 using BlazorEcommerce.Persistence.UnitOfWork;
-using BlazorEcommerce.Server.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
