@@ -4,7 +4,7 @@ namespace BlazorEcommerce.Domain.Entities;
 
 public class Address : BaseAuditableEntity<int>
 {
-    public int UserId { get; set; }
+    public string UserId { get; set; }
     public string FirstName { get; set; } = string.Empty;
     public string LastName { get; set; } = string.Empty;
     public string Street { get; set; } = string.Empty;
