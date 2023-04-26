@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace Microsoft.Extensions.DependencyInjection;
+namespace BlazorEcommerce.Infrastructure;
 
 public static class ConfigureServices
 {

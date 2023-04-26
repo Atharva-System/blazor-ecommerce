@@ -1,4 +1,4 @@
-﻿using BlazorEcommerce.Application.Common.Contracts.Identity;
+﻿using BlazorEcommerce.Application.Contracts.Identity;
 using BlazorEcommerce.Application.Model;
 using BlazorEcommerce.Shared;
 using Microsoft.AspNetCore.Identity;
@@ -96,12 +96,9 @@ namespace BlazorEcommerce.Identity.Service
 
             var claims = new[]
             {
-                new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(JwtRegisteredClaimNames.Email, user.Email),
-                new Claim("uid", user.Id)
+                new Claim(ClaimTypes.NameIdentifier, user.Id),
+                new Claim(ClaimTypes.Name, user.Email),
             }
-            .Union(userClaims)
             .Union(roleClaims);
 
             var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Key));

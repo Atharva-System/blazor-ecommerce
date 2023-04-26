@@ -2,3 +2,10 @@
 global using FluentValidation;
 global using MediatR;
 global using Microsoft.Extensions.Logging;
+global using BlazorEcommerce.Domain.Entities;
+global using BlazorEcommerce.Application.Repositories.Commands.Base;
+global using BlazorEcommerce.Application.Repositories.Queries.Base;
+global using BlazorEcommerce.Application.Repositories.Commands;
+global using BlazorEcommerce.Application.Repositories.Queries;
+global using BlazorEcommerce.Application.UnitOfWork;
+global using AutoMapper;

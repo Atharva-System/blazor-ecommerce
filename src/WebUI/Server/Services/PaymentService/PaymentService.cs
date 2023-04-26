@@ -1,5 +1,6 @@
 ﻿using Stripe.Checkout;
 using Stripe;
+using BlazorEcommerce.Server.Services.AuthService;
 
 namespace BlazorEcommerce.Server.Services.PaymentService
 {

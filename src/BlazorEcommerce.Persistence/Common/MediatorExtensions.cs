@@ -8,7 +8,7 @@ public static class MediatorExtensions
     public static async Task DispatchDomainEvents(this IMediator mediator, DbContext context)
     {
         var entities = context.ChangeTracker
-            .Entries<BaseEntity>()
+            .Entries<BaseEntity<int>>()
             .Where(e => e.Entity.DomainEvents.Any())
             .Select(e => e.Entity);
 

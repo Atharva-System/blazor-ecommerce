@@ -25,7 +25,7 @@
                     <InputText @bind-Value="editingCategory.Url" class="form-control"></InputText>
                 </div>
                 <div class="col col-visible">
-                    <InputCheckbox @bind-Value="editingCategory.Visible" style="transform: scale(1.5,1.5);"></InputCheckbox>
+                    <InputCheckbox @bind-Value="editingCategory.IsActive" style="transform: scale(1.5,1.5);"></InputCheckbox>
                 </div>
                 <div class="col">
                     <button type="submit" class="btn btn-primary">
@@ -48,7 +48,7 @@
                 @category.Url
             </div>
             <div class="col col-visible">
-                <span>@(category.Visible ? "✔️" : "")</span>
+                <span>@(category.IsActive ? "✔️" : "")</span>
             </div>
             <div class="col">
                 <button class="btn btn-primary" @onclick="(() => EditCategory(category))">
@@ -66,7 +66,7 @@
 </button>
 
 @code {
-    Category editingCategory = null;
+    CategoryDto editingCategory = null;
 
     protected override async Task OnInitializedAsync()
     {
@@ -84,7 +84,7 @@
         editingCategory = CategoryService.CreateNewCategory();
     }
 
-    private void EditCategory(Category category)
+    private void EditCategory(CategoryDto category)
     {
         category.Editing = true;
         editingCategory = category;
@@ -96,12 +96,12 @@
             await CategoryService.AddCategory(editingCategory);
         else
             await CategoryService.UpdateCategory(editingCategory);
-        editingCategory = new Category();
+        editingCategory = new CategoryDto();
     }
 
     private async Task CancelEditing()
     {
-        editingCategory = new Category();
+        editingCategory = new CategoryDto();
         await CategoryService.GetAdminCategories();
     }
 

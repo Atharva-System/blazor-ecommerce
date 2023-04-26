@@ -26,7 +26,9 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\..\BlazorEcommerce.Application\BlazorEcommerce.Application.csproj" />
+		<ProjectReference Include="..\..\BlazorEcommerce.Identity\BlazorEcommerce.Identity.csproj" />
 		<ProjectReference Include="..\..\BlazorEcommerce.Infrastructure\BlazorEcommerce.Infrastructure.csproj" />
+		<ProjectReference Include="..\..\BlazorEcommerce.Persistence\BlazorEcommerce.Persistence.csproj" />
 		<ProjectReference Include="..\Client\BlazorEcommerce.Client.csproj" />
 		<ProjectReference Include="..\Shared\BlazorEcommerce.Shared.csproj" />
 	</ItemGroup>

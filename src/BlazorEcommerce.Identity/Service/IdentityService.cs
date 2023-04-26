@@ -1,10 +1,12 @@
 ﻿using Ardalis.GuardClauses;
-using BlazorEcommerce.Application.Common.Contracts.Identity;
+using BlazorEcommerce.Application.Contracts.Identity;
+using BlazorEcommerce.Shared;
 using BlazorEcommerce.Shared.AccessControl;
 using BlazorEcommerce.Shared.Authorization;
 using BlazorEcommerce.Shared.Common;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Text;
 
 namespace BlazorEcommerce.Identity.Service;
 
@@ -172,5 +174,30 @@ public class IdentityService : IIdentityService
         Guard.Against.NotFound(roleId, role);
 
         await _roleManager.DeleteAsync(role);
+    }
+
+    public async Task<ServiceResponse<bool>> ChangePassword(string userId, string currentPassword, string newPassword)
+    {
+        var user = await _userManager.FindByIdAsync(userId);
+
+        Guard.Against.NotFound(userId, user);
+
+        var result = await _userManager.ChangePasswordAsync(user, currentPassword, newPassword);
+
+        if (result.Succeeded)
+        {
+            return new ServiceResponse<bool> { Success = true };
+        }
+        else
+        {
+            StringBuilder str = new StringBuilder();
+            foreach (var err in result.Errors)
+            {
+                str.AppendFormat("•{0}\n", err.Description);
+            }
+
+            return new ServiceResponse<bool> { Success = false, Message = str.ToString() };
+
+        }
     }
 }

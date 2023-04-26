@@ -1,4 +1,10 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using BlazorEcommerce.Application.Features.Category.Commands.AddCategory;
+using BlazorEcommerce.Application.Features.Category.Commands.DeleteCategory;
+using BlazorEcommerce.Application.Features.Category.Commands.UpdateCategory;
+using BlazorEcommerce.Application.Features.Category.Query.GetCategories;
+using BlazorEcommerce.Shared.Category;
+using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BlazorEcommerce.Server.Controllers
@@ -7,46 +13,70 @@ namespace BlazorEcommerce.Server.Controllers
     [ApiController]
     public class CategoryController : ControllerBase
     {
-        private readonly ICategoryService _categoryService;
+        private readonly IMediator _mediator;
 
-        public CategoryController(ICategoryService categoryService)
+        public CategoryController(IMediator mediator)
         {
-            _categoryService = categoryService;
+            _mediator = mediator;
         }
 
         [HttpGet]
-        public async Task<ActionResult<ServiceResponse<List<Category>>>> GetCategories()
+        public async Task<ActionResult<ServiceResponse<List<CategoryDto>>>> GetCategories()
         {
-            var result = await _categoryService.GetCategories();
-            return Ok(result);
+            var response = await _mediator.Send(new GetAllCategoryQueryRequest());
+            return Ok(response);
         }
 
         [HttpGet("admin"), Authorize(Roles = "Admin")]
-        public async Task<ActionResult<ServiceResponse<List<Category>>>> GetAdminCategories()
+        public async Task<ActionResult<ServiceResponse<List<CategoryDto>>>> GetAdminCategories()
         {
-            var result = await _categoryService.GetAdminCategories();
-            return Ok(result);
+            var response = await _mediator.Send(new GetAllCategoryQueryRequest(true));
+            return Ok(response);
         }
 
         [HttpDelete("admin/{id}"), Authorize(Roles = "Admin")]
-        public async Task<ActionResult<ServiceResponse<List<Category>>>> DeleteCategory(int id)
+        public async Task<ActionResult<ServiceResponse<List<CategoryDto>>>> DeleteCategory(int id)
         {
-            var result = await _categoryService.DeleteCategory(id);
-            return Ok(result);
+            var result = await _mediator.Send(new DeleteCategoryCommandRequest(id));
+
+            if (!result.Success)
+            {
+                return new ServiceResponse<List<CategoryDto>>
+                {
+                    Success = false,
+                    Message = result.Message
+                };
+            }
+
+            var response = await _mediator.Send(new GetAllCategoryQueryRequest(true));
+            return Ok(response);
         }
 
         [HttpPost("admin"), Authorize(Roles = "Admin")]
-        public async Task<ActionResult<ServiceResponse<List<Category>>>> AddCategory(Category category)
+        public async Task<ActionResult<ServiceResponse<List<CategoryDto>>>> AddCategory(CategoryDto category)
         {
-            var result = await _categoryService.AddCategory(category);
-            return Ok(result);
+            await _mediator.Send(new AddCategoryCommandRequest(category));
+
+            var response = await _mediator.Send(new GetAllCategoryQueryRequest(true));
+            return Ok(response);
         }
 
         [HttpPut("admin"), Authorize(Roles = "Admin")]
-        public async Task<ActionResult<ServiceResponse<List<Category>>>> UpdateCategory(Category category)
+        public async Task<ActionResult<ServiceResponse<List<CategoryDto>>>> UpdateCategory(CategoryDto category)
         {
-            var result = await _categoryService.UpdateCategory(category);
-            return Ok(result);
+            var result = await _mediator.Send(new UpdateCategoryCommandRequest(category));
+
+            if (!result.Success)
+            {
+                return new ServiceResponse<List<CategoryDto>>
+                {
+                    Success = false,
+                    Message = result.Message
+                };
+            }
+
+            var response = await _mediator.Send(new GetAllCategoryQueryRequest(true));
+            return Ok(response);
         }
     }
 }

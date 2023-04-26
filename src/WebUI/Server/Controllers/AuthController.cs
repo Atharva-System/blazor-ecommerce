@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using BlazorEcommerce.Application.Contracts.Identity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
@@ -9,21 +10,18 @@ namespace BlazorEcommerce.Server.Controllers
 	public class AuthController : ControllerBase
 	{
 		private readonly IAuthService _authService;
+        private readonly IIdentityService _identityService;
 
-		public AuthController(IAuthService authService)
+        public AuthController(IAuthService authService, IIdentityService identityService)
 		{
 			_authService = authService;
+			_identityService = identityService;
 		}
 
 		[HttpPost("register")]
 		public async Task<ActionResult<ServiceResponse<int>>> Register(UserRegister request)
 		{
-			var response = await _authService.Register(
-				new User
-				{
-					Email = request.Email
-				},
-				request.Password);
+			var response = await _authService.Register(request);
 
 			if (!response.Success)
 			{
@@ -36,7 +34,7 @@ namespace BlazorEcommerce.Server.Controllers
 		[HttpPost("login")]
 		public async Task<ActionResult<ServiceResponse<string>>> Login(UserLogin request)
 		{
-			var response = await _authService.Login(request.Email, request.Password);
+			var response = await _authService.Login(request);
 			if (!response.Success)
 			{
 				return BadRequest(response);
@@ -46,10 +44,10 @@ namespace BlazorEcommerce.Server.Controllers
 		}
 
 		[HttpPost("change-password"), Authorize]
-		public async Task<ActionResult<ServiceResponse<bool>>> ChangePassword([FromBody] string newPassword)
+		public async Task<ActionResult<ServiceResponse<bool>>> ChangePassword([FromBody] string currentPasswordPassword, [FromBody] string newPassword)
 		{
 			var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-			var response = await _authService.ChangePassword(int.Parse(userId), newPassword);
+			var response = await _identityService.ChangePassword(userId, currentPasswordPassword, newPassword);
 
 			if (!response.Success)
 			{

@@ -1,11 +1,13 @@
-﻿namespace BlazorEcommerce.Server.Services.AddressService
+﻿using BlazorEcommerce.Application.Contracts.Identity;
+
+namespace BlazorEcommerce.Server.Services.AddressService
 {
     public class AddressService : IAddressService
     {
         private readonly DataContext _context;
-        private readonly IAuthService _authService;
+        private readonly ICurrentUser _authService;
 
-        public AddressService(DataContext context, IAuthService authService)
+        public AddressService(DataContext context, ICurrentUser authService)
         {
             _context = context;
             _authService = authService;
@@ -17,7 +19,7 @@
             var dbAddress = (await GetAddress()).Data;
             if (dbAddress == null)
             {
-                address.UserId = _authService.GetUserId();
+                address.UserId = _authService.UserId;
                 _context.Addresses.Add(address);
                 response.Data = address;
             }
@@ -40,7 +42,7 @@
 
         public async Task<ServiceResponse<Address>> GetAddress()
         {
-            int userId = _authService.GetUserId();
+            string userId = _authService.UserId;
             var address = await _context.Addresses
                 .FirstOrDefaultAsync(a => a.UserId == userId);
             return new ServiceResponse<Address> { Data = address };

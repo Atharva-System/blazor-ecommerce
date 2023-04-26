@@ -1,4 +1,5 @@
 ﻿using BlazorEcommerce.Shared;
+using BlazorEcommerce.Shared.Category;
 
 namespace BlazorEcommerce.Server.Data
 {
@@ -20,26 +21,26 @@ namespace BlazorEcommerce.Server.Data
             modelBuilder.Entity<OrderItem>()
                 .HasKey(oi => new { oi.OrderId, oi.ProductId, oi.ProductTypeId });
 
-            modelBuilder.Entity<Category>().HasData(
-                new Category
-                {
-                    Id = 1,
-                    Name = "Books",
-                    Url = "books"
-                },
-                new Category
-                {
-                    Id = 2,
-                    Name = "Movies",
-                    Url = "movies"
-                },
-                new Category
-                {
-                    Id = 3,
-                    Name = "Video Games",
-                    Url = "video-games"
-                }
-                );
+            //modelBuilder.Entity<Category>().HasData(
+            //    new Category
+            //    {
+            //        Id = 1,
+            //        Name = "Books",
+            //        Url = "books"
+            //    },
+            //    new Category
+            //    {
+            //        Id = 2,
+            //        Name = "Movies",
+            //        Url = "movies"
+            //    },
+            //    new Category
+            //    {
+            //        Id = 3,
+            //        Name = "Video Games",
+            //        Url = "video-games"
+            //    }
+            //    );
 
             modelBuilder.Entity<ProductType>().HasData(
                     new ProductType { Id = 1, Name = "Default" },
@@ -266,7 +267,7 @@ namespace BlazorEcommerce.Server.Data
         }
         public DbSet<Product> Products { get; set; }
 
-        public DbSet<Category> Categories { get; set; }
+        public DbSet<CategoryDto> Categories { get; set; }
 
         public DbSet<ProductType> ProductTypes { get; set; }
 

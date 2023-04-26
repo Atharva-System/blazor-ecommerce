@@ -11,6 +11,13 @@ public class RoleDto
         Permissions = Permissions.None;
     }
 
+    public RoleDto(string id, string name)
+    {
+        Id = id;
+        Name = name;
+        Permissions = Permissions.None;
+    }
+
     public RoleDto(string id, string name, Permissions permissions)
     {
         Id = id;

@@ -1,4 +1,6 @@
-﻿namespace BlazorEcommerce.Server.Services.OrderService
+﻿using BlazorEcommerce.Server.Services.AuthService;
+
+namespace BlazorEcommerce.Server.Services.OrderService
 {
     public class OrderService : IOrderService
     {

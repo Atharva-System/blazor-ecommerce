@@ -1,15 +1,15 @@
-﻿using BlazorEcommerce.Application.Common.Contracts.Identity;
+﻿using BlazorEcommerce.Application.Contracts.Identity;
 using BlazorEcommerce.Application.Model;
-using BlazorEcommerce.Identity;
 using BlazorEcommerce.Identity.Data;
 using BlazorEcommerce.Identity.Service;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
-namespace Microsoft.Extensions.DependencyInjection;
+namespace BlazorEcommerce.Identity;
 
 public static class ConfigureServices
 {

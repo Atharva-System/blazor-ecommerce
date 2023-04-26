@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using BlazorEcommerce.Server.Services.AuthService;
+using Microsoft.EntityFrameworkCore;
 
 namespace BlazorEcommerce.Server.Services.CartService
 {

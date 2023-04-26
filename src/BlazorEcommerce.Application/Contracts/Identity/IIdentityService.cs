@@ -1,7 +1,8 @@
-﻿using BlazorEcommerce.Shared.AccessControl;
+﻿using BlazorEcommerce.Shared;
+using BlazorEcommerce.Shared.AccessControl;
 using BlazorEcommerce.Shared.Authorization;
 
-namespace BlazorEcommerce.Application.Common.Contracts.Identity;
+namespace BlazorEcommerce.Application.Contracts.Identity;
 
 public interface IIdentityService
 {
@@ -28,4 +29,6 @@ public interface IIdentityService
     Task UpdateRoleAsync(RoleDto updatedRole);
 
     Task DeleteRoleAsync(string roleId);
+
+    Task<ServiceResponse<bool>> ChangePassword(string userId, string currentPassword, string newPassword);
 }

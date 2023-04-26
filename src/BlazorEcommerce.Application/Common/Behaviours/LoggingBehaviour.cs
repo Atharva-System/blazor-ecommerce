@@ -1,4 +1,4 @@
-﻿using BlazorEcommerce.Application.Common.Contracts.Identity;
+﻿using BlazorEcommerce.Application.Contracts.Identity;
 using MediatR.Pipeline;
 
 namespace BlazorEcommerce.Application.Common.Behaviours;
