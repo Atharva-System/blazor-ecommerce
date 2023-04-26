@@ -5,7 +5,7 @@ namespace BlazorEcommerce.Domain.Entities;
 
 public class Order : BaseAuditableEntity<int>
 {
-    public int UserId { get; set; }
+    public string UserId { get; set; }
     public DateTime OrderDate { get; set; } = DateTime.Now;
 
     [Column(TypeName = "decimal(18,2)")]

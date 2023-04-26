@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using BlazorEcommerce.Domain.Common;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BlazorEcommerce.Domain.Entities;
 
-public class OrderItem
+public class OrderItem : BaseEntity<int>
 {
     public Order Order { get; set; }
     public int OrderId { get; set; }

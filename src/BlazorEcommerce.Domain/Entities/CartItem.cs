@@ -1,8 +1,10 @@
-﻿namespace BlazorEcommerce.Domain.Entities
+﻿using BlazorEcommerce.Domain.Common;
+
+namespace BlazorEcommerce.Domain.Entities
 {
-    public class CartItem
+    public class CartItem : BaseEntity<int>
     {
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         public int ProductId { get; set; }
         public int ProductTypeId { get; set; }
 
