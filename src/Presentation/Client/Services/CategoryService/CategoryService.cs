@@ -1,4 +1,9 @@
 ﻿using BlazorEcommerce.Shared.Category;
+using BlazorEcommerce.Shared.Response.Concrete;
+using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Runtime.Serialization.Json;
+using System.Text.Json;
 
 namespace BlazorEcommerce.Client.Services.CategoryService
 {
@@ -63,22 +68,21 @@ namespace BlazorEcommerce.Client.Services.CategoryService
 
         public async Task GetAdminCategories()
         {
-            var response = await _http.GetFromJsonAsync<IResponse>($"{CategoryBaseURL}admin");
+            var response = await _http.GetFromJsonAsync<DataResponse<List<CategoryDto>>>($"{CategoryBaseURL}admin");
             if (response != null && response.Success)
             {
-                var responseCast = (DataResponse<List<CategoryDto>>)response;
-                AdminCategories = responseCast.Data;
+                AdminCategories = response.Data;
             }
 
         }
 
         public async Task GetCategories()
         {
-            var response = await _http.GetFromJsonAsync<IResponse>($"{CategoryBaseURL}");
+            var response = await _http.GetFromJsonAsync<DataResponse<List<CategoryDto>>>($"{CategoryBaseURL}");
+
             if (response != null && response.Success)
             {
-                var responseCast = (DataResponse<List<CategoryDto>>)response;
-                Categories = responseCast.Data;
+                Categories = response.Data;
             }
         }
 

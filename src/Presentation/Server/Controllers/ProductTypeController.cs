@@ -43,7 +43,7 @@ namespace BlazorEcommerce.Server.Controllers
             {
                 var responseCast = (ErrorResponse)result;
 
-                return new DataResponse<List<ProductTypeDto>>(new List<ProductTypeDto>(), responseCast.StatusCode, responseCast.Errors.FirstOrDefault());
+                return new DataResponse<List<ProductTypeDto>>(new List<ProductTypeDto>(), responseCast.StatusCode, responseCast.Messages.FirstOrDefault());
             }
 
             var response = await _mediator.Send(new GetAllProductTypeQueryRequest());

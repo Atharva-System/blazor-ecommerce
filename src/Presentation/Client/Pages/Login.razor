@@ -47,22 +47,22 @@
     private async Task HandleLogin()
     {
         var result = await AuthService.Login(user);
-        if (result.Success)
+        if (result != null)
         {
-            var resultCast = (DataResponse<string>)result;
+            if (result.Success)
+            {
+                errorMessage = string.Empty;
 
-            errorMessage = string.Empty;
-
-            await LocalStorage.SetItemAsync("authToken", resultCast.Data);
-            await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            await CartService.StoreCartItems(true);
-            await CartService.GetCartItemsCount();
-            NavigationManager.NavigateTo(returnUrl);
-        }
-        else
-        {
-            var resultCast = (ErrorResponse)result;
-            errorMessage = resultCast.Errors.FirstOrDefault();
+                await LocalStorage.SetItemAsync("authToken", result.Data);
+                await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                await CartService.StoreCartItems(true);
+                await CartService.GetCartItemsCount();
+                NavigationManager.NavigateTo(returnUrl);
+            }
+            else
+            {
+                errorMessage = result.Messages.FirstOrDefault();
+            }
         }
     }
 }

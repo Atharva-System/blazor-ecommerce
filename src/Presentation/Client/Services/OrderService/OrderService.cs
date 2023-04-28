@@ -22,19 +22,11 @@ namespace BlazorEcommerce.Client.Services.OrderService
 
         public async Task<OrderDetailsResponse> GetOrderDetails(int orderId)
         {
-            var result = await _http.GetFromJsonAsync<IResponse>($"{OrderBaseURL}{orderId}");
+            var result = await _http.GetFromJsonAsync<DataResponse<OrderDetailsResponse>>($"{OrderBaseURL}{orderId}");
 
             if (result != null && result.Success)
             {
-                var resultCast = (DataResponse<OrderDetailsResponse>)result;
-                if (resultCast != null)
-                {
-                    return resultCast.Data;
-                }
-                else
-                {
-                    return new OrderDetailsResponse();
-                }
+                return result.Data;
             }
             else
             {
@@ -44,19 +36,11 @@ namespace BlazorEcommerce.Client.Services.OrderService
 
         public async Task<List<OrderOverviewResponse>> GetOrders()
         {
-            var result = await _http.GetFromJsonAsync<IResponse>($"{OrderBaseURL}");
+            var result = await _http.GetFromJsonAsync<DataResponse<List<OrderOverviewResponse>>>($"{OrderBaseURL}");
 
             if (result != null && result.Success)
             {
-                var resultCast = (DataResponse<List<OrderOverviewResponse>>)result;
-                if (resultCast != null)
-                {
-                    return resultCast.Data;
-                }
-                else
-                {
-                    return new List<OrderOverviewResponse>();
-                }
+                return result.Data;
             }
             else
             {

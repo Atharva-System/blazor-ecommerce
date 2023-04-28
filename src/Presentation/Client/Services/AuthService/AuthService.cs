@@ -14,10 +14,10 @@ namespace BlazorEcommerce.Client.Services.AuthService
             _authStateProvider = authStateProvider;
         }
 
-        public async Task<IResponse> ChangePassword(UserChangePassword request)
+        public async Task<DataResponse<string>> ChangePassword(UserChangePassword request)
         {
             var result = await _http.PostAsJsonAsync($"{AuthBaseURL}change-password", request);
-            return await result.Content.ReadFromJsonAsync<IResponse>();
+            return await result.Content.ReadFromJsonAsync<DataResponse<string>>();
         }
 
         public async Task<bool> IsUserAuthenticated()
@@ -25,16 +25,16 @@ namespace BlazorEcommerce.Client.Services.AuthService
             return (await _authStateProvider.GetAuthenticationStateAsync()).User.Identity.IsAuthenticated;
         }
 
-        public async Task<IResponse> Login(UserLogin request)
+        public async Task<DataResponse<string>> Login(UserLogin request)
         {
             var result = await _http.PostAsJsonAsync($"{AuthBaseURL}login", request);
-            return await result.Content.ReadFromJsonAsync<IResponse>();
+            return await result.Content.ReadFromJsonAsync<DataResponse<string>>();
         }
 
-        public async Task<IResponse> Register(UserRegister request)
+        public async Task<DataResponse<string>> Register(UserRegister request)
         {
             var result = await _http.PostAsJsonAsync($"{AuthBaseURL}register", request);
-            return await result.Content.ReadFromJsonAsync<IResponse>();
+            return await result.Content.ReadFromJsonAsync<DataResponse<string>>();
         }
     }
 }

@@ -10,7 +10,7 @@
         int PageCount { get; set; }
         string LastSearchText { get; set; }
         Task GetProducts(string? categoryUrl = null);
-        Task<IResponse> GetProduct(int productId);
+        Task<DataResponse<ProductDto>> GetProduct(int productId);
         Task<ProductDto> GetProductDetails(int productId);
         Task SearchProducts(string searchText, int page);
         Task<List<string>> GetProductSearchSuggestions(string searchText);

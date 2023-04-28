@@ -53,17 +53,12 @@ namespace BlazorEcommerce.Client.Services.CartService
         {
             if (await _authService.IsUserAuthenticated())
             {
-                var result = await _http.GetFromJsonAsync<IResponse>($"{CartBaseURL}count");
+                var result = await _http.GetFromJsonAsync<DataResponse<int>>($"{CartBaseURL}count");
                 if (result != null && result.Success)
                 {
-                    var resultCast = (DataResponse<int>)result;
+                    var count = result.Data;
 
-                    if (resultCast != null)
-                    {
-                        var count = resultCast.Data;
-
-                        await _localStorage.SetItemAsync<int>("cartItemsCount", count);
-                    }
+                    await _localStorage.SetItemAsync<int>("cartItemsCount", count);
                 }
             }
             else
@@ -79,15 +74,10 @@ namespace BlazorEcommerce.Client.Services.CartService
         {
             if (await _authService.IsUserAuthenticated())
             {
-                var result = await _http.GetFromJsonAsync<IResponse>($"{CartBaseURL}");
+                var result = await _http.GetFromJsonAsync<DataResponse<List<CartProductResponse>>>($"{CartBaseURL}");
                 if (result != null && result.Success)
                 {
-                    var resultCast = (DataResponse<List<CartProductResponse>>)result;
-
-                    if (resultCast != null)
-                    {
-                        return resultCast.Data;
-                    }
+                    return result.Data;
                 }
 
                 return new List<CartProductResponse>();
@@ -99,16 +89,11 @@ namespace BlazorEcommerce.Client.Services.CartService
                     return new List<CartProductResponse>();
                 var response = await _http.PostAsJsonAsync($"{CartBaseURL}products", cartItems);
                 var cartProducts = 
-                    await response.Content.ReadFromJsonAsync<IResponse>();
+                    await response.Content.ReadFromJsonAsync<DataResponse<List<CartProductResponse>>>();
 
                 if (cartProducts != null && cartProducts.Success)
                 {
-                    var resultCast = (DataResponse<List<CartProductResponse>>)cartProducts;
-
-                    if (resultCast != null)
-                    {
-                        return resultCast.Data;
-                    }
+                    return cartProducts.Data;
 
                 }
 

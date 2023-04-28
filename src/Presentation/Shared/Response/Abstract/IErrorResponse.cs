@@ -2,5 +2,5 @@
 
 public interface IErrorResponse : IResponse
 {
-    List<string> Errors { get; }
+    List<string> Messages { get; }
 }

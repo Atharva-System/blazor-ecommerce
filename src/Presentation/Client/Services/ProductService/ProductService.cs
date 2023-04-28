@@ -65,22 +65,17 @@ namespace BlazorEcommerce.Client.Services.ProductService
                 Message = "No products found.";
         }
 
-        public async Task<IResponse> GetProduct(int productId)
+        public async Task<DataResponse<ProductDto>> GetProduct(int productId)
         {
-            return await _http.GetFromJsonAsync<IResponse>($"{ProductBaseURL}{productId}");
+            return await _http.GetFromJsonAsync<DataResponse<ProductDto>>($"{ProductBaseURL}{productId}");
         }
 
         public async Task<ProductDto> GetProductDetails(int productId)
         {
-            var result = await _http.GetFromJsonAsync<IResponse>($"{ProductBaseURL}{productId}");
+            var result = await _http.GetFromJsonAsync<DataResponse<ProductDto>>($"{ProductBaseURL}{productId}");
             if (result != null && result.Success)
             {
-                var resultCast = (DataResponse<ProductDto>)result;
-
-                if (resultCast != null)
-                {
-                    return resultCast.Data;
-                }
+                return result.Data;
             }
             return null;
         }
@@ -88,17 +83,12 @@ namespace BlazorEcommerce.Client.Services.ProductService
         public async Task GetProducts(string? categoryUrl = null)
         {
             var result = categoryUrl == null ?
-                await _http.GetFromJsonAsync<IResponse>($"{ProductBaseURL}featured") :
-                await _http.GetFromJsonAsync<IResponse>($"{ProductBaseURL}category/{categoryUrl}");
+                await _http.GetFromJsonAsync<DataResponse<List<ProductDto>>>($"{ProductBaseURL}featured") :
+                await _http.GetFromJsonAsync<DataResponse<List<ProductDto>>>($"{ProductBaseURL}category/{categoryUrl}");
 
             if (result != null && result.Success)
             {
-                var resultCast = (DataResponse<List<ProductDto>>)result;
-
-                if (resultCast != null)
-                {
-                    Products = resultCast.Data;
-                }
+                Products = result.Data;
             }
 
             CurrentPage = 1;
@@ -154,16 +144,11 @@ namespace BlazorEcommerce.Client.Services.ProductService
         public async Task<ProductDto> UpdateProduct(ProductDto product)
         {
             var result = await _http.PutAsJsonAsync($"{ProductBaseURL}", product);
-            var content = await result.Content.ReadFromJsonAsync<IResponse>();
+            var content = await result.Content.ReadFromJsonAsync<DataResponse<ProductDto>>();
 
             if (content != null && content.Success)
             {
-                var resultCast = (DataResponse<ProductDto>)content;
-
-                if (resultCast != null)
-                {
-                    return resultCast.Data;
-                }
+                return content.Data;
 
             }
 
