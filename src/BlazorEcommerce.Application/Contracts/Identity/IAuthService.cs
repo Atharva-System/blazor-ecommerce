@@ -1,4 +1,4 @@
-﻿using BlazorEcommerce.Shared;
+﻿using BlazorEcommerce.Shared.User;
 
 namespace BlazorEcommerce.Application.Contracts.Identity;
 

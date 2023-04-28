@@ -2,7 +2,9 @@
 using BlazorEcommerce.Application.Model;
 using BlazorEcommerce.Identity.Contexts;
 using BlazorEcommerce.Identity.Service;
+using BlazorEcommerce.Persistence.Contexts;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,15 +21,11 @@ public static class ConfigureServices
 
         var connectionString = configuration.GetConnectionString("Default") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
-        services.AddDbContext<ApplicationDbContext>(options =>
+        services.AddDbContext<UserIdentityDbContext>(options =>
             options.UseSqlServer(connectionString));
 
-        services.AddScoped<ApplicationDbContextInitialiser>();
-
-        services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
-            .AddRoles<ApplicationRole>()
-            .AddEntityFrameworkStores<ApplicationDbContext>()
-            .AddClaimsPrincipalFactory<ApplicationUserClaimsPrincipalFactory>();
+        services.AddIdentity<ApplicationUser, IdentityRole>()
+               .AddEntityFrameworkStores<UserIdentityDbContext>().AddDefaultTokenProviders();
 
         services.AddAuthentication(options =>
         {
@@ -50,8 +48,8 @@ public static class ConfigureServices
         });
 
         services.AddScoped<IIdentityService, IdentityService>();
-
         services.AddScoped<IAuthService, AuthService>();
+        services.AddScoped<UserIdentityDbContextInitialiser>();
 
         return services;
     }

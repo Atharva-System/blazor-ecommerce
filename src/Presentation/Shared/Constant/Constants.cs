@@ -7,7 +7,6 @@ namespace BlazorEcommerce.Shared.Constant
         public static string AdminEmail => "admin@admin.com";
         public static string AdminName => "Admin";
         public static string AdminRoleName => "Admin";
-        public static string Identifier => "identifier";
     }
 
     public static class Messages

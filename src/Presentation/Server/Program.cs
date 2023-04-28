@@ -3,7 +3,6 @@ global using BlazorEcommerce.Shared.Response.Abstract;
 using BlazorEcommerce.Application;
 using BlazorEcommerce.Application.Contracts.Identity;
 using BlazorEcommerce.Identity;
-using BlazorEcommerce.Identity.Contexts;
 using BlazorEcommerce.Infrastructure;
 using BlazorEcommerce.Persistence;
 using BlazorEcommerce.Persistence.Contexts;
@@ -15,22 +14,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
-
-//builder.Services.AddOpenApiDocument(configure =>
-//{
-//    configure.Title = "CleanArchitecture API";
-//    //configure.AddSecurity("JWT", Enumerable.Empty<string>(),
-//    //    new OpenApiSecurityScheme
-//    //    {
-//    //        Type = OpenApiSecuritySchemeType.ApiKey,
-//    //        Name = "Authorization",
-//    //        In = OpenApiSecurityApiKeyLocation.Header,
-//    //        Description = "Type into the textbox: Bearer {your JWT token}."
-//    //    });
-
-//    //configure.OperationProcessors.Add(
-//    //    new AspNetCoreOperationSecurityScopeProcessor("JWT"));
-//});
 
 builder.Services.AddApplicationServices();
 builder.Services.AddIdentityServices(builder.Configuration);
@@ -51,9 +34,8 @@ using (var scope = app.Services.CreateScope())
 {
     try
     {
-        var initialiser = scope.ServiceProvider.GetRequiredService<ApplicationDbContextInitialiser>();
+        var initialiser = scope.ServiceProvider.GetRequiredService<UserIdentityDbContextInitialiser>();
         await initialiser.InitialiseAsync();
-        await initialiser.SeedAsync();
 
         var persistenceInitialiser = scope.ServiceProvider.GetRequiredService<PersistenceDbContextInitialiser>();
         await persistenceInitialiser.InitialiseAsync();

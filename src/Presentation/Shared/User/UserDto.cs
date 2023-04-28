@@ -1,4 +1,4 @@
-﻿namespace BlazorEcommerce.Shared.AccessControl;
+﻿namespace BlazorEcommerce.Shared.User;
 
 public class UserDto
 {

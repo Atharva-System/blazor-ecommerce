@@ -1,4 +1,5 @@
 ﻿using BlazorEcommerce.Application.UnitOfWork;
+using BlazorEcommerce.Persistence.Contexts;
 using BlazorEcommerce.Persistence.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -14,6 +15,8 @@ public static class ConfigureServices
 
         services.AddDbContext<PersistenceDataContext>(options =>
             options.UseSqlServer(connectionString));
+
+        services.AddScoped<PersistenceDbContextInitialiser>();
 
         services.AddScoped<IQueryUnitOfWork, QueryUnitOfWork>();
         services.AddScoped(typeof(ICommandUnitOfWork<>), typeof(CommandUnitOfWork<>));

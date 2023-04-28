@@ -1,29 +1,23 @@
 ﻿using Ardalis.GuardClauses;
 using BlazorEcommerce.Application.Contracts.Identity;
-using BlazorEcommerce.Shared;
-using BlazorEcommerce.Shared.AccessControl;
-using BlazorEcommerce.Shared.Authorization;
 using BlazorEcommerce.Shared.Common;
 using BlazorEcommerce.Shared.Constant;
 using BlazorEcommerce.Shared.Response.Abstract;
 using BlazorEcommerce.Shared.Response.Concrete;
+using BlazorEcommerce.Shared.User;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System.Text;
 
 namespace BlazorEcommerce.Identity.Service;
 
 public class IdentityService : IIdentityService
 {
     private readonly UserManager<ApplicationUser> _userManager;
-    private readonly RoleManager<ApplicationRole> _roleManager;
 
     public IdentityService(
-        UserManager<ApplicationUser> userManager,
-        RoleManager<ApplicationRole> roleManager)
+        UserManager<ApplicationUser> userManager)
     {
         _userManager = userManager;
-        _roleManager = roleManager;
     }
 
     public async Task<string> GetUserNameAsync(string userId)
@@ -78,31 +72,6 @@ public class IdentityService : IIdentityService
         return Result.Failure(result.Errors.Select(e => e.Description));
     }
 
-    public async Task<IList<RoleDto>> GetRolesAsync(CancellationToken cancellationToken)
-    {
-        var roles = await _roleManager.Roles
-            .ToListAsync(cancellationToken);
-
-        var result = roles
-            .Select(r => new RoleDto(r.Id, r.Name ?? string.Empty, r.Permissions))
-            .OrderBy(r => r.Name)
-            .ToList();
-
-        return result;
-    }
-
-    public async Task UpdateRolePermissionsAsync(string roleId, Permissions permissions)
-    {
-        var role = await _roleManager.FindByIdAsync(roleId);
-
-        if (role != null)
-        {
-            role.Permissions = permissions;
-
-            await _roleManager.UpdateAsync(role);
-        }
-    }
-
     public async Task<IList<UserDto>> GetUsersAsync(CancellationToken cancellationToken)
     {
         return await _userManager.Users
@@ -150,33 +119,6 @@ public class IdentityService : IIdentityService
         {
             await _userManager.RemoveFromRolesAsync(user, removedRoles);
         }
-    }
-
-    public async Task CreateRoleAsync(RoleDto newRole)
-    {
-        var role = new ApplicationRole { Name = newRole.Name };
-
-        await _roleManager.CreateAsync(role);
-    }
-
-    public async Task UpdateRoleAsync(RoleDto updatedRole)
-    {
-        var role = await _roleManager.FindByIdAsync(updatedRole.Id);
-
-        Guard.Against.NotFound(updatedRole.Id, role);
-
-        role.Name = updatedRole.Name;
-
-        await _roleManager.UpdateAsync(role);
-    }
-
-    public async Task DeleteRoleAsync(string roleId)
-    {
-        var role = await _roleManager.FindByIdAsync(roleId);
-
-        Guard.Against.NotFound(roleId, role);
-
-        await _roleManager.DeleteAsync(role);
     }
 
     public async Task<IResponse> ChangePassword(string userId, string currentPassword, string newPassword)

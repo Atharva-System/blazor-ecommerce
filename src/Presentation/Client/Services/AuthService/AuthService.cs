@@ -1,4 +1,4 @@
-﻿using BlazorEcommerce.Shared.Response.Abstract;
+﻿using BlazorEcommerce.Shared.User;
 using Microsoft.AspNetCore.Components.Authorization;
 
 namespace BlazorEcommerce.Client.Services.AuthService
@@ -16,7 +16,7 @@ namespace BlazorEcommerce.Client.Services.AuthService
 
         public async Task<IResponse> ChangePassword(UserChangePassword request)
         {
-            var result = await _http.PostAsJsonAsync($"{AuthBaseURL}change-password", request.Password);
+            var result = await _http.PostAsJsonAsync($"{AuthBaseURL}change-password", request);
             return await result.Content.ReadFromJsonAsync<IResponse>();
         }
 

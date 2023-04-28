@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace BlazorEcommerce.Shared
+namespace BlazorEcommerce.Shared.User
 {
     public class UserLogin
     {

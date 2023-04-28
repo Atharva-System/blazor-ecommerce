@@ -1,5 +1,6 @@
 ﻿using BlazorEcommerce.Application.Contracts.Identity;
 using BlazorEcommerce.Shared.Response.Abstract;
+using BlazorEcommerce.Shared.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -45,10 +46,10 @@ namespace BlazorEcommerce.Server.Controllers
 		}
 
 		[HttpPost("change-password"), Authorize]
-		public async Task<ActionResult<IResponse>> ChangePassword([FromBody] string currentPasswordPassword, [FromBody] string newPassword)
+		public async Task<ActionResult<IResponse>> ChangePassword([FromBody] UserChangePassword changePassword)
 		{
 			var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-			var response = await _identityService.ChangePassword(userId, currentPasswordPassword, newPassword);
+			var response = await _identityService.ChangePassword(userId, changePassword.CurrentPassword, changePassword.Password);
 
 			if (!response.Success)
 			{

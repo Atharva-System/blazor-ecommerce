@@ -1,9 +1,9 @@
 ﻿using BlazorEcommerce.Application.Contracts.Identity;
 using BlazorEcommerce.Application.Model;
-using BlazorEcommerce.Shared;
 using BlazorEcommerce.Shared.Constant;
 using BlazorEcommerce.Shared.Response.Abstract;
 using BlazorEcommerce.Shared.Response.Concrete;
+using BlazorEcommerce.Shared.User;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;

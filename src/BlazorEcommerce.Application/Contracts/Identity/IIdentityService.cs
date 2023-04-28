@@ -1,6 +1,4 @@
-﻿using BlazorEcommerce.Shared;
-using BlazorEcommerce.Shared.AccessControl;
-using BlazorEcommerce.Shared.Authorization;
+﻿using BlazorEcommerce.Shared.User;
 
 namespace BlazorEcommerce.Application.Contracts.Identity;
 
@@ -14,21 +12,11 @@ public interface IIdentityService
 
     Task<Result> DeleteUserAsync(string userId);
 
-    Task<IList<RoleDto>> GetRolesAsync(CancellationToken cancellationToken);
-
-    Task UpdateRolePermissionsAsync(string roleId, Permissions permissions);
-
     Task<IList<UserDto>> GetUsersAsync(CancellationToken cancellationToken);
 
     Task<UserDto> GetUserAsync(string id);
 
     Task UpdateUserAsync(UserDto updatedUser);
-
-    Task CreateRoleAsync(RoleDto newRole);
-
-    Task UpdateRoleAsync(RoleDto updatedRole);
-
-    Task DeleteRoleAsync(string roleId);
 
     Task<IResponse> ChangePassword(string userId, string currentPassword, string newPassword);
 }
