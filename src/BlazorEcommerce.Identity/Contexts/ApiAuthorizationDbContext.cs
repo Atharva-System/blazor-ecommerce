@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace BlazorEcommerce.Identity.Data;
+namespace BlazorEcommerce.Identity.Contexts;
 
 public class ApiAuthorizationDbContext<TUser, TRole> : IdentityDbContext<TUser, TRole, string> where TUser : IdentityUser where TRole : IdentityRole
 {

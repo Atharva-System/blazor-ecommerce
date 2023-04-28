@@ -28,6 +28,11 @@ namespace BlazorEcommerce.Server.Contexts
 
         public DbSet<Image> Images { get; set; }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            base.OnConfiguring(optionsBuilder);
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<CartItem>()
@@ -40,6 +45,8 @@ namespace BlazorEcommerce.Server.Contexts
                 .HasKey(oi => new { oi.OrderId, oi.ProductId, oi.ProductTypeId });
 
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+
+            modelBuilder.Entity<Address>().HasQueryFilter(x => !x.IsDeleted);
 
             base.OnModelCreating(modelBuilder);
         }

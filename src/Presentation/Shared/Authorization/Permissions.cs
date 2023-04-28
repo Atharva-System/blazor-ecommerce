@@ -10,8 +10,5 @@ public enum Permissions
     ManageUsers = 8,
     ConfigureAccessControl = 16,
     ViewAccessControl = 32,
-    Counter = 64,
-    Forecast = 128,
-    Todo = 256,
     All = ~None
 }

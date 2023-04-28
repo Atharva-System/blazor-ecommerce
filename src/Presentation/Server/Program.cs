@@ -3,8 +3,10 @@ global using BlazorEcommerce.Shared.Response.Abstract;
 using BlazorEcommerce.Application;
 using BlazorEcommerce.Application.Contracts.Identity;
 using BlazorEcommerce.Identity;
+using BlazorEcommerce.Identity.Contexts;
 using BlazorEcommerce.Infrastructure;
 using BlazorEcommerce.Persistence;
+using BlazorEcommerce.Persistence.Contexts;
 using BlazorEcommerce.Server.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -43,6 +45,27 @@ builder.Services.AddScoped<ICurrentUser, CurrentUser>();
 builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
+
+// Initialise and seed the database
+using (var scope = app.Services.CreateScope())
+{
+    try
+    {
+        var initialiser = scope.ServiceProvider.GetRequiredService<ApplicationDbContextInitialiser>();
+        await initialiser.InitialiseAsync();
+        await initialiser.SeedAsync();
+
+        var persistenceInitialiser = scope.ServiceProvider.GetRequiredService<PersistenceDbContextInitialiser>();
+        await persistenceInitialiser.InitialiseAsync();
+    }
+    catch (Exception ex)
+    {
+        var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "An error occurred during database initialisation.");
+
+        throw;
+    }
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

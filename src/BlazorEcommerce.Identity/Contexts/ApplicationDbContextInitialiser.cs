@@ -1,8 +1,9 @@
 ﻿using BlazorEcommerce.Shared.Authorization;
+using BlazorEcommerce.Shared.Constant;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace BlazorEcommerce.Identity.Data;
+namespace BlazorEcommerce.Identity.Contexts;
 
 public class ApplicationDbContextInitialiser
 {
@@ -70,8 +71,7 @@ public class ApplicationDbContextInitialiser
                 Name = UserRole,
                 NormalizedName = UserRole.ToUpper(),
                 Permissions =
-                    Permissions.ViewUsers |
-                    Permissions.Counter
+                    Permissions.ViewUsers
             });
 
         // Ensure admin role has all permissions
@@ -80,7 +80,7 @@ public class ApplicationDbContextInitialiser
         await _roleManager.UpdateAsync(adminRole);
 
         // Create default admin user
-        var adminUserName = "admin@admin.com";
+        var adminUserName = Constants.AdminEmail;
         var adminUser = new ApplicationUser { UserName = adminUserName, Email = adminUserName };
 
         await _userManager.CreateAsync(adminUser, DefaultPassword);

@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Reflection;
 
-namespace BlazorEcommerce.Identity.Data;
+namespace BlazorEcommerce.Identity.Contexts;
 
 public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser, ApplicationRole>
 {

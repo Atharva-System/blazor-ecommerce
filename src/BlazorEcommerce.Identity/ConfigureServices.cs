@@ -1,6 +1,6 @@
 ﻿using BlazorEcommerce.Application.Contracts.Identity;
 using BlazorEcommerce.Application.Model;
-using BlazorEcommerce.Identity.Data;
+using BlazorEcommerce.Identity.Contexts;
 using BlazorEcommerce.Identity.Service;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;

@@ -1,5 +1,4 @@
-﻿using BlazorEcommerce.Domain.Entities;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace BlazorEcommerce.Persistence.DataSeed;
@@ -8,6 +7,8 @@ public class ProductVariantSeed : IEntityTypeConfiguration<ProductVariant>
 {
     public void Configure(EntityTypeBuilder<ProductVariant> builder)
     {
+        builder.HasQueryFilter(x => !x.IsDeleted);
+
         builder.HasData(
                 new ProductVariant
                 {
