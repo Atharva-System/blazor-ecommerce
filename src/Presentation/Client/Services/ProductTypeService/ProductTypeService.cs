@@ -1,47 +1,70 @@
-﻿namespace BlazorEcommerce.Client.Services.ProductTypeService
+﻿namespace BlazorEcommerce.Client.Services.ProductTypeService;
+
+public class ProductTypeService : IProductTypeService
 {
-    public class ProductTypeService : IProductTypeService
+    private readonly HttpClient _http;
+    private const string ProductTypeBaseURL = "api/producttype/";
+
+    public ProductTypeService(HttpClient http)
     {
-        private readonly HttpClient _http;
+        _http = http;
+    }
 
-        public ProductTypeService(HttpClient http)
+    public List<ProductTypeDto> ProductTypes { get; set; } = new List<ProductTypeDto>();
+
+    public event Action OnChange;
+
+    public async Task AddProductType(ProductTypeDto productType)
+    {
+        var response = await _http.PostAsJsonAsync($"{ProductTypeBaseURL}", productType);
+        var result = (await response.Content
+            .ReadFromJsonAsync<IResponse>());
+
+        if (result != null && result.Success)
         {
-            _http = http;
-        }
+            var responseCast = (DataResponse<List<ProductTypeDto>>)result;
 
-        public List<ProductType> ProductTypes { get; set; } = new List<ProductType>();
+            ProductTypes = responseCast.Data;
 
-        public event Action OnChange;
-
-        public async Task AddProductType(ProductType productType)
-        {
-            var response = await _http.PostAsJsonAsync("api/producttype", productType);
-            ProductTypes = (await response.Content
-                .ReadFromJsonAsync<ServiceResponse<List<ProductType>>>()).Data;
             OnChange.Invoke();
         }
+    }
 
-        public ProductType CreateNewProductType()
+    public ProductTypeDto CreateNewProductType()
+    {
+        var newProductType = new ProductTypeDto { IsNew = true, Editing = true };
+
+        ProductTypes.Add(newProductType);
+        OnChange.Invoke();
+        return newProductType;
+    }
+
+    public async Task GetProductTypes()
+    {
+        var result = await _http
+            .GetFromJsonAsync<IResponse>($"{ProductTypeBaseURL}");
+
+        if (result != null && result.Success)
         {
-            var newProductType = new ProductType { IsNew = true, Editing = true };
+            var responseCast = (DataResponse<List<ProductTypeDto>>)result;
 
-            ProductTypes.Add(newProductType);
-            OnChange.Invoke();
-            return newProductType;
+            ProductTypes = responseCast.Data;
+
         }
+    }
 
-        public async Task GetProductTypes()
-        {
-            var result = await _http
-                .GetFromJsonAsync<ServiceResponse<List<ProductType>>>("api/producttype");
-            ProductTypes = result.Data;
-        }
+    public async Task UpdateProductType(ProductTypeDto productType)
+    {
+        var response = await _http.PutAsJsonAsync($"{ProductTypeBaseURL}", productType);
+        var result = (await response.Content
+            .ReadFromJsonAsync<IResponse>());
 
-        public async Task UpdateProductType(ProductType productType)
+        if (result != null && result.Success)
         {
-            var response = await _http.PutAsJsonAsync("api/producttype", productType);
-            ProductTypes = (await response.Content
-                .ReadFromJsonAsync<ServiceResponse<List<ProductType>>>()).Data;
+            var responseCast = (DataResponse<List<ProductTypeDto>>)result;
+
+            ProductTypes = responseCast.Data;
+
             OnChange.Invoke();
         }
     }

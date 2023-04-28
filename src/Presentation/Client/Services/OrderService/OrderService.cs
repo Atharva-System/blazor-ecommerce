@@ -8,6 +8,8 @@ namespace BlazorEcommerce.Client.Services.OrderService
         private readonly HttpClient _http;
         private readonly AuthenticationStateProvider _authStateProvider;
         private readonly NavigationManager _navigationManager;
+        private const string OrderBaseURL = "api/order/";
+        private const string PaymentBaseURL = "api/payment/";
 
         public OrderService(HttpClient http,
             AuthenticationStateProvider authStateProvider,
@@ -20,21 +22,53 @@ namespace BlazorEcommerce.Client.Services.OrderService
 
         public async Task<OrderDetailsResponse> GetOrderDetails(int orderId)
         {
-            var result = await _http.GetFromJsonAsync<ServiceResponse<OrderDetailsResponse>>($"api/order/{orderId}");
-            return result.Data;
+            var result = await _http.GetFromJsonAsync<IResponse>($"{OrderBaseURL}{orderId}");
+
+            if (result != null && result.Success)
+            {
+                var resultCast = (DataResponse<OrderDetailsResponse>)result;
+                if (resultCast != null)
+                {
+                    return resultCast.Data;
+                }
+                else
+                {
+                    return new OrderDetailsResponse();
+                }
+            }
+            else
+            {
+                return new OrderDetailsResponse();
+            }
         }
 
         public async Task<List<OrderOverviewResponse>> GetOrders()
         {
-            var result = await _http.GetFromJsonAsync<ServiceResponse<List<OrderOverviewResponse>>>("api/order");
-            return result.Data;
+            var result = await _http.GetFromJsonAsync<IResponse>($"{OrderBaseURL}");
+
+            if (result != null && result.Success)
+            {
+                var resultCast = (DataResponse<List<OrderOverviewResponse>>)result;
+                if (resultCast != null)
+                {
+                    return resultCast.Data;
+                }
+                else
+                {
+                    return new List<OrderOverviewResponse>();
+                }
+            }
+            else
+            {
+                return new List<OrderOverviewResponse>();
+            }
         }
 
         public async Task<string> PlaceOrder()
         {
             if (await IsUserAuthenticated())
             {
-                var result = await _http.PostAsync("api/payment/checkout", null);
+                var result = await _http.PostAsync($"{PaymentBaseURL}checkout", null);
                 var url = await result.Content.ReadAsStringAsync();
                 return url;
             }

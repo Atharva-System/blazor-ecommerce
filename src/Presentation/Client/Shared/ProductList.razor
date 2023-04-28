@@ -52,7 +52,7 @@ else
         ProductService.ProductsChanged -= StateHasChanged;
     }
 
-    private string GetPriceText(Product product)
+    private string GetPriceText(ProductDto product)
     {
         var variants = product.Variants;
         if (variants.Count == 0)

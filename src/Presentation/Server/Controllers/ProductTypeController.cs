@@ -1,4 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using BlazorEcommerce.Application.Features.Category.Commands.UpdateCategory;
+using BlazorEcommerce.Application.Features.Category.Query.GetCategories;
+using BlazorEcommerce.Application.Features.ProductType.Command.AddProductType;
+using BlazorEcommerce.Shared.Response.Concrete;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BlazorEcommerce.Server.Controllers
@@ -7,31 +11,42 @@ namespace BlazorEcommerce.Server.Controllers
     [ApiController]
     public class ProductTypeController : ControllerBase
     {
-        private readonly IProductTypeService _productTypeService;
+        private readonly IMediator _mediator;
 
-        public ProductTypeController(IProductTypeService productTypeService)
+        public ProductTypeController(IMediator mediator)
         {
-            _productTypeService = productTypeService;
+            _mediator = mediator;
         }
 
         [HttpGet]
-        public async Task<ActionResult<ServiceResponse<List<ProductType>>>> GetProductTypes()
+        public async Task<ActionResult<IResponse>> GetProductTypes()
         {
-            var response = await _productTypeService.GetProductTypes();
+            var response = await _mediator.Send(new GetAllProductTypeQueryRequest());
             return Ok(response);
         }
 
         [HttpPost]
-        public async Task<ActionResult<ServiceResponse<List<ProductType>>>> AddProductType(ProductType productType)
+        public async Task<ActionResult<IResponse>> AddProductType(ProductTypeDto productType)
         {
-            var response = await _productTypeService.AddProductType(productType);
+            await _mediator.Send(new AddProductTypeCommandRequest(productType));
+
+            var response = await _mediator.Send(new GetAllProductTypeQueryRequest());
             return Ok(response);
         }
 
         [HttpPut]
-        public async Task<ActionResult<ServiceResponse<List<ProductType>>>> UpdateProductType(ProductType productType)
+        public async Task<ActionResult<IResponse>> UpdateProductType(ProductTypeDto productType)
         {
-            var response = await _productTypeService.UpdateProductType(productType);
+            var result = await _mediator.Send(new UpdateProductTypeCommandRequest(productType));
+
+            if (!result.Success)
+            {
+                var responseCast = (ErrorResponse)result;
+
+                return new DataResponse<List<ProductTypeDto>>(new List<ProductTypeDto>(), responseCast.StatusCode, responseCast.Errors.FirstOrDefault());
+            }
+
+            var response = await _mediator.Send(new GetAllProductTypeQueryRequest());
             return Ok(response);
         }
     }

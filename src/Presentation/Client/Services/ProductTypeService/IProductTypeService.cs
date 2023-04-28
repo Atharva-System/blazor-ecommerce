@@ -3,10 +3,10 @@
     public interface IProductTypeService
     {
         event Action OnChange;
-        public List<ProductType> ProductTypes { get; set; }
+        public List<ProductTypeDto> ProductTypes { get; set; }
         Task GetProductTypes();
-        Task AddProductType(ProductType productType);
-        Task UpdateProductType(ProductType productType);
-        ProductType CreateNewProductType();
+        Task AddProductType(ProductTypeDto productType);
+        Task UpdateProductType(ProductTypeDto productType);
+        ProductTypeDto CreateNewProductType();
     }
 }

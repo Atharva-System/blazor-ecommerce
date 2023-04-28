@@ -1,6 +1,4 @@
-﻿using BlazorEcommerce.Shared;
-
-namespace BlazorEcommerce.Application.MappingProfıles;
+﻿namespace BlazorEcommerce.Application.MappingProfıles;
 
 public class AddressProfile : Profile
 {

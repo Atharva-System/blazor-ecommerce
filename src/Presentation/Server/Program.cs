@@ -1,12 +1,5 @@
-global using BlazorEcommerce.Server.Data;
-global using BlazorEcommerce.Server.Services.CartService;
-global using BlazorEcommerce.Server.Services.OrderService;
-global using BlazorEcommerce.Server.Services.PaymentService;
-global using BlazorEcommerce.Server.Services.ProductService;
-global using BlazorEcommerce.Server.Services.ProductTypeService;
 global using BlazorEcommerce.Shared;
 global using BlazorEcommerce.Shared.Response.Abstract;
-global using Microsoft.EntityFrameworkCore;
 using BlazorEcommerce.Application;
 using BlazorEcommerce.Application.Contracts.Identity;
 using BlazorEcommerce.Identity;
@@ -17,11 +10,6 @@ using BlazorEcommerce.Server.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
-builder.Services.AddDbContext<DataContext>(options =>
-{
-    options.UseSqlServer(builder.Configuration.GetConnectionString("Default"));
-});  
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
@@ -51,12 +39,6 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<ICurrentUser, CurrentUser>();
-
-builder.Services.AddScoped<IProductService, ProductService>();
-builder.Services.AddScoped<ICartService, CartService>();
-builder.Services.AddScoped<IOrderService, OrderService>();
-builder.Services.AddScoped<IPaymentService, PaymentService>();
-builder.Services.AddScoped<IProductTypeService, ProductTypeService>();
 
 builder.Services.AddHttpContextAccessor();
 

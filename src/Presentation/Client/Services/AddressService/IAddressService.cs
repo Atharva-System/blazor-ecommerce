@@ -1,6 +1,4 @@
-﻿using BlazorEcommerce.Shared.Response.Abstract;
-
-namespace BlazorEcommerce.Client.Services.AddressService
+﻿namespace BlazorEcommerce.Client.Services.AddressService
 {
     public interface IAddressService
     {

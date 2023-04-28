@@ -1,7 +1,4 @@
-﻿using BlazorEcommerce.Shared.Response.Abstract;
-using BlazorEcommerce.Shared.Response.Concrete;
-
-namespace BlazorEcommerce.Client.Services.AddressService
+﻿namespace BlazorEcommerce.Client.Services.AddressService
 {
     public class AddressService : IAddressService
     {
@@ -17,7 +14,7 @@ namespace BlazorEcommerce.Client.Services.AddressService
         {
             var response = await _http.PostAsJsonAsync($"{AddressBaseURL}", address);
             var result = response.Content
-                .ReadFromJsonAsync<ServiceResponse<AddressDto>>().Result;
+                .ReadFromJsonAsync<IResponse>().Result;
 
             if (result != null && result.Success)
             {

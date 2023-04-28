@@ -55,7 +55,7 @@ else
                             <br />
                         }
                     </td>
-                    <td>@(product.Visible ? "✔️" : "")</td>
+                    <td>@(product.IsDeleted ? "✔️" : "")</td>
                     <td>
                         <button class="btn btn-primary" @onclick="(() => EditProduct(product.Id))">
                             <i class="oi oi-pencil"></i>

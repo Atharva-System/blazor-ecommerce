@@ -6,7 +6,7 @@ namespace BlazorEcommerce.Shared.Constant
     {
         public static string AdminEmail => "admin@admin.com";
         public static string AdminName => "Admin";
-
+        public static string AdminRoleName => "Admin";
         public static string Identifier => "identifier";
     }
 
@@ -29,6 +29,7 @@ namespace BlazorEcommerce.Shared.Constant
         public static string PasswordDontMatchWithConfirmation => "Password doesn't match its confirmation";
         public static string RegisterSuccessfully => "Register successfuly please look at your mail box for account confirmation.";
         public static string NotFound => "{0} Not Found";
+        public static string NotExist => "{0} does not exist";
         public static string AlreadyEmailConfirmed => "Already your email confirmed";
         public static string SuccessfullyEmailConfirmed => "Email confirmed successfully.You can login now";
         public static string RefreshTokenExpired => "Refresh Token Expired";
@@ -42,6 +43,8 @@ namespace BlazorEcommerce.Shared.Constant
         public static string IsRequired => "{0} is required";
         public static string AlreadyExists => "{0} already exist";
         public static string MaxCharLimit => "{0} is exceeding the limit of {1} characters.";
+
+        public static string CartIte => "{0} is exceeding the limit of {1} characters.";
     }
 
     public static class HttpStatusCodes

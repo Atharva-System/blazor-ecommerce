@@ -22,21 +22,21 @@ public class CategoryController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<DataResponse<List<CategoryDto>>>> GetCategories()
+    public async Task<ActionResult<IResponse>> GetCategories()
     {
         var response = await _mediator.Send(new GetAllCategoryQueryRequest());
         return Ok(response);
     }
 
     [HttpGet("admin"), Authorize(Roles = "Admin")]
-    public async Task<ActionResult<DataResponse<List<CategoryDto>>>> GetAdminCategories()
+    public async Task<ActionResult<IResponse>> GetAdminCategories()
     {
         var response = await _mediator.Send(new GetAllCategoryQueryRequest(true));
         return Ok(response);
     }
 
     [HttpDelete("admin/{id}"), Authorize(Roles = "Admin")]
-    public async Task<ActionResult<DataResponse<List<CategoryDto>>>> DeleteCategory(int id)
+    public async Task<ActionResult<IResponse>> DeleteCategory(int id)
     {
         var result = await _mediator.Send(new DeleteCategoryCommandRequest(id));
 
@@ -52,7 +52,7 @@ public class CategoryController : ControllerBase
     }
 
     [HttpPost("admin"), Authorize(Roles = "Admin")]
-    public async Task<ActionResult<DataResponse<List<CategoryDto>>>> AddCategory(CategoryDto category)
+    public async Task<ActionResult<IResponse>> AddCategory(CategoryDto category)
     {
         await _mediator.Send(new AddCategoryCommandRequest(category));
 
@@ -61,7 +61,7 @@ public class CategoryController : ControllerBase
     }
 
     [HttpPut("admin"), Authorize(Roles = "Admin")]
-    public async Task<ActionResult<DataResponse<List<CategoryDto>>>> UpdateCategory(CategoryDto category)
+    public async Task<ActionResult<IResponse>> UpdateCategory(CategoryDto category)
     {
         var result = await _mediator.Send(new UpdateCategoryCommandRequest(category));
 

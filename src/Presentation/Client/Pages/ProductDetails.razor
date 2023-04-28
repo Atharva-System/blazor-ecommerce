@@ -58,7 +58,7 @@ else
 }
 
 @code {
-    private Product? product = null;
+    private ProductDto? product = null;
     private string message = string.Empty;
     private int currentTypeId = 1;
 
@@ -70,21 +70,30 @@ else
         message = "Loading product...";
 
         var result = await ProductService.GetProduct(Id);
-        if (!result.Success)
+
+        if (result != null && result.Success)
         {
-            message = result.Message;
-        }
-        else
-        {
-            product = result.Data;
-            if (product.Variants.Count > 0)
+            var resultCast = (DataResponse<ProductDto>)result;
+
+            if (resultCast != null)
             {
-                currentTypeId = product.Variants[0].ProductTypeId;
+                if (result.Success)
+                {
+                    product = resultCast.Data;
+                    if (product.Variants.Count > 0)
+                    {
+                        currentTypeId = product.Variants[0].ProductTypeId;
+                    }
+                }
+                else
+                {
+                    message = resultCast.Message;
+                }
             }
         }
     }
 
-    private ProductVariant GetSelectedVariant()
+    private ProductVariantDto GetSelectedVariant()
     {
         var variant = product.Variants.FirstOrDefault(v => v.ProductTypeId == currentTypeId);
         return variant;
@@ -93,7 +102,7 @@ else
     private async Task AddToCart()
     {
         var productVariant = GetSelectedVariant();
-        var cartItem = new CartItem
+        var cartItem = new CartItemDto
             {
                 ProductId = productVariant.ProductId,
                 ProductTypeId = productVariant.ProductTypeId

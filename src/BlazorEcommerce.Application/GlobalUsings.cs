@@ -12,3 +12,4 @@ global using AutoMapper;
 global using BlazorEcommerce.Shared.Response.Concrete;
 global using BlazorEcommerce.Shared.Response.Abstract;
 global using BlazorEcommerce.Shared.Constant;
+global using BlazorEcommerce.Shared;

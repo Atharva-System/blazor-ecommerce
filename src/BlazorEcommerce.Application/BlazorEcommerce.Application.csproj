@@ -21,11 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\Cart\" />
-    <Folder Include="Features\ProductType\" />
-    <Folder Include="Features\Product\" />
     <Folder Include="Features\Payment\" />
-    <Folder Include="Features\Order\" />
   </ItemGroup>
 
 </Project>

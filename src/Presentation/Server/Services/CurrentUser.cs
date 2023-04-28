@@ -19,4 +19,13 @@ public class CurrentUser : ICurrentUser
     public string? UserEmail => _httpContextAccessor.HttpContext?
                            .User?
                            .FindFirstValue(ClaimTypes.Name);
+
+    public bool UserIsInRole(string roleName)
+    {
+        if (_httpContextAccessor != null && _httpContextAccessor.HttpContext != null && _httpContextAccessor.HttpContext.User != null)
+        {
+            return _httpContextAccessor.HttpContext.User.IsInRole(roleName);
+        }
+        return false;
+    }
 }

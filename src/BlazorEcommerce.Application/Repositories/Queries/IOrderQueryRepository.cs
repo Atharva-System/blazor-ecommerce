@@ -2,4 +2,5 @@
 
 public interface IOrderQueryRepository : IQueryRepository<Order, int>
 {
+    Task<Order> GetOrderDetails(string userId,int id);
 }

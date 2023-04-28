@@ -1,4 +1,16 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using BlazorEcommerce.Application.Features.Product.Command.CreateProduct;
+using BlazorEcommerce.Application.Features.Product.Command.DeleteProduct;
+using BlazorEcommerce.Application.Features.Product.Command.UpdateProduct;
+using BlazorEcommerce.Application.Features.Product.Query.GetAdminProducts;
+using BlazorEcommerce.Application.Features.Product.Query.GetFeaturedProducts;
+using BlazorEcommerce.Application.Features.Product.Query.GetProductById;
+using BlazorEcommerce.Application.Features.Product.Query.GetProducts;
+using BlazorEcommerce.Application.Features.Product.Query.GetProductsByCategory;
+using BlazorEcommerce.Application.Features.Product.Query.GetProductSearchSuggestions;
+using BlazorEcommerce.Application.Features.Product.Query.SearchProducts;
+using BlazorEcommerce.Shared.Product;
+using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BlazorEcommerce.Server.Controllers
@@ -7,81 +19,81 @@ namespace BlazorEcommerce.Server.Controllers
     [ApiController]
     public class ProductController : ControllerBase
     {
-        private readonly IProductService _productService;
+        private readonly IMediator _mediator;
 
-        public ProductController(IProductService productService)
+        public ProductController(IMediator mediator)
         {
-            _productService = productService;
+            _mediator = mediator;
         }
 
         [HttpGet("admin"), Authorize(Roles = "Admin")]
-        public async Task<ActionResult<ServiceResponse<List<Product>>>> GetAdminProducts()
+        public async Task<ActionResult<IResponse>> GetAdminProducts()
         {
-            var result = await _productService.GetAdminProducts();
-            return Ok(result);
+            var response = await _mediator.Send(new GetAdminProductsQueryRequest());
+            return Ok(response);
         }
 
         [HttpPost, Authorize(Roles = "Admin")]
-        public async Task<ActionResult<ServiceResponse<Product>>> CreateProduct(Product product)
+        public async Task<ActionResult<IResponse>> CreateProduct(ProductDto product)
         {
-            var result = await _productService.CreateProduct(product);
-            return Ok(result);
+            var response = await _mediator.Send(new CreateProductCommandRequest(product));
+            return Ok(response);
         }
 
         [HttpPut, Authorize(Roles = "Admin")]
-        public async Task<ActionResult<ServiceResponse<Product>>> UpdateProduct(Product product)
+        public async Task<ActionResult<IResponse>> UpdateProduct(ProductDto product)
         {
-            var result = await _productService.UpdateProduct(product);
-            return Ok(result);
+            var response = await _mediator.Send(new UpdateProductCommandRequest(product));
+            return Ok(response);
         }
 
         [HttpDelete("{id}"), Authorize(Roles = "Admin")]
-        public async Task<ActionResult<ServiceResponse<bool>>> DeleteProduct(int id)
+        public async Task<ActionResult<IResponse>> DeleteProduct(int id)
         {
-            var result = await _productService.DeleteProduct(id);
-            return Ok(result);
+            var response = await _mediator.Send(new DeleteProductCommandRequest(id));
+            return Ok(response);
         }
 
         [HttpGet]
-        public async Task<ActionResult<ServiceResponse<List<Product>>>> GetProducts()
+        public async Task<ActionResult<IResponse>> GetProducts()
         {
-            var result = await _productService.GetProductsAsync();
-            return Ok(result);
+            var response = await _mediator.Send(new GetProductsQueryRequest());
+            return Ok(response);
         }
 
         [HttpGet("{productId}")]
-        public async Task<ActionResult<ServiceResponse<Product>>> GetProduct(int productId)
+        public async Task<ActionResult<IResponse>> GetProduct(int productId)
         {
-            var result = await _productService.GetProductAsync(productId);
-            return Ok(result);
+            var response = await _mediator.Send(new GetProductByIdQueryRequest(productId));
+            return Ok(response);
         }
 
         [HttpGet("category/{categoryUrl}")]
-        public async Task<ActionResult<ServiceResponse<List<Product>>>> GetProductsByCategory(string categoryUrl)
+        public async Task<ActionResult<IResponse>> GetProductsByCategory(string categoryUrl)
         {
-            var result = await _productService.GetProductsByCategory(categoryUrl);
-            return Ok(result);
+            var response = await _mediator.Send(new GetProductsByCategoryQueryRequest(categoryUrl));
+            return Ok(response);
         }
 
         [HttpGet("search/{searchText}/{page}")]
-        public async Task<ActionResult<ServiceResponse<ProductSearchResult>>> SearchProducts(string searchText, int page = 1)
+        public async Task<ActionResult<IResponse>> SearchProducts(string searchText, int page = 1)
         {
-            var result = await _productService.SearchProducts(searchText, page);
-            return Ok(result);
+            var response = await _mediator.Send(new SearchProductsQueryRequest(searchText,page));
+            return Ok(response);
         }
 
         [HttpGet("searchsuggestions/{searchText}")]
-        public async Task<ActionResult<ServiceResponse<List<Product>>>> GetProductSearchSuggestions(string searchText)
+        public async Task<ActionResult<IResponse>> GetProductSearchSuggestions(string searchText)
         {
-            var result = await _productService.GetProductSearchSuggestions(searchText);
-            return Ok(result);
+            var response = await _mediator.Send(new GetProductSearchSuggestionsQueryRequest(searchText));
+            return Ok(response);
         }
 
         [HttpGet("featured")]
-        public async Task<ActionResult<ServiceResponse<List<Product>>>> GetFeaturedProducts()
+        public async Task<ActionResult<IResponse>> GetFeaturedProducts()
         {
-            var result = await _productService.GetFeaturedProducts();
-            return Ok(result);
+            var response = await _mediator.Send(new GetFeaturedProductsQueryRequest());
+            return Ok(response);
         }
     }
 }

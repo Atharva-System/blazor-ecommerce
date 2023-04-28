@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BlazorEcommerce.Application.Features.Order.Query.GetOrder;
+using BlazorEcommerce.Application.Features.Order.Query.GetOrderDetails;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BlazorEcommerce.Server.Controllers
 {
@@ -6,25 +9,25 @@ namespace BlazorEcommerce.Server.Controllers
     [ApiController]
     public class OrderController : ControllerBase
     {
-        private readonly IOrderService _orderService;
+        private readonly IMediator _mediator;
 
-        public OrderController(IOrderService orderService)
+        public OrderController(IMediator mediator)
         {
-            _orderService = orderService;
+            _mediator = mediator;
         }
 
         [HttpGet]
-        public async Task<ActionResult<ServiceResponse<List<OrderOverviewResponse>>>> GetOrders()
+        public async Task<ActionResult<IResponse>> GetOrders()
         {
-            var result = await _orderService.GetOrders();
-            return Ok(result);
+            var response = await _mediator.Send(new GetOrderQueryRequest());
+            return Ok(response);
         }
 
         [HttpGet("{orderId}")]
-        public async Task<ActionResult<ServiceResponse<OrderDetailsResponse>>> GetOrdersDetails(int orderId)
+        public async Task<ActionResult<IResponse>> GetOrdersDetails(int orderId)
         {
-            var result = await _orderService.GetOrderDetails(orderId);
-            return Ok(result);
+            var response = await _mediator.Send(new GetOrderDeatilsQueryRequest(orderId));
+            return Ok(response);
         }
     }
 }
