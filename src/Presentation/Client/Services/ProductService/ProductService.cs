@@ -25,16 +25,11 @@ namespace BlazorEcommerce.Client.Services.ProductService
         {
             var result = await _http.PostAsJsonAsync($"{ProductBaseURL}", product);
             var newProductResponse = await result.Content
-                .ReadFromJsonAsync<IResponse>();
+                .ReadFromJsonAsync<DataResponse<ProductDto>>();
 
             if (newProductResponse != null && newProductResponse.Success)
             {
-                var resultCast = (DataResponse<ProductDto>)newProductResponse;
-
-                if (resultCast != null)
-                {
-                    return resultCast.Data;
-                }
+                return newProductResponse.Data;
             }
             return new ProductDto();
         }
@@ -47,16 +42,11 @@ namespace BlazorEcommerce.Client.Services.ProductService
         public async Task GetAdminProducts()
         {
             var result = await _http
-                .GetFromJsonAsync<IResponse>($"{ProductBaseURL}admin");
+                .GetFromJsonAsync<DataResponse<List<ProductDto>>>($"{ProductBaseURL}admin");
 
             if (result != null && result.Success)
             {
-                var resultCast = (DataResponse<List<ProductDto>>)result;
-
-                if (resultCast != null)
-                {
-                    AdminProducts = resultCast.Data;
-                }
+                AdminProducts = result.Data;
             }
 
             CurrentPage = 1;
@@ -103,16 +93,11 @@ namespace BlazorEcommerce.Client.Services.ProductService
         public async Task<List<string>> GetProductSearchSuggestions(string searchText)
         {
             var result = await _http
-                .GetFromJsonAsync<IResponse>($"{ProductBaseURL}searchsuggestions/{searchText}");
+                .GetFromJsonAsync<DataResponse<List<string>>>($"{ProductBaseURL}searchsuggestions/{searchText}");
 
             if (result != null && result.Success)
             {
-                var resultCast = (DataResponse<List<string>>)result;
-
-                if (resultCast != null)
-                {
-                    return resultCast.Data;
-                }
+                return result.Data;
             }
 
             return new List<string>();
@@ -122,18 +107,12 @@ namespace BlazorEcommerce.Client.Services.ProductService
         {
             LastSearchText = searchText;
             var result = await _http
-                 .GetFromJsonAsync<IResponse>($"{ProductBaseURL}search/{searchText}/{page}");
+                 .GetFromJsonAsync<DataResponse<ProductSearchResult>>($"{ProductBaseURL}search/{searchText}/{page}");
             if (result != null && result.Success)
             {
-                var resultCast = (DataResponse<ProductSearchResult>)result;
-
-                if (resultCast != null)
-                {
-                    Products = resultCast.Data.Products;
-                    CurrentPage = resultCast.Data.CurrentPage;
-                    PageCount = resultCast.Data.Pages;
-                }
-
+                Products = result.Data.Products;
+                CurrentPage = result.Data.CurrentPage;
+                PageCount = result.Data.Pages;
             }
 
             if (Products.Count == 0) Message = String.Format(Messages.NotFound, "Product");

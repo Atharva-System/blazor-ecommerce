@@ -25,13 +25,11 @@ namespace BlazorEcommerce.Client.Services.CategoryService
         {
             var response = await _http.PostAsJsonAsync($"{CategoryBaseURL}admin", CategoryDto);
             var result = (await response.Content
-                .ReadFromJsonAsync<IResponse>());
+                .ReadFromJsonAsync<DataResponse<List<CategoryDto>>>());
 
             if (result != null && result.Success)
             {
-                var responseCast = (DataResponse<List<CategoryDto>>)result;
-
-                AdminCategories = responseCast.Data;
+                AdminCategories = result.Data;
 
                 await GetCategories();
 
@@ -52,13 +50,11 @@ namespace BlazorEcommerce.Client.Services.CategoryService
             var response = await _http.DeleteAsync($"{CategoryBaseURL}admin/{CategoryDtoId}");
 
             var result = (await response.Content
-               .ReadFromJsonAsync<IResponse>());
+               .ReadFromJsonAsync<DataResponse<List<CategoryDto>>>());
 
             if (result != null && result.Success)
             {
-                var responseCast = (DataResponse<List<CategoryDto>>)result;
-
-                AdminCategories = responseCast.Data;
+                AdminCategories = result.Data;
 
                 await GetCategories();
 
@@ -90,13 +86,11 @@ namespace BlazorEcommerce.Client.Services.CategoryService
         {
             var response = await _http.PutAsJsonAsync($"{CategoryBaseURL}admin", CategoryDto);
             var result  = (await response.Content
-                .ReadFromJsonAsync<IResponse>());
+                .ReadFromJsonAsync<DataResponse<List<CategoryDto>>>());
 
             if (result != null && result.Success)
             {
-                var responseCast = (DataResponse<List<CategoryDto>>)result;
-
-                AdminCategories = responseCast.Data;
+                AdminCategories = result.Data;
 
                 await GetCategories();
 

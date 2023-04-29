@@ -22,23 +22,7 @@ public class GetProductByIdQueryHandler : IRequestHandler<GetProductByIdQueryReq
     {
         Domain.Entities.Product product = null;
 
-        if (_currentUser.UserIsInRole(Constants.AdminRoleName))
-        {
-            product = await _query.ProductQuery.GetWithIncludeAsync(false,
-                                p => p.Id == request.productId,
-                                false,
-                                p => p.Variants.Select(v => v.ProductType),
-                                p => p.Images);
-        }
-        else
-        {
-            product = await _query.ProductQuery.GetWithIncludeAsync(false,
-                                p => p.Id == request.productId && p.IsActive,
-                                false,
-                                p => p.Variants.Where(v => v.IsActive).Select(v => v.ProductType),
-                                p => p.Images);
-
-        }
+        product = await _query.ProductQuery.GetProductByIdAsync(request.productId, _currentUser.UserIsInRole(Constants.AdminRoleName));
 
         if (product == null)
         {

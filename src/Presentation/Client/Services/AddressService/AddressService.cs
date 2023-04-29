@@ -14,7 +14,7 @@
         {
             var response = await _http.PostAsJsonAsync($"{AddressBaseURL}", address);
             var result = response.Content
-                .ReadFromJsonAsync<IResponse>().Result;
+                .ReadFromJsonAsync<DataResponse<AddressDto>>().Result;
 
             if (result != null && result.Success)
             {
@@ -29,13 +29,11 @@
         public async Task<AddressDto> GetAddress()
         {
             var response = await _http
-                .GetFromJsonAsync<IResponse>($"{AddressBaseURL}");
+                .GetFromJsonAsync<DataResponse<AddressDto>>($"{AddressBaseURL}");
 
             if (response != null && response.Success)
             {
-                var responseCast = (DataResponse<AddressDto>)response;
-
-                return responseCast.Data;
+                return response.Data;
             }
             else
             {

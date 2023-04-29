@@ -18,14 +18,7 @@ public class GetOrderQueryHandler : IRequestHandler<GetOrderQueryRequest, IRespo
 
     public async Task<IResponse> Handle(GetOrderQueryRequest request, CancellationToken cancellationToken)
     {
-        var orders = await _query.OrderQuery
-                    .GetAllWithIncludeAsync(false,
-                                o => o.UserId == _currentUser.UserId,
-                                false,
-                                o => o.OrderItems.Select(oi => oi.Product)
-                                );
-
-        var orderLists = orders.OrderByDescending(o => o.OrderDate).ToList();
+        var orderLists = await _query.OrderQuery.GetAllOrderByUserId(_currentUser.UserId);
 
         var orderResponse = new List<OrderOverviewResponse>();
 

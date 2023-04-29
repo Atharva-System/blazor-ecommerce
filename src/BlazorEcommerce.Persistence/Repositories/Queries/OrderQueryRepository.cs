@@ -1,5 +1,4 @@
-﻿using Azure.Core;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace BlazorEcommerce.Persistence.Repositories.Queries;
 
@@ -7,6 +6,16 @@ public class OrderQueryRepository : QueryRepository<Order, int>, IOrderQueryRepo
 {
     public OrderQueryRepository(PersistenceDataContext context) : base(context)
     {
+    }
+
+    public async Task<List<Order>> GetAllOrderByUserId(string userId)
+    {
+        return await context.Orders
+                        .Include(o => o.OrderItems)
+                        .ThenInclude(oi => oi.Product)
+                        .OrderByDescending(o => o.OrderDate)
+                        .Where(o => o.UserId == userId)
+                        .ToListAsync();
     }
 
     public async Task<Order> GetOrderDetails(string userId, int id)

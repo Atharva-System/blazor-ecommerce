@@ -17,12 +17,8 @@ public class GetAdminProductsQueryHandler : IRequestHandler<GetAdminProductsQuer
 
     public async Task<IResponse> Handle(GetAdminProductsQueryRequest request, CancellationToken cancellationToken)
     {
-        var products = await _query.ProductQuery.GetAllWithIncludeAsync(false,
-                                 null,
-                                 false,
-                                 p => p.Variants.Select(v => v.ProductType),
-                                 p => p.Images);
+        IList<Domain.Entities.Product> source = await _query.ProductQuery.GetAllAdminProductAsync();
 
-        return new DataResponse<List<ProductDto>>(_mapper.Map<List<ProductDto>>(products.ToList()), HttpStatusCodes.Accepted);
+        return new DataResponse<List<ProductDto>>(_mapper.Map<List<ProductDto>>(source), HttpStatusCodes.Accepted);
     }
 }
