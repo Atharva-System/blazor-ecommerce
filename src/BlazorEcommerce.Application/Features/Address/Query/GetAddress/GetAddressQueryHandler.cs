@@ -45,7 +45,7 @@ public class GetAddressQueryHandler : IRequestHandler<GetAddressQueryRequest, IR
 
                     if (string.IsNullOrEmpty(addressDto.LastName))
                     {
-                        addressDto.FirstName = user.LastName;
+                        addressDto.LastName = user.LastName;
                     }
                 }
             }

@@ -9,6 +9,8 @@ public class UserDto
         Id = id;
         UserName = userName;
         Email = email;
+        FirstName = firstName;
+        LastName = lastName;
     }
 
     public string Id { get; set; }
