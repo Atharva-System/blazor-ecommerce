@@ -42,7 +42,7 @@ public class CategoryController : ControllerBase
 
         if (!result.Success)
         {
-            var responseCast = (ErrorResponse)result;
+            var responseCast = (DataResponse<string>)result;
 
             return new DataResponse<List<CategoryDto>> (new List<CategoryDto>(), responseCast.StatusCode, responseCast.Messages.FirstOrDefault());
         }
@@ -67,7 +67,7 @@ public class CategoryController : ControllerBase
 
         if (!result.Success)
         {
-            var responseCast = (ErrorResponse)result;
+            var responseCast = (DataResponse<string>)result;
 
             return new DataResponse<List<CategoryDto>>(new List<CategoryDto>(), responseCast.StatusCode, responseCast.Messages.FirstOrDefault());
         }

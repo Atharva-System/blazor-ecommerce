@@ -26,7 +26,7 @@ public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommandR
 
         if (dbProduct == null)
         {
-            return new ErrorResponse(HttpStatusCodes.NotFound, String.Format(Messages.NotFound, "Product"));
+            return new DataResponse<string?>(null, HttpStatusCodes.NotFound, String.Format(Messages.NotFound, "Product"), false);
         }
 
         dbProduct.Title = request.product.Title;

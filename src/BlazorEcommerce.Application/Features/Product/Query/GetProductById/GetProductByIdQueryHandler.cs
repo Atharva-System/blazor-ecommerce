@@ -26,7 +26,7 @@ public class GetProductByIdQueryHandler : IRequestHandler<GetProductByIdQueryReq
 
         if (product == null)
         {
-            return new ErrorResponse(HttpStatusCodes.NotFound, String.Format(Messages.NotExist, "Product"));
+            return new DataResponse<string?>(null, HttpStatusCodes.NotFound, String.Format(Messages.NotExist, "Product"), false);
         }
         else
         {

@@ -19,13 +19,13 @@ public class DeleteProductCommandHandler : IRequestHandler<DeleteProductCommandR
 
         if (dbProduct == null)
         {
-            return new ErrorResponse(HttpStatusCodes.NotFound,String.Format(Messages.NotFound,"Product"));
+            return new DataResponse<string?>(null, HttpStatusCodes.NotFound, String.Format(Messages.NotFound, "Product"), false);
         }
 
         dbProduct.IsDeleted = true;
 
         await _command.SaveAsync();
 
-        return new SuccessResponse();
+        return new DataResponse<string?>(null);
     }
 }

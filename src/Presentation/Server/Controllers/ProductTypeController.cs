@@ -41,7 +41,7 @@ namespace BlazorEcommerce.Server.Controllers
 
             if (!result.Success)
             {
-                var responseCast = (ErrorResponse)result;
+                var responseCast = (DataResponse<string>)result;
 
                 return new DataResponse<List<ProductTypeDto>>(new List<ProductTypeDto>(), responseCast.StatusCode, responseCast.Messages.FirstOrDefault());
             }

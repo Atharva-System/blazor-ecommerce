@@ -23,19 +23,19 @@ public class DeleteCategoryCommandHandler : IRequestHandler<UpdateCategoryComman
         var category = await _query.CategoryQuery.GetByIdAsync(cat => cat.Id == request.category.Id);
         if (category == null)
         {
-            return new ErrorResponse(HttpStatusCodes.NotFound, String.Format(Messages.NotFound, "Category"));
+            return new DataResponse<string?>(null, HttpStatusCodes.NotFound, String.Format(Messages.NotFound, "Category"), false);
         }
 
         category = _mapper.Map<Domain.Entities.Category>(request.category);
 
         if (category == null)
         {
-            return new ErrorResponse(HttpStatusCodes.NotFound, String.Format(Messages.NotFound, "Category"));
+            return new DataResponse<string?>(null, HttpStatusCodes.NotFound, String.Format(Messages.NotFound, "Category"), false);
         }
 
         _command.CategoryCommand.Update(category);
         await _command.SaveAsync();
 
-        return new SuccessResponse();
+        return new DataResponse<string?>(null);
     }
 }

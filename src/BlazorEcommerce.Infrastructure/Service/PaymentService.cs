@@ -78,15 +78,15 @@ namespace BlazorEcommerce.Infrastructure.Services.PaymentService
 
                 if (stripeEvent.Type == Events.CheckoutSessionCompleted)
                 {
-                    return new SuccessResponse();
+                    return new DataResponse<string?>(null);
                 }
 
-                return new ErrorResponse(HttpStatusCodes.InternalServerError, stripeEvent.StripeResponse.Content);
+                return new DataResponse<string?>(null, HttpStatusCodes.InternalServerError, stripeEvent.StripeResponse.Content, false);
             }
             catch (StripeException e)
             {
-                return new ErrorResponse(HttpStatusCodes.InternalServerError, e.Message);
-            }
+                return new DataResponse<string?>(null, HttpStatusCodes.InternalServerError, e.Message, false);
+            }   
         }
     }
 }

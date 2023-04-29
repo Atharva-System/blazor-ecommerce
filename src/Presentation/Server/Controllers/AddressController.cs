@@ -1,12 +1,14 @@
 ﻿using BlazorEcommerce.Application.Features.Address.Command.AddAddress;
 using BlazorEcommerce.Application.Features.Address.Query.GetAddress;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BlazorEcommerce.Server.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
+[Authorize]
 public class AddressController : ControllerBase
 {
     private readonly IMediator _mediator;

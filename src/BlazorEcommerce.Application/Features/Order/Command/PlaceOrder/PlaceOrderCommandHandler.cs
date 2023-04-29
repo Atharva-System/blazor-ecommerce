@@ -53,6 +53,6 @@ public class PlaceOrderCommandHandler : IRequestHandler<PlaceOrderCommandRequest
 
         await _command.SaveAsync();
 
-        return new SuccessResponse();
+        return new DataResponse<string?>(null);
     }
 }

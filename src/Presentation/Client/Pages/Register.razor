@@ -10,6 +10,16 @@
     <DataAnnotationsValidator />
     <ValidationSummary />
     <div class="mb-3">
+        <label for="firstName">First Name</label>
+        <InputText id="firstName" @bind-Value="user.FirstName" class="form-control" />
+        <ValidationMessage For="@(() => user.FirstName)" />
+    </div>
+    <div class="mb-3">
+        <label for="lastName">Last Name</label>
+        <InputText id="lastName" @bind-Value="user.LastName" class="form-control" />
+        <ValidationMessage For="@(() => user.LastName)" />
+    </div>
+    <div class="mb-3">
         <label for="email">Email</label>
         <InputText id="email" @bind-Value="user.Email" class="form-control" />
         <ValidationMessage For="@(() => user.Email)" />
@@ -43,12 +53,20 @@
         {
             if (result.Success)
             {
-                message = result.Messages.FirstOrDefault();
+
                 messageCssClass = "text-success";
                 NavigationManager.NavigateTo("login");
             }
             else
+            {
+                foreach (var item in result.Messages)
+                {
+                    message += item + "\n";
+                }
+                
                 messageCssClass = "text-danger";
+            }
+            
         }
 
     }

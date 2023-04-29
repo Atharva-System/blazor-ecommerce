@@ -1,5 +1,6 @@
 ﻿using BlazorEcommerce.Application.Contracts.Identity;
 using BlazorEcommerce.Shared;
+using BlazorEcommerce.Shared.Response.Concrete;
 
 namespace BlazorEcommerce.Application.Features.Address.Command.AddAddress;
 
@@ -37,6 +38,6 @@ public class AddOrUpdateAddressCommandHandler : IRequestHandler<AddOrUpdateComma
         
         await _command.SaveAsync();
 
-        return new SuccessResponse();
+        return new DataResponse<string?>(null);
     }
 }

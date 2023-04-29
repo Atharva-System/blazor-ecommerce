@@ -53,7 +53,7 @@ namespace BlazorEcommerce.Client.Services.CartService
         {
             if (await _authService.IsUserAuthenticated())
             {
-                var result = await _http.GetFromJsonAsync<DataResponse<int>>($"{CartBaseURL}count");
+                var result = await _http.GetFromJsonAsync<ApiResponse<int>>($"{CartBaseURL}count");
                 if (result != null && result.Success)
                 {
                     var count = result.Data;
@@ -74,7 +74,7 @@ namespace BlazorEcommerce.Client.Services.CartService
         {
             if (await _authService.IsUserAuthenticated())
             {
-                var result = await _http.GetFromJsonAsync<DataResponse<List<CartProductResponse>>>($"{CartBaseURL}");
+                var result = await _http.GetFromJsonAsync<ApiResponse<List<CartProductResponse>>>($"{CartBaseURL}");
                 if (result != null && result.Success)
                 {
                     return result.Data;
@@ -89,7 +89,7 @@ namespace BlazorEcommerce.Client.Services.CartService
                     return new List<CartProductResponse>();
                 var response = await _http.PostAsJsonAsync($"{CartBaseURL}products", cartItems);
                 var cartProducts = 
-                    await response.Content.ReadFromJsonAsync<DataResponse<List<CartProductResponse>>>();
+                    await response.Content.ReadFromJsonAsync<ApiResponse<List<CartProductResponse>>>();
 
                 if (cartProducts != null && cartProducts.Success)
                 {

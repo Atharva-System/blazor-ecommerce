@@ -1,7 +1,4 @@
-﻿using BlazorEcommerce.Shared;
-using Microsoft.AspNetCore.Http;
-
-namespace BlazorEcommerce.Application.Features.Category.Commands.DeleteCategory;
+﻿namespace BlazorEcommerce.Application.Features.Category.Commands.DeleteCategory;
 
 public record DeleteCategoryCommandRequest(int id) : IRequest<IResponse>;
 
@@ -21,13 +18,13 @@ public class DeleteCategoryCommandHandler : IRequestHandler<DeleteCategoryComman
         var category = await _query.CategoryQuery.GetByIdAsync(cat => cat.Id == request.id);
         if (category == null)
         {
-            return new ErrorResponse(HttpStatusCodes.NotFound,String.Format(Messages.NotFound, "Category"));
+            return new DataResponse<string?>(null, HttpStatusCodes.NotFound,String.Format(Messages.NotFound, "Category"), false);
         }
 
         category.IsDeleted = true;
         _command.CategoryCommand.Update(category);
         await _command.SaveAsync();
 
-        return new SuccessResponse();
+        return new DataResponse<string?>(null);
     }
 }

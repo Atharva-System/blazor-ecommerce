@@ -76,7 +76,7 @@ public class IdentityService : IIdentityService
     {
         return await _userManager.Users
             .OrderBy(r => r.UserName)
-            .Select(u => new UserDto(u.Id, u.UserName ?? string.Empty, u.Email ?? string.Empty))
+            .Select(u => new UserDto(u.Id, u.UserName ?? string.Empty, u.Email ?? string.Empty, u.FirstName ?? string.Empty, u.LastName ?? string.Empty))
             .ToListAsync(cancellationToken);
     }
 
@@ -86,7 +86,7 @@ public class IdentityService : IIdentityService
 
         Guard.Against.NotFound(id, user);
 
-        var result = new UserDto(user.Id, user.UserName ?? string.Empty, user.Email ?? string.Empty);
+        var result = new UserDto(user.Id, user.UserName ?? string.Empty, user.Email ?? string.Empty, user.FirstName ?? string.Empty, user.LastName ?? string.Empty);
 
         var roles = await _userManager.GetRolesAsync(user);
 
@@ -141,7 +141,7 @@ public class IdentityService : IIdentityService
                 str.Add(err.Description);
             }
 
-            return new ErrorResponse(HttpStatusCodes.BadRequest, str);
+            return new DataResponse<string?>(null, HttpStatusCodes.BadRequest, str, false);
 
         }
     }

@@ -22,19 +22,19 @@ public class DeleteProductTypeCommandHandler : IRequestHandler<UpdateProductType
         var productType = await _query.ProductTypeQuery.GetByIdAsync(p => p.Id == request.productType.Id);
         if (productType == null)
         {
-            return new ErrorResponse(HttpStatusCodes.NotFound, String.Format(Messages.NotFound, "Product Type"));
+            return new DataResponse<string?>(null, HttpStatusCodes.NotFound, String.Format(Messages.NotFound, "Product Type"), false);
         }
 
         productType = _mapper.Map<Domain.Entities.ProductType>(request.productType);
 
         if (productType == null)
         {
-            return new ErrorResponse(HttpStatusCodes.NotFound, String.Format(Messages.NotFound, "Product Type"));
+            return new DataResponse<string?>(null, HttpStatusCodes.NotFound, String.Format(Messages.NotFound, "Product Type"), false);
         }
 
         _command.ProductTypeCommand.Update(productType);
         await _command.SaveAsync();
 
-        return new SuccessResponse();
+        return new DataResponse<string?>(null);
     }
 }

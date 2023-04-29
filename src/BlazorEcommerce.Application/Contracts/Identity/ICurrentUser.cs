@@ -7,4 +7,6 @@ public interface ICurrentUser
     string? UserEmail { get; }
 
     bool UserIsInRole(string roleName);
+
+    bool IsUserAuthenticated { get; }
 }

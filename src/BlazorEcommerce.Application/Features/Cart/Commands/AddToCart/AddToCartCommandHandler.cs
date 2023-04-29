@@ -38,6 +38,6 @@ public class AddToCartCommandHandler : IRequestHandler<AddToCartCommandRequest, 
 
         await _command.SaveAsync();
 
-        return new SuccessResponse();
+        return new DataResponse<string?>(null);
     }
 }

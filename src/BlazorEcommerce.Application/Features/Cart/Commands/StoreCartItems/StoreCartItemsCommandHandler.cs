@@ -25,6 +25,6 @@ public class StoreCartItemsCommandHandler : IRequestHandler<StoreCartItemsComman
         await _command.CartItemCommand.AddRangeAsync(_mapper.Map<List<CartItem>>(request.cartItems));
         await _command.SaveAsync();
 
-        return new SuccessResponse();
+        return new DataResponse<string?>(null);
     }
 }

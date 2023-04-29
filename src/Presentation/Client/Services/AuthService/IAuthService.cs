@@ -5,9 +5,9 @@ namespace BlazorEcommerce.Client.Services.AuthService
 {
     public interface IAuthService
     {
-        Task<DataResponse<string>> Register(UserRegister request);
-        Task<DataResponse<string>> Login(UserLogin request);
-        Task<DataResponse<string>> ChangePassword(UserChangePassword request);
+        Task<ApiResponse<string>> Register(UserRegister request);
+        Task<ApiResponse<string>> Login(UserLogin request);
+        Task<ApiResponse<string>> ChangePassword(UserChangePassword request);
         Task<bool> IsUserAuthenticated();
     }
 }

@@ -5,10 +5,10 @@ namespace BlazorEcommerce.Shared.User
 {
     public class UserRegister
     {
-        [Required, DisplayName]
+        [Required, StringLength(100, MinimumLength = 2)]
         public string FirstName { get; set; } = string.Empty;
 
-        [Required, DisplayName]
+        [Required, StringLength(100, MinimumLength = 2)]
         public string LastName { get; set; } = string.Empty;
 
         [Required, EmailAddress]

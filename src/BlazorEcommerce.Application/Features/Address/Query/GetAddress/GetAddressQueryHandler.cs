@@ -10,12 +10,14 @@ public class GetAddressQueryHandler : IRequestHandler<GetAddressQueryRequest, IR
     private readonly IMapper _mapper;
     private readonly ICurrentUser _currentUser;
     private readonly IQueryUnitOfWork _query;
+    private readonly IIdentityService _identityService;
 
-    public GetAddressQueryHandler(IMapper mapper, ICurrentUser currentUser, IQueryUnitOfWork query)
+    public GetAddressQueryHandler(IMapper mapper, ICurrentUser currentUser, IQueryUnitOfWork query, IIdentityService identityService)
     {
         _mapper = mapper;
         _currentUser = currentUser;
         _query = query;
+        _identityService = identityService;
     }
 
     public async Task<IResponse> Handle(GetAddressQueryRequest request, CancellationToken cancellationToken)
@@ -23,10 +25,31 @@ public class GetAddressQueryHandler : IRequestHandler<GetAddressQueryRequest, IR
         var address = await _query.AddressQuery.GetByIdAsync(cat => cat.UserId == _currentUser.UserId);
         if (address == null)
         {
-            return new ErrorResponse(HttpStatusCodes.NotFound, String.Format(Messages.NotFound, "Address"));
+            address = new Domain.Entities.Address();
         }
 
-       var addressDto = _mapper.Map<AddressDto>(address);
+        var addressDto = _mapper.Map<AddressDto>(address);
+
+        if (addressDto != null && (string.IsNullOrEmpty(addressDto.FirstName) || string.IsNullOrEmpty(addressDto.LastName)))
+        {
+            if (_currentUser.IsUserAuthenticated)
+            {
+                var user = await _identityService.GetUserAsync(_currentUser.UserId);
+
+                if (user != null)
+                {
+                    if (string.IsNullOrEmpty(addressDto.FirstName))
+                    {
+                        addressDto.FirstName = user.FirstName;
+                    }
+
+                    if (string.IsNullOrEmpty(addressDto.LastName))
+                    {
+                        addressDto.FirstName = user.LastName;
+                    }
+                }
+            }
+        }
 
         return new DataResponse<AddressDto>(addressDto, HttpStatusCodes.Accepted);
     }

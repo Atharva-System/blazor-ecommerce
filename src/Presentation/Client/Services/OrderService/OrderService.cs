@@ -22,7 +22,7 @@ namespace BlazorEcommerce.Client.Services.OrderService
 
         public async Task<OrderDetailsResponse> GetOrderDetails(int orderId)
         {
-            var result = await _http.GetFromJsonAsync<DataResponse<OrderDetailsResponse>>($"{OrderBaseURL}{orderId}");
+            var result = await _http.GetFromJsonAsync<ApiResponse<OrderDetailsResponse>>($"{OrderBaseURL}{orderId}");
 
             if (result != null && result.Success)
             {
@@ -36,7 +36,7 @@ namespace BlazorEcommerce.Client.Services.OrderService
 
         public async Task<List<OrderOverviewResponse>> GetOrders()
         {
-            var result = await _http.GetFromJsonAsync<DataResponse<List<OrderOverviewResponse>>>($"{OrderBaseURL}");
+            var result = await _http.GetFromJsonAsync<ApiResponse<List<OrderOverviewResponse>>>($"{OrderBaseURL}");
 
             if (result != null && result.Success)
             {

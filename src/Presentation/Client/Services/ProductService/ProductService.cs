@@ -25,7 +25,7 @@ namespace BlazorEcommerce.Client.Services.ProductService
         {
             var result = await _http.PostAsJsonAsync($"{ProductBaseURL}", product);
             var newProductResponse = await result.Content
-                .ReadFromJsonAsync<DataResponse<ProductDto>>();
+                .ReadFromJsonAsync<ApiResponse<ProductDto>>();
 
             if (newProductResponse != null && newProductResponse.Success)
             {
@@ -42,7 +42,7 @@ namespace BlazorEcommerce.Client.Services.ProductService
         public async Task GetAdminProducts()
         {
             var result = await _http
-                .GetFromJsonAsync<DataResponse<List<ProductDto>>>($"{ProductBaseURL}admin");
+                .GetFromJsonAsync<ApiResponse<List<ProductDto>>>($"{ProductBaseURL}admin");
 
             if (result != null && result.Success)
             {
@@ -55,14 +55,14 @@ namespace BlazorEcommerce.Client.Services.ProductService
                 Message = "No products found.";
         }
 
-        public async Task<DataResponse<ProductDto>> GetProduct(int productId)
+        public async Task<ApiResponse<ProductDto>> GetProduct(int productId)
         {
-            return await _http.GetFromJsonAsync<DataResponse<ProductDto>>($"{ProductBaseURL}{productId}");
+            return await _http.GetFromJsonAsync<ApiResponse<ProductDto>>($"{ProductBaseURL}{productId}");
         }
 
         public async Task<ProductDto> GetProductDetails(int productId)
         {
-            var result = await _http.GetFromJsonAsync<DataResponse<ProductDto>>($"{ProductBaseURL}{productId}");
+            var result = await _http.GetFromJsonAsync<ApiResponse<ProductDto>>($"{ProductBaseURL}{productId}");
             if (result != null && result.Success)
             {
                 return result.Data;
@@ -73,8 +73,8 @@ namespace BlazorEcommerce.Client.Services.ProductService
         public async Task GetProducts(string? categoryUrl = null)
         {
             var result = categoryUrl == null ?
-                await _http.GetFromJsonAsync<DataResponse<List<ProductDto>>>($"{ProductBaseURL}featured") :
-                await _http.GetFromJsonAsync<DataResponse<List<ProductDto>>>($"{ProductBaseURL}category/{categoryUrl}");
+                await _http.GetFromJsonAsync<ApiResponse<List<ProductDto>>>($"{ProductBaseURL}featured") :
+                await _http.GetFromJsonAsync<ApiResponse<List<ProductDto>>>($"{ProductBaseURL}category/{categoryUrl}");
 
             if (result != null && result.Success)
             {
@@ -93,7 +93,7 @@ namespace BlazorEcommerce.Client.Services.ProductService
         public async Task<List<string>> GetProductSearchSuggestions(string searchText)
         {
             var result = await _http
-                .GetFromJsonAsync<DataResponse<List<string>>>($"{ProductBaseURL}searchsuggestions/{searchText}");
+                .GetFromJsonAsync<ApiResponse<List<string>>>($"{ProductBaseURL}searchsuggestions/{searchText}");
 
             if (result != null && result.Success)
             {
@@ -107,7 +107,7 @@ namespace BlazorEcommerce.Client.Services.ProductService
         {
             LastSearchText = searchText;
             var result = await _http
-                 .GetFromJsonAsync<DataResponse<ProductSearchResult>>($"{ProductBaseURL}search/{searchText}/{page}");
+                 .GetFromJsonAsync<ApiResponse<ProductSearchResult>>($"{ProductBaseURL}search/{searchText}/{page}");
             if (result != null && result.Success)
             {
                 Products = result.Data.Products;
@@ -123,7 +123,7 @@ namespace BlazorEcommerce.Client.Services.ProductService
         public async Task<ProductDto> UpdateProduct(ProductDto product)
         {
             var result = await _http.PutAsJsonAsync($"{ProductBaseURL}", product);
-            var content = await result.Content.ReadFromJsonAsync<DataResponse<ProductDto>>();
+            var content = await result.Content.ReadFromJsonAsync<ApiResponse<ProductDto>>();
 
             if (content != null && content.Success)
             {

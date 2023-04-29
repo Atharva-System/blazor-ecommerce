@@ -34,14 +34,14 @@ namespace BlazorEcommerce.Identity.Service
 
             if (user == null)
             {
-                return new ErrorResponse(HttpStatusCodes.NotFound, $"User with {request.Email} not found.");
+                return new DataResponse<string>(null,HttpStatusCodes.NotFound, $"User with {request.Email} not found.");
             }
 
             var result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
 
             if (result.Succeeded == false)
             {
-                return new ErrorResponse(HttpStatusCodes.NotFound, Messages.UserNameOrPasswordIsIncorrect);
+                return new DataResponse<string>(null, HttpStatusCodes.NotFound, Messages.UserNameOrPasswordIsIncorrect);
             }
             else
             {
@@ -80,7 +80,7 @@ namespace BlazorEcommerce.Identity.Service
                     str.Add(err.Description);
                 }
 
-                return new ErrorResponse(HttpStatusCodes.BadRequest, str);
+                return new DataResponse<string?>(null, HttpStatusCodes.BadRequest, str, false);
             }
         }
 

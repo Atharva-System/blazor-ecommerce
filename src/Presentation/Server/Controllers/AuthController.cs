@@ -1,5 +1,4 @@
 ﻿using BlazorEcommerce.Application.Contracts.Identity;
-using BlazorEcommerce.Shared.Response.Abstract;
 using BlazorEcommerce.Shared.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -24,11 +23,6 @@ namespace BlazorEcommerce.Server.Controllers
 		public async Task<ActionResult<IResponse>> Register(UserRegister request)
 		{
 			var response = await _authService.Register(request);
-
-			if (!response.Success)
-			{
-				return BadRequest(response);
-			}
 
 			return Ok(response);
 		}

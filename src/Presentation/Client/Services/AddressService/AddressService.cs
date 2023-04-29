@@ -14,7 +14,7 @@
         {
             var response = await _http.PostAsJsonAsync($"{AddressBaseURL}", address);
             var result = response.Content
-                .ReadFromJsonAsync<DataResponse<AddressDto>>().Result;
+                .ReadFromJsonAsync<ApiResponse<AddressDto>>().Result;
 
             if (result != null && result.Success)
             {
@@ -29,7 +29,7 @@
         public async Task<AddressDto> GetAddress()
         {
             var response = await _http
-                .GetFromJsonAsync<DataResponse<AddressDto>>($"{AddressBaseURL}");
+                .GetFromJsonAsync<ApiResponse<AddressDto>>($"{AddressBaseURL}");
 
             if (response != null && response.Success)
             {

@@ -25,7 +25,7 @@ namespace BlazorEcommerce.Client.Services.CategoryService
         {
             var response = await _http.PostAsJsonAsync($"{CategoryBaseURL}admin", CategoryDto);
             var result = (await response.Content
-                .ReadFromJsonAsync<DataResponse<List<CategoryDto>>>());
+                .ReadFromJsonAsync<ApiResponse<List<CategoryDto>>>());
 
             if (result != null && result.Success)
             {
@@ -50,7 +50,7 @@ namespace BlazorEcommerce.Client.Services.CategoryService
             var response = await _http.DeleteAsync($"{CategoryBaseURL}admin/{CategoryDtoId}");
 
             var result = (await response.Content
-               .ReadFromJsonAsync<DataResponse<List<CategoryDto>>>());
+               .ReadFromJsonAsync<ApiResponse<List<CategoryDto>>>());
 
             if (result != null && result.Success)
             {
@@ -64,7 +64,7 @@ namespace BlazorEcommerce.Client.Services.CategoryService
 
         public async Task GetAdminCategories()
         {
-            var response = await _http.GetFromJsonAsync<DataResponse<List<CategoryDto>>>($"{CategoryBaseURL}admin");
+            var response = await _http.GetFromJsonAsync<ApiResponse<List<CategoryDto>>>($"{CategoryBaseURL}admin");
             if (response != null && response.Success)
             {
                 AdminCategories = response.Data;
@@ -74,7 +74,7 @@ namespace BlazorEcommerce.Client.Services.CategoryService
 
         public async Task GetCategories()
         {
-            var response = await _http.GetFromJsonAsync<DataResponse<List<CategoryDto>>>($"{CategoryBaseURL}");
+            var response = await _http.GetFromJsonAsync<ApiResponse<List<CategoryDto>>>($"{CategoryBaseURL}");
 
             if (response != null && response.Success)
             {
@@ -86,7 +86,7 @@ namespace BlazorEcommerce.Client.Services.CategoryService
         {
             var response = await _http.PutAsJsonAsync($"{CategoryBaseURL}admin", CategoryDto);
             var result  = (await response.Content
-                .ReadFromJsonAsync<DataResponse<List<CategoryDto>>>());
+                .ReadFromJsonAsync<ApiResponse<List<CategoryDto>>>());
 
             if (result != null && result.Success)
             {

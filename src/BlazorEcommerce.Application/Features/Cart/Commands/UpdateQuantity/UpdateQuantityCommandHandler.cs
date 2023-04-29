@@ -10,14 +10,12 @@ public class UpdateQuantityCommandHandler : IRequestHandler<UpdateQuantityComman
     private readonly ICommandUnitOfWork<int> _command;
     private readonly IQueryUnitOfWork _query;
     private readonly ICurrentUser _currentUser;
-    private readonly IMapper _mapper;
 
-    public UpdateQuantityCommandHandler(ICommandUnitOfWork<int> command, IQueryUnitOfWork query, ICurrentUser currentUser, IMapper mapper)
+    public UpdateQuantityCommandHandler(ICommandUnitOfWork<int> command, IQueryUnitOfWork query, ICurrentUser currentUser)
     {
         _command = command;
         _query = query;
         _currentUser = currentUser;
-        _mapper = mapper;
     }
 
     public async Task<IResponse> Handle(UpdateQuantityCommandRequest request, CancellationToken cancellationToken)
@@ -27,12 +25,12 @@ public class UpdateQuantityCommandHandler : IRequestHandler<UpdateQuantityComman
 
         if (dbCartItem == null)
         {
-            return new ErrorResponse(HttpStatusCodes.NotFound,String.Format(Messages.NotExist, "Cart item"));
+            return new DataResponse<string?>(null, HttpStatusCodes.NotFound,String.Format(Messages.NotExist, "Cart item"), false);
         }
 
         dbCartItem.Quantity = request.cartItem.Quantity;
         await _command.SaveAsync();
 
-        return new SuccessResponse();
+        return new DataResponse<string?>(null);
     }
 }

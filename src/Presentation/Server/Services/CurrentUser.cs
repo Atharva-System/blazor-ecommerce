@@ -20,6 +20,19 @@ public class CurrentUser : ICurrentUser
                            .User?
                            .FindFirstValue(ClaimTypes.Name);
 
+    public bool IsUserAuthenticated
+    {
+        get
+        {
+            if (_httpContextAccessor != null && _httpContextAccessor.HttpContext != null && _httpContextAccessor.HttpContext.User != null && _httpContextAccessor.HttpContext.User.Identity != null)
+            {
+                return _httpContextAccessor.HttpContext.User.Identity.IsAuthenticated;
+            }
+            return false;
+        }
+       
+    }
+
     public bool UserIsInRole(string roleName)
     {
         if (_httpContextAccessor != null && _httpContextAccessor.HttpContext != null && _httpContextAccessor.HttpContext.User != null)

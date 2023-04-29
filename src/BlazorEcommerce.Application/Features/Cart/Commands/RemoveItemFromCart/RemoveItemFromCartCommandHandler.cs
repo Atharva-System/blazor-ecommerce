@@ -24,12 +24,12 @@ public class RemoveItemFromCartCommandHandler : IRequestHandler<RemoveItemFromCa
 
         if (dbCartItem == null)
         {
-            return new ErrorResponse(HttpStatusCodes.NotFound, String.Format(Messages.NotExist, "Cart item"));
+            return new DataResponse<string?>(null, HttpStatusCodes.NotFound, String.Format(Messages.NotExist, "Cart item"), false);
         }
 
         _command.CartItemCommand.Remove(dbCartItem);
         await _command.SaveAsync();
 
-        return new SuccessResponse();
+        return new DataResponse<string?>(null);
     }
 }

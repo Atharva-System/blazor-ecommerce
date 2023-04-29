@@ -18,7 +18,7 @@ public class ProductTypeService : IProductTypeService
     {
         var response = await _http.PostAsJsonAsync($"{ProductTypeBaseURL}", productType);
         var result = (await response.Content
-            .ReadFromJsonAsync<DataResponse<List<ProductTypeDto>>>());
+            .ReadFromJsonAsync<ApiResponse<List<ProductTypeDto>>>());
 
         if (result != null && result.Success)
         {
@@ -40,7 +40,7 @@ public class ProductTypeService : IProductTypeService
     public async Task GetProductTypes()
     {
         var result = await _http
-            .GetFromJsonAsync<DataResponse<List<ProductTypeDto>>>($"{ProductTypeBaseURL}");
+            .GetFromJsonAsync<ApiResponse<List<ProductTypeDto>>>($"{ProductTypeBaseURL}");
 
         if (result != null && result.Success)
         {
@@ -52,7 +52,7 @@ public class ProductTypeService : IProductTypeService
     {
         var response = await _http.PutAsJsonAsync($"{ProductTypeBaseURL}", productType);
         var result = (await response.Content
-            .ReadFromJsonAsync<DataResponse<List<ProductTypeDto>>>());
+            .ReadFromJsonAsync<ApiResponse<List<ProductTypeDto>>>());
 
         if (result != null && result.Success)
         {

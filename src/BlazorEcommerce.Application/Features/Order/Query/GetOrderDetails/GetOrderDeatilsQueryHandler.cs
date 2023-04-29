@@ -22,7 +22,7 @@ public class GetOrderDeatilsQueryHandler : IRequestHandler<GetOrderDeatilsQueryR
 
         if (order == null)
         {
-            return new ErrorResponse(HttpStatusCodes.NotFound, String.Format(Messages.NotFound, "Order"));
+            return new DataResponse<string?>(null, HttpStatusCodes.NotFound, String.Format(Messages.NotFound, "Order"), false);
         }
 
         var orderDetailsResponse = new OrderDetailsResponse
