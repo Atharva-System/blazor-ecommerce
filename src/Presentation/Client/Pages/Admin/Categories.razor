@@ -66,16 +66,21 @@
 </button>
 
 @code {
+    [Inject]
+    public HttpInterceptorService Interceptor { get; set; }
+
     CategoryDto editingCategory = null;
 
     protected override async Task OnInitializedAsync()
     {
+        Interceptor.RegisterEvent();
         await CategoryService.GetAdminCategories();
         CategoryService.OnChange += StateHasChanged;
     }
 
     public void Dispose()
     {
+        Interceptor.DisposeEvent();
         CategoryService.OnChange -= StateHasChanged;
     }
 

@@ -5,6 +5,7 @@
 @inject NavigationManager NavigationManager
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject ICartService CartService
+@implements IDisposable
 
 <PageTitle>Login</PageTitle>
 
@@ -29,6 +30,9 @@
 </div>
 
 @code {
+    [Inject]
+    public HttpInterceptorService Interceptor { get; set; }
+
     private UserLogin user = new UserLogin();
 
     private string errorMessage = string.Empty;
@@ -37,6 +41,7 @@
 
     protected override void OnInitialized()
     {
+        Interceptor.RegisterEvent();
         var uri = NavigationManager.ToAbsoluteUri(NavigationManager.Uri);
         if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("returnUrl", out var url))
         {
@@ -64,5 +69,10 @@
                 errorMessage = result.Messages.FirstOrDefault();
             }
         }
+    }
+
+    public void Dispose()
+    {
+        Interceptor.DisposeEvent();
     }
 }

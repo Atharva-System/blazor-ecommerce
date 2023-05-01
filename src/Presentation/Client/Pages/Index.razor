@@ -2,6 +2,7 @@
 @page "/search/{searchText}/{page:int}"
 @page "/{categoryUrl}"
 @inject IProductService ProductService
+@implements IDisposable
 
 <PageTitle>My Shop</PageTitle>
 
@@ -26,38 +27,3 @@ Welcome to your new app.
         <button class="btn btn-warning" @onclick="ResetError">Reset</button>
     </ErrorContent>
 </ErrorBoundary>
-
-
-
-@code {
-    private ErrorBoundary? errorBoundary;
-
-    [Parameter]
-    public string CategoryUrl { get; set; } = null;
-
-    [Parameter]
-    public string SearchText { get; set; } = null;
-
-    [Parameter]
-    public int Page { get; set; } = 1;
-
-    protected override async Task OnParametersSetAsync()
-    {
-        errorBoundary?.Recover();
-       
-        if (SearchText != null)
-        {
-            await ProductService.SearchProducts(SearchText, Page);
-        }
-        else
-        {
-            await ProductService.GetProducts(CategoryUrl);
-        }
-
-    }
-
-    private void ResetError()
-    {
-        errorBoundary?.Recover();
-    }
-}

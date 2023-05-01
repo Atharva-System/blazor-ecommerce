@@ -2,6 +2,7 @@
 @inject IProductService ProductService
 @inject NavigationManager NavigationManager
 @attribute [Authorize(Roles = "Admin")]
+@implements IDisposable
 
 <h3>Products</h3>
 
@@ -68,8 +69,12 @@ else
 }
 
 @code {
+    [Inject]
+    public HttpInterceptorService Interceptor { get; set; }
+
     protected override async Task OnInitializedAsync()
     {
+        Interceptor.RegisterEvent();
         await ProductService.GetAdminProducts();
     }
 
@@ -81,5 +86,10 @@ else
     void CreateProduct()
     {
         NavigationManager.NavigateTo("admin/product");
+    }
+
+    public void Dispose()
+    {
+        Interceptor.DisposeEvent();
     }
 }

@@ -1,5 +1,6 @@
 ﻿@page "/orders"
 @inject IOrderService OrderService
+@implements IDisposable
 
 <h3>Orders</h3>
 
@@ -33,8 +34,17 @@ else
 @code {
     List<OrderOverviewResponse> orders = null;
 
+    [Inject]
+    public HttpInterceptorService Interceptor { get; set; }
+
     protected override async Task OnInitializedAsync()
     {
+        Interceptor.RegisterEvent();
         orders = await OrderService.GetOrders();
+    }
+
+    public void Dispose()
+    {
+        Interceptor.DisposeEvent();
     }
 }

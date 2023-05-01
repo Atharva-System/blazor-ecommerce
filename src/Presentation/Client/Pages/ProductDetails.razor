@@ -1,6 +1,7 @@
 ﻿@page "/product/{id:int}"
 @inject IProductService ProductService
 @inject ICartService CartService
+@implements IDisposable
 
 @if (product == null)
 {
@@ -58,6 +59,9 @@ else
 }
 
 @code {
+    [Inject]
+    public HttpInterceptorService Interceptor { get; set; }
+
     private ProductDto? product = null;
     private string message = string.Empty;
     private int currentTypeId = 1;
@@ -67,6 +71,8 @@ else
 
     protected override async Task OnParametersSetAsync()
     {
+        Interceptor.RegisterEvent();
+
         message = "Loading product...";
 
         var result = await ProductService.GetProduct(Id);
@@ -104,5 +110,10 @@ else
             };
 
         await CartService.AddToCart(cartItem);
+    }
+
+    public void Dispose()
+    {
+        Interceptor.DisposeEvent();
     }
 }

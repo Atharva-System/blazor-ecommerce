@@ -41,16 +41,21 @@
 </button>
 
 @code {
+    [Inject]
+    public HttpInterceptorService Interceptor { get; set; }
+
     ProductTypeDto editingProductType = null;
 
     protected override async Task OnInitializedAsync()
     {
+        Interceptor.RegisterEvent();
         await ProductTypeService.GetProductTypes();
         ProductTypeService.OnChange += StateHasChanged;
     }
 
     public void Dispose()
     {
+        Interceptor.DisposeEvent();
         ProductTypeService.OnChange -= StateHasChanged;
     }
 

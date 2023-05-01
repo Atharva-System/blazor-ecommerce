@@ -1,9 +1,4 @@
 ﻿using BlazorEcommerce.Shared.Category;
-using BlazorEcommerce.Shared.Response.Concrete;
-using Newtonsoft.Json;
-using System.Collections.Generic;
-using System.Runtime.Serialization.Json;
-using System.Text.Json;
 
 namespace BlazorEcommerce.Client.Services.CategoryService
 {

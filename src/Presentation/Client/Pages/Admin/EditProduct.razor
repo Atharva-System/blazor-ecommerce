@@ -5,6 +5,7 @@
 @inject ICategoryService CategoryService
 @inject NavigationManager NavigationManager
 @inject IJSRuntime JSRuntime
+@implements IDisposable
 
 @if (loading)
 {
@@ -78,25 +79,25 @@ else
                     <InputSelect disabled="@variant.IsDeleted" @bind-Value="variant.ProductTypeId" class="form-control">
                         @foreach (var productType in ProductTypeService.ProductTypes)
                         {
-                    <option value="@productType.Id.ToString()">@productType.Name</option>
+                            <option value="@productType.Id.ToString()">@productType.Name</option>
                         }
-            </InputSelect>
-        </div>
-        <div class="col">
+                    </InputSelect>
+                </div>
+                <div class="col">
                     <InputNumber @bind-Value="variant.Price" class="form-control" disabled="@variant.IsDeleted"></InputNumber>
-        </div>
-        <div class="col">
-            <InputNumber @bind-Value="variant.OriginalPrice" class="form-control" disabled="@variant.IsDeleted"></InputNumber>
-        </div>
-        <div class="col col-visible">
-            <InputCheckbox @bind-Value="variant.IsActive" style="transform:scale(1.5,1.5);" disabled="@variant.IsDeleted"></InputCheckbox>
-        </div>
-        <div class="col">
-            <button type="button" class="btn btn-primary" disabled="@variant.IsDeleted" @onclick="@(() => RemoveVariant(variant.ProductTypeId))">
-                <i class="oi oi-trash"></i>
-            </button>
-        </div>
-    </div>
+                </div>
+                <div class="col">
+                    <InputNumber @bind-Value="variant.OriginalPrice" class="form-control" disabled="@variant.IsDeleted"></InputNumber>
+                </div>
+                <div class="col col-visible">
+                    <InputCheckbox @bind-Value="variant.IsActive" style="transform:scale(1.5,1.5);" disabled="@variant.IsDeleted"></InputCheckbox>
+                </div>
+                <div class="col">
+                    <button type="button" class="btn btn-primary" disabled="@variant.IsDeleted" @onclick="@(() => RemoveVariant(variant.ProductTypeId))">
+                        <i class="oi oi-trash"></i>
+                    </button>
+                </div>
+            </div>
         }
         <button type="button" class="btn btn-primary" @onclick="AddVariant">
             <i class="oi oi-plus"></i> Add Variant
@@ -107,23 +108,23 @@ else
             <InputSelect id="category" @bind-Value="product.CategoryId" class="form-control">
                 @foreach (var category in CategoryService.AdminCategories)
                 {
-                <option value="@category.Id">@category.Name</option>
+                    <option value="@category.Id">@category.Name</option>
                 }
-        </InputSelect>
-    </div>
-    <hr />
-    <div class="form-check">
-        <InputCheckbox id="featured" @bind-Value="product.Featured" class="form-check-input"></InputCheckbox>
-        <label for="featured" class="form-check-label">Featured</label>
-    </div>
-    <div class="form-check">
-        <InputCheckbox id="visible" @bind-Value="product.IsActive" class="form-check-input"></InputCheckbox>
-        <label for="visible" class="form-check-label">Visible</label>
-    </div>
-    <hr />
-    <button type="submit" class="btn btn-primary float-end">@btnText</button>
-    <ValidationSummary></ValidationSummary>
-</EditForm>
+            </InputSelect>
+        </div>
+        <hr />
+        <div class="form-check">
+            <InputCheckbox id="featured" @bind-Value="product.Featured" class="form-check-input"></InputCheckbox>
+            <label for="featured" class="form-check-label">Featured</label>
+        </div>
+        <div class="form-check">
+            <InputCheckbox id="visible" @bind-Value="product.IsActive" class="form-check-input"></InputCheckbox>
+            <label for="visible" class="form-check-label">Visible</label>
+        </div>
+        <hr />
+        <button type="submit" class="btn btn-primary float-end">@btnText</button>
+        <ValidationSummary></ValidationSummary>
+    </EditForm>
     @if (!product.IsNew)
     {
         <button type="button" class="btn btn-danger float-start" @onclick="DeleteProduct">
@@ -136,6 +137,9 @@ else
     [Parameter]
     public int Id { get; set; }
 
+    [Inject]
+    public HttpInterceptorService Interceptor { get; set; }
+
     ProductDto product = new ProductDto();
     bool loading = true;
     string btnText = "";
@@ -143,6 +147,8 @@ else
 
     protected override async Task OnInitializedAsync()
     {
+        Interceptor.RegisterEvent();
+
         await ProductTypeService.GetProductTypes();
         await CategoryService.GetAdminCategories();
     }
@@ -238,5 +244,10 @@ else
         {
             product.Images.Remove(image);
         }
+    }
+
+    public void Dispose()
+    {
+        Interceptor.DisposeEvent();
     }
 }
