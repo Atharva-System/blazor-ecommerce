@@ -27,6 +27,13 @@ builder.Services.AddScoped<ICurrentUser, CurrentUser>();
 
 builder.Services.AddHttpContextAccessor();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("all", builder => builder.AllowAnyOrigin()
+    .AllowAnyHeader()
+    .AllowAnyMethod());
+});
+
 var app = builder.Build();
 
 // Initialise and seed the database
@@ -81,5 +88,7 @@ app.UseAuthorization();
 app.MapRazorPages();
 app.MapControllers();
 app.MapFallbackToFile("index.html");
+
+app.UseCors("all");
 
 app.Run();
