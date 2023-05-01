@@ -7,7 +7,6 @@ namespace BlazorEcommerce.Client.Services.AuthService
     {
         Task<ApiResponse<string>> Register(UserRegister request);
         Task<ApiResponse<string>> Login(UserLogin request);
-        Task<ApiResponse<string>> ChangePassword(UserChangePassword request);
         Task<bool> IsUserAuthenticated();
     }
 }

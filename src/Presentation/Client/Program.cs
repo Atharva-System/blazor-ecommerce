@@ -6,6 +6,7 @@ global using BlazorEcommerce.Client.Services.CategoryService;
 global using BlazorEcommerce.Client.Services.OrderService;
 global using BlazorEcommerce.Client.Services.ProductService;
 global using BlazorEcommerce.Client.Services.ProductTypeService;
+global using BlazorEcommerce.Client.Services.UserService;
 global using BlazorEcommerce.Shared;
 global using BlazorEcommerce.Shared.Cart;
 global using BlazorEcommerce.Shared.Order;
@@ -44,6 +45,7 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IAddressService, AddressService>();
 builder.Services.AddScoped<IProductTypeService, ProductTypeService>();
+builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<HttpInterceptorService>();
 
 builder.Services.AddOptions();

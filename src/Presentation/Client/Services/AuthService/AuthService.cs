@@ -14,12 +14,6 @@ namespace BlazorEcommerce.Client.Services.AuthService
             _authStateProvider = authStateProvider;
         }
 
-        public async Task<ApiResponse<string>> ChangePassword(UserChangePassword request)
-        {
-            var result = await _http.PostAsJsonAsync($"{AuthBaseURL}change-password", request);
-            return await result.Content.ReadFromJsonAsync<ApiResponse<string>>();
-        }
-
         public async Task<bool> IsUserAuthenticated()
         {
             return (await _authStateProvider.GetAuthenticationStateAsync()).User.Identity.IsAuthenticated;

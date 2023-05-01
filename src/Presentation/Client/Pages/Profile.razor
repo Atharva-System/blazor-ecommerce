@@ -1,5 +1,6 @@
 ﻿@page "/profile"
 @inject IAuthService AuthService
+@inject IUserService UserService
 @attribute [Authorize]
 
 <AuthorizeView>
@@ -34,7 +35,7 @@
 
     private async Task ChangePassword()
     {
-        var result = await AuthService.ChangePassword(request);
+        var result = await UserService.ChangePassword(request);
         if (result != null)
         {
             message = result.Messages.FirstOrDefault();
