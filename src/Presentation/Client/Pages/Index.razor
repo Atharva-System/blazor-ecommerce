@@ -10,17 +10,28 @@
 Welcome to your new app.
 
 <SurveyPrompt Title="How is Blazor working for you?" />*@
-@if (SearchText == null && CategoryUrl == null)
-{
-    <FeatureProducts />
-}
-else
-{
-    <ProductList />
-}
+<ErrorBoundary @ref="errorBoundary">
+    <ChildContent>
+        @if (SearchText == null && CategoryUrl == null)
+        {
+            <FeatureProducts />
+        }
+        else
+        {
+            <ProductList />
+        }
+    </ChildContent>
+    <ErrorContent>
+        <p class="error-message">Uh oh! Something went wrong</p>
+        <button class="btn btn-warning" @onclick="ResetError">Reset</button>
+    </ErrorContent>
+</ErrorBoundary>
+
 
 
 @code {
+    private ErrorBoundary? errorBoundary;
+
     [Parameter]
     public string CategoryUrl { get; set; } = null;
 
@@ -32,6 +43,8 @@ else
 
     protected override async Task OnParametersSetAsync()
     {
+        errorBoundary?.Recover();
+       
         if (SearchText != null)
         {
             await ProductService.SearchProducts(SearchText, Page);
@@ -41,5 +54,10 @@ else
             await ProductService.GetProducts(CategoryUrl);
         }
 
+    }
+
+    private void ResetError()
+    {
+        errorBoundary?.Recover();
     }
 }

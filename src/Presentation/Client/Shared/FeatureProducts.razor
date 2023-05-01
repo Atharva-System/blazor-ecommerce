@@ -11,6 +11,7 @@ else
     <div class="container">
         @foreach (var product in ProductService.Products)
         {
+            @*throw new InvalidOperationException("Product ErrorBoundary Test");*@
             @if (product.Featured)
             {
                 <div class="featured-product">
@@ -41,7 +42,7 @@ else
 
 @code {
     protected override void OnInitialized()
-    {
+    {        
         ProductService.ProductsChanged += StateHasChanged;
     }
 
