@@ -47,6 +47,7 @@ builder.Services.AddScoped<IAddressService, AddressService>();
 builder.Services.AddScoped<IProductTypeService, ProductTypeService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<HttpInterceptorService>();
+builder.Services.AddScoped<RefreshTokenService>();
 
 builder.Services.AddOptions();
 builder.Services.AddAuthorizationCore();

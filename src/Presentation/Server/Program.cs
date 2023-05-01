@@ -74,11 +74,7 @@ app.UseBlazorFrameworkFiles();
 app.UseStaticFiles();
 
 app.UseSwaggerUI();
-//app.UseOpenApi();
-//app.UseSwaggerUi3(configure =>
-//{
-//    configure.DocumentPath = "/api/v1/openapi.json";
-//});
+app.UseSwagger();
 
 app.UseRouting();
 

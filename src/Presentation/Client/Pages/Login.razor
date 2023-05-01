@@ -58,7 +58,7 @@
             {
                 errorMessage = string.Empty;
 
-                await LocalStorage.SetItemAsync("authToken", result.Data);
+                await LocalStorage.SetItemAsync("authToken", result.Data.Token);
                 await AuthenticationStateProvider.GetAuthenticationStateAsync();
                 await CartService.StoreCartItems(true);
                 await CartService.GetCartItemsCount();

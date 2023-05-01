@@ -1,5 +1,7 @@
-﻿using BlazorEcommerce.Application.Contracts.Identity;
+﻿using Ardalis.GuardClauses;
+using BlazorEcommerce.Application.Contracts.Identity;
 using BlazorEcommerce.Application.Model;
+using BlazorEcommerce.Shared.Auth;
 using BlazorEcommerce.Shared.Constant;
 using BlazorEcommerce.Shared.Response.Abstract;
 using BlazorEcommerce.Shared.Response.Concrete;
@@ -9,7 +11,9 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
+using System.Threading;
 
 namespace BlazorEcommerce.Identity.Service
 {
@@ -18,7 +22,8 @@ namespace BlazorEcommerce.Identity.Service
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly JwtSettings _jwtSettings;
-
+        private const string AuthenticatorStoreLoginProvider = "[AuthenticatorStore]";
+        public string AuthenticatorKeyTokenName = "AuthenticatorKey";
         public AuthService(UserManager<ApplicationUser> userManager,
             IOptions<JwtSettings> jwtSettings,
             SignInManager<ApplicationUser> signInManager)
@@ -34,25 +39,66 @@ namespace BlazorEcommerce.Identity.Service
 
             if (user == null)
             {
-                return new DataResponse<string>(null,HttpStatusCodes.NotFound, $"User with {request.Email} not found.");
+                return new DataResponse<AuthResponseDto>(new AuthResponseDto(), HttpStatusCodes.NotFound, $"User with {request.Email} not found.", false);
             }
 
             var result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
 
             if (result.Succeeded == false)
             {
-                return new DataResponse<string>(null, HttpStatusCodes.NotFound, Messages.UserNameOrPasswordIsIncorrect);
+                return new DataResponse<AuthResponseDto>(new AuthResponseDto(), HttpStatusCodes.NotFound, Messages.UserNameOrPasswordIsIncorrect, false);
             }
             else
             {
                 JwtSecurityToken jwtSecurityToken = await GenerateToken(user);
 
-               string jwtToken = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
+                string jwtToken = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
 
-                return new DataResponse<string>(jwtToken,HttpStatusCodes.Accepted);
+                string refreshToken = CreateRefreshToken();
+
+                await _userManager.AddLoginAsync(user, new UserLoginInfo(AuthenticatorStoreLoginProvider, refreshToken, user.UserName));
+
+                await _userManager.SetAuthenticationTokenAsync(user, AuthenticatorStoreLoginProvider, AuthenticatorKeyTokenName, jwtToken);
+
+                var authResponseDto = new AuthResponseDto() { RefreshToken = refreshToken, Token = jwtToken };
+
+                return new DataResponse<AuthResponseDto>(authResponseDto, HttpStatusCodes.Accepted);
             }
         }
 
+        public async Task<IResponse> RefreshToken(RefreshTokenRequest request)
+        {
+            if (string.IsNullOrEmpty(request.RefreshToken))
+            {
+                return new DataResponse<AuthResponseDto>(new AuthResponseDto(), HttpStatusCodes.NotFound, String.Format(Messages.NotFound, "Refresh Token"), false);
+            }
+
+            var user = await _userManager.FindByLoginAsync(AuthenticatorStoreLoginProvider, request.RefreshToken);
+
+            if (user == null)
+            {
+                return new DataResponse<AuthResponseDto>(new AuthResponseDto(), HttpStatusCodes.NotFound, $"No User found with token.", false);
+            }
+
+            if (ValidateToken(request.CurrentToken))
+            {
+                return new DataResponse<AuthResponseDto>(new AuthResponseDto(), HttpStatusCodes.NotFound, Messages.TokenNotExpired, false);
+            }
+
+            JwtSecurityToken jwtSecurityToken = await GenerateToken(user);
+
+            string jwtToken = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
+
+            string refreshToken = CreateRefreshToken();
+
+            await _userManager.AddLoginAsync(user, new UserLoginInfo(AuthenticatorStoreLoginProvider, refreshToken, user.UserName));
+
+            await _userManager.SetAuthenticationTokenAsync(user, AuthenticatorStoreLoginProvider, AuthenticatorKeyTokenName, jwtToken);
+
+            var authResponseDto = new AuthResponseDto() { RefreshToken = refreshToken, Token = jwtToken };
+
+            return new DataResponse<AuthResponseDto>(authResponseDto, HttpStatusCodes.Accepted);
+        }
 
         public async Task<IResponse> Register(UserRegister request)
         {
@@ -84,6 +130,7 @@ namespace BlazorEcommerce.Identity.Service
             }
         }
 
+        #region private methods
         private async Task<JwtSecurityToken> GenerateToken(ApplicationUser user)
         {
             var userClaims = await _userManager.GetClaimsAsync(user);
@@ -110,6 +157,21 @@ namespace BlazorEcommerce.Identity.Service
                signingCredentials: signingCredentials);
             return jwtSecurityToken;
         }
+
+        private string CreateRefreshToken()
+        {
+            var numberByte = new byte[32];
+            using var rnd = RandomNumberGenerator.Create();
+            rnd.GetBytes(numberByte);
+            return Convert.ToBase64String(numberByte);
+        }
+
+        private bool ValidateToken(string token)
+        {
+            JwtSecurityToken jwtToken = new JwtSecurityToken(token);
+            return (jwtToken.ValidFrom <= DateTime.UtcNow && jwtToken.ValidTo >= DateTime.UtcNow);
+        }
+        #endregion
 
     }
 }
