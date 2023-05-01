@@ -24,8 +24,15 @@ public static class ConfigureServices
         services.AddDbContext<UserIdentityDbContext>(options =>
             options.UseSqlServer(connectionString));
 
-        services.AddIdentity<ApplicationUser, IdentityRole>()
-               .AddEntityFrameworkStores<UserIdentityDbContext>().AddDefaultTokenProviders();
+        services.AddIdentity<ApplicationUser, IdentityRole>(opt =>
+        {
+            opt.Password.RequiredLength = 6;
+            opt.Password.RequireDigit = false;
+            opt.Password.RequireUppercase = false;
+
+            opt.User.RequireUniqueEmail = true;
+        })
+        .AddEntityFrameworkStores<UserIdentityDbContext>().AddDefaultTokenProviders();
 
         services.AddAuthentication(options =>
         {
