@@ -31,7 +31,7 @@ public class QueryRepository<T, TKey> : IQueryRepository<T, TKey> where T : Base
         IQueryable<T> query = context.Set<T>();
         if (ignoreQueryFilters)
         {
-            if (isChangeTracking)
+            if (!isChangeTracking)
             {
                 return query = query.IgnoreQueryFilters().AsNoTracking().AsQueryable();
             }
@@ -39,7 +39,7 @@ public class QueryRepository<T, TKey> : IQueryRepository<T, TKey> where T : Base
         }
         else
         {
-            if (isChangeTracking)
+            if (!isChangeTracking)
             {
                 return query = query.AsNoTracking().AsQueryable();
             }
@@ -53,7 +53,7 @@ public class QueryRepository<T, TKey> : IQueryRepository<T, TKey> where T : Base
 
         if (ignoreQueryFilters)
         {
-            if (isChangeTracking)
+            if (!isChangeTracking)
             {
                 query = predicate is null ? query.IgnoreQueryFilters().AsNoTracking()
                                           : query.IgnoreQueryFilters().Where(predicate).AsNoTracking();
@@ -80,7 +80,7 @@ public class QueryRepository<T, TKey> : IQueryRepository<T, TKey> where T : Base
         }
         else
         {
-            if (isChangeTracking)
+            if (!isChangeTracking)
             {
                 query = predicate is null ? query.AsNoTracking()
                                           : query.Where(predicate).AsNoTracking();
@@ -114,7 +114,7 @@ public class QueryRepository<T, TKey> : IQueryRepository<T, TKey> where T : Base
         IQueryable<T> query = context.Set<T>();
         if (ignoreQueryFilters)
         {
-            if (isChangeTracking)
+            if (!isChangeTracking)
             {
                 query = query.IgnoreQueryFilters().Where(predicate).AsNoTracking();
             }
@@ -125,7 +125,7 @@ public class QueryRepository<T, TKey> : IQueryRepository<T, TKey> where T : Base
         }
         else
         {
-            if (isChangeTracking)
+            if (!isChangeTracking)
             {
                 query = query.Where(predicate).AsNoTracking();
             }
@@ -143,7 +143,7 @@ public class QueryRepository<T, TKey> : IQueryRepository<T, TKey> where T : Base
         IQueryable<T> query = context.Set<T>();
         if (ignoreQueryFilters)
         {
-            if (isChangeTracking)
+            if (!isChangeTracking)
             {
                 query = query.IgnoreQueryFilters().Where(predicate).AsNoTracking();
             }
@@ -154,7 +154,7 @@ public class QueryRepository<T, TKey> : IQueryRepository<T, TKey> where T : Base
         }
         else
         {
-            if (isChangeTracking)
+            if (!isChangeTracking)
             {
                 query = query.Where(predicate).AsNoTracking();
             }
@@ -172,7 +172,7 @@ public class QueryRepository<T, TKey> : IQueryRepository<T, TKey> where T : Base
         IQueryable<T> query = context.Set<T>();
         if (ignoreQueryFilters)
         {
-            if (isChangeTracking)
+            if (!isChangeTracking)
             {
                 query = query.IgnoreQueryFilters().Where(predicate);
                 if (includes is not null)
@@ -197,7 +197,7 @@ public class QueryRepository<T, TKey> : IQueryRepository<T, TKey> where T : Base
         }
         else
         {
-            if (isChangeTracking)
+            if (!isChangeTracking)
             {
                 query = query.Where(predicate);
                 if (includes is not null)

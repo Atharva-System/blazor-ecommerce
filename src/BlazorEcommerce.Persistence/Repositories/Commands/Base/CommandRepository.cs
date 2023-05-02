@@ -1,7 +1,5 @@
 ﻿using BlazorEcommerce.Application.Repositories.Commands.Base;
 using BlazorEcommerce.Domain.Common;
-using BlazorEcommerce.Server.Contexts;
-using Microsoft.EntityFrameworkCore;
 
 namespace BlazorEcommerce.Persistence.Repositories.Commands.Base;
 
@@ -38,7 +36,6 @@ public class CommandRepository<T,TKey> : ICommandRepository<T, TKey> where T : B
     public T Update(T entity)
     {
         context.Set<T>().Update(entity);
-        context.Entry(entity).State = EntityState.Modified;
         return entity;
     }
 }

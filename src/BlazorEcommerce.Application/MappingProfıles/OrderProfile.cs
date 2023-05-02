@@ -6,7 +6,7 @@ public class OrderProfile : Profile
 {
     public OrderProfile()
     {
-        CreateMap<Order, OrderDto>();
-        CreateMap<OrderItem, OrderItemDto>();
+        CreateMap<Order, OrderDto>().ReverseMap();
+        CreateMap<OrderItem, OrderItemDto>().ReverseMap();
     }
 }

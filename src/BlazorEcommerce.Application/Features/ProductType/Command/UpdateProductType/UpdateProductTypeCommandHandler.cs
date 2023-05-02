@@ -19,7 +19,7 @@ public class DeleteProductTypeCommandHandler : IRequestHandler<UpdateProductType
 
     public async Task<IResponse> Handle(UpdateProductTypeCommandRequest request, CancellationToken cancellationToken)
     {
-        var productType = await _query.ProductTypeQuery.GetByIdAsync(p => p.Id == request.productType.Id);
+        var productType = await _query.ProductTypeQuery.GetAsync(p => p.Id == request.productType.Id);
         if (productType == null)
         {
             return new DataResponse<string?>(null, HttpStatusCodes.NotFound, String.Format(Messages.NotFound, "Product Type"), false);
