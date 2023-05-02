@@ -1,5 +1,6 @@
 ﻿using BlazorEcommerce.Application.Contracts.Identity;
 using BlazorEcommerce.Application.Contracts.Payment;
+using BlazorEcommerce.Application.Model;
 using BlazorEcommerce.Shared.Cart;
 using BlazorEcommerce.Shared.Constant;
 using BlazorEcommerce.Shared.Response.Abstract;
@@ -13,15 +14,27 @@ namespace BlazorEcommerce.Infrastructure.Services.PaymentService
     public class PaymentService : IPaymentService
     {
         private readonly ICurrentUser _currentUser;
+        private readonly StripeConfig _stripeConfig;
+        private readonly AppConfig _appConfig;
 
-        const string secret = "whsec_97ffacb1f4861c5c1d3b471259cea7c26ba8aaa6b103df80ccd9671e5794ce36";
+        private readonly string secret = string.Empty;
 
-        public PaymentService(ICurrentUser currentUser)
+        public PaymentService(ICurrentUser currentUser, StripeConfig stripeConfig, AppConfig appConfig)
         {
-            StripeConfiguration.ApiKey = "sk_test_51KeFeXSJN18oZA5qDkeNlClNnS5A8xklAv5cvMUJHDRTZTQegBEO36BSpzpBp7gEHGgDUZKNlzmEvHDnhL1CmiRs00bfrcT737";
-
             _currentUser = currentUser;
+            _stripeConfig = stripeConfig;
+            _appConfig = appConfig;
+            StripeConfiguration.ApiKey = _stripeConfig.ApiKey;
+            secret = _stripeConfig.Secret;
         }
+
+
+        //public PaymentService(ICurrentUser currentUser)
+        //{
+        //    StripeConfiguration.ApiKey = "sk_test_51KeFeXSJN18oZA5qDkeNlClNnS5A8xklAv5cvMUJHDRTZTQegBEO36BSpzpBp7gEHGgDUZKNlzmEvHDnhL1CmiRs00bfrcT737";
+
+        //    _currentUser = currentUser;
+        //}
 
         public async Task<IResponse> CreateCheckoutSession(List<CartProductResponse> products)
         {
@@ -55,8 +68,8 @@ namespace BlazorEcommerce.Infrastructure.Services.PaymentService
                 },
                 LineItems = lineItems,
                 Mode = "payment",
-                SuccessUrl = "https://localhost:7018/order-success",
-                CancelUrl = "https://localhost:7018/cart"
+                SuccessUrl = $"{_appConfig.ClientUrl}order-success",
+                CancelUrl = $"{_appConfig.ClientUrl}cart"
             };
 
             var service = new SessionService();
@@ -86,7 +99,7 @@ namespace BlazorEcommerce.Infrastructure.Services.PaymentService
             catch (StripeException e)
             {
                 return new DataResponse<string?>(null, HttpStatusCodes.InternalServerError, e.Message, false);
-            }   
+            }
         }
     }
 }
