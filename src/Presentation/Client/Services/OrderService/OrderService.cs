@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using BlazorEcommerce.Shared.Response.Abstract;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 
 namespace BlazorEcommerce.Client.Services.OrderService
@@ -52,9 +53,18 @@ namespace BlazorEcommerce.Client.Services.OrderService
         {
             if (await IsUserAuthenticated())
             {
-                var result = await _http.PostAsync($"{PaymentBaseURL}checkout", null);
-                var url = await result.Content.ReadAsStringAsync();
-                return url;
+                var response = await _http.PostAsync($"{PaymentBaseURL}checkout", null);
+                var result = response.Content
+               .ReadFromJsonAsync<ApiResponse<string>>().Result;
+
+                if (result != null && result.Success)
+                {
+                    return result.Data;
+                }
+                else
+                {
+                    return "login";
+                }
             }
             else
             {

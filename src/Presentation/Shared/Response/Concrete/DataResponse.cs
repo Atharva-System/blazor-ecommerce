@@ -16,7 +16,15 @@ public class DataResponse<T> : IDataResponse<T>
         Data = data;
         StatusCode = statuscode;
         Success = success;
-        Messages.Add(Constant.Messages.NoDataFound);
+        if (success)
+        {
+            Messages.Add(Constant.Messages.DataFound);
+        }
+        else
+        {
+            Messages.Add(Constant.Messages.NoDataFound);
+        }
+        
     }
 
     public DataResponse(T data, int statuscode, string message, bool success = true)

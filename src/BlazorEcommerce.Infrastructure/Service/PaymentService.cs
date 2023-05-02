@@ -6,6 +6,7 @@ using BlazorEcommerce.Shared.Constant;
 using BlazorEcommerce.Shared.Response.Abstract;
 using BlazorEcommerce.Shared.Response.Concrete;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Options;
 using Stripe;
 using Stripe.Checkout;
 
@@ -19,11 +20,11 @@ namespace BlazorEcommerce.Infrastructure.Services.PaymentService
 
         private readonly string secret = string.Empty;
 
-        public PaymentService(ICurrentUser currentUser, StripeConfig stripeConfig, AppConfig appConfig)
+        public PaymentService(ICurrentUser currentUser, IOptions<StripeConfig> stripeConfig, IOptions<AppConfig> appConfig)
         {
             _currentUser = currentUser;
-            _stripeConfig = stripeConfig;
-            _appConfig = appConfig;
+            _stripeConfig = stripeConfig.Value;
+            _appConfig = appConfig.Value;
             StripeConfiguration.ApiKey = _stripeConfig.ApiKey;
             secret = _stripeConfig.Secret;
         }

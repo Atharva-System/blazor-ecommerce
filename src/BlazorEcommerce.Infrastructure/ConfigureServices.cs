@@ -15,6 +15,7 @@ public static class ConfigureServices
         services.Configure<AppConfig>(configuration.GetSection("AppConfig"));
 
         services.AddScoped<IPaymentService, PaymentService>();
+
         return services;
     }
 }
