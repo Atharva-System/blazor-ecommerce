@@ -1,5 +1,4 @@
-﻿using Ardalis.GuardClauses;
-using BlazorEcommerce.Application.Contracts.Identity;
+﻿using BlazorEcommerce.Application.Contracts.Identity;
 using BlazorEcommerce.Application.Model;
 using BlazorEcommerce.Shared.Auth;
 using BlazorEcommerce.Shared.Constant;
@@ -13,7 +12,6 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading;
 
 namespace BlazorEcommerce.Identity.Service
 {
@@ -56,6 +54,8 @@ namespace BlazorEcommerce.Identity.Service
 
                 string refreshToken = CreateRefreshToken();
 
+                await _userManager.RemoveLoginAsync(user, AuthenticatorStoreLoginProvider, refreshToken);
+
                 await _userManager.AddLoginAsync(user, new UserLoginInfo(AuthenticatorStoreLoginProvider, refreshToken, user.UserName));
 
                 await _userManager.SetAuthenticationTokenAsync(user, AuthenticatorStoreLoginProvider, AuthenticatorKeyTokenName, jwtToken);
@@ -90,6 +90,8 @@ namespace BlazorEcommerce.Identity.Service
             string jwtToken = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
 
             string refreshToken = CreateRefreshToken();
+
+            await _userManager.RemoveLoginAsync(user, AuthenticatorStoreLoginProvider, refreshToken);
 
             await _userManager.AddLoginAsync(user, new UserLoginInfo(AuthenticatorStoreLoginProvider, refreshToken, user.UserName));
 

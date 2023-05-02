@@ -30,13 +30,6 @@ namespace BlazorEcommerce.Infrastructure.Services.PaymentService
         }
 
 
-        //public PaymentService(ICurrentUser currentUser)
-        //{
-        //    StripeConfiguration.ApiKey = "sk_test_51KeFeXSJN18oZA5qDkeNlClNnS5A8xklAv5cvMUJHDRTZTQegBEO36BSpzpBp7gEHGgDUZKNlzmEvHDnhL1CmiRs00bfrcT737";
-
-        //    _currentUser = currentUser;
-        //}
-
         public async Task<IResponse> CreateCheckoutSession(List<CartProductResponse> products)
         {
             var lineItems = new List<SessionLineItemOptions>();
