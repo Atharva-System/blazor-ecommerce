@@ -1,7 +1,9 @@
 ﻿@inject IProductService ProductService
 @implements IDisposable
+@inject IStringLocalizer<Resource> localizer
 
-<center><h2>Top Products of Today</h2></center>
+<center><h2>@localizer["featuredproductpage"]</h2></center>
+
 @if (ProductService.Products == null || ProductService.Products.Count == 0)
 {
     <span>@ProductService.Message</span>

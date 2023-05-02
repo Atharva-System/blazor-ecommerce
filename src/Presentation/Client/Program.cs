@@ -14,6 +14,7 @@ global using BlazorEcommerce.Shared.Product;
 global using BlazorEcommerce.Shared.Response.Concrete;
 global using System.Net.Http.Json;
 using BlazorEcommerce.Client;
+using BlazorEcommerce.Client.Extensions;
 using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
@@ -27,7 +28,7 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddBlazoredLocalStorage();
 builder.Services.AddMudServices();
-
+builder.Services.AddLocalization();
 
 //builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 var apiUrl = builder.Configuration.GetValue<string>("AppConfig:ApiUrl");
@@ -53,4 +54,8 @@ builder.Services.AddOptions();
 builder.Services.AddAuthorizationCore();
 builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthStateProvider>();
 
-await builder.Build().RunAsync();
+var host = builder.Build();
+
+await host.SetDefaultCulture();
+
+await host.RunAsync();

@@ -1,0 +1,6 @@
+﻿<select class="form-control" @bind="Culture" style="width:110px; margin-left:10px;">
+	@foreach (var culture in cultures)
+	{
+		<option value="@culture">@culture.DisplayName</option>
+	}
+</select>
