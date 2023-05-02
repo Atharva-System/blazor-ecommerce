@@ -34,8 +34,9 @@ public class AddToCartCommandHandler : IRequestHandler<AddToCartCommandRequest, 
         else
         {
             sameItem.Quantity += request.cartItem.Quantity;
+            _command.CartItemCommand.Update(sameItem);
         }
-
+        
         await _command.SaveAsync();
 
         return new DataResponse<string?>(null);

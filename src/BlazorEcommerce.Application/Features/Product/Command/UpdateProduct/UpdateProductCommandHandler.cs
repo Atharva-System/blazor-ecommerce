@@ -57,8 +57,11 @@ public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommandR
                 dbVariant.OriginalPrice = variant.OriginalPrice;
                 dbVariant.IsActive = variant.IsActive;
                 dbVariant.IsDeleted = variant.IsDeleted;
+                _command.ProductVariantCommand.Update(dbVariant);
             }
         }
+
+        _command.ProductCommand.Update(dbProduct);
         await _command.SaveAsync();
 
         return new DataResponse<ProductDto>(request.product, HttpStatusCodes.Accepted);

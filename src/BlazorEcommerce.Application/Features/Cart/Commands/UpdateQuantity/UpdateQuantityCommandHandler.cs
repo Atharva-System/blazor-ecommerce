@@ -29,6 +29,7 @@ public class UpdateQuantityCommandHandler : IRequestHandler<UpdateQuantityComman
         }
 
         dbCartItem.Quantity = request.cartItem.Quantity;
+        _command.CartItemCommand.Update(dbCartItem);
         await _command.SaveAsync();
 
         return new DataResponse<string?>(null);

@@ -1,4 +1,6 @@
-﻿namespace BlazorEcommerce.Application.Features.Product.Command.DeleteProduct;
+﻿using BlazorEcommerce.Domain.Entities;
+
+namespace BlazorEcommerce.Application.Features.Product.Command.DeleteProduct;
 
 public record DeleteProductCommandRequest(int productId) : IRequest<IResponse>;
 
@@ -23,7 +25,7 @@ public class DeleteProductCommandHandler : IRequestHandler<DeleteProductCommandR
         }
 
         dbProduct.IsDeleted = true;
-
+        _command.ProductCommand.Update(dbProduct);
         await _command.SaveAsync();
 
         return new DataResponse<string?>(null);
